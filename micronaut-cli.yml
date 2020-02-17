@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: usf.sdlc
+---
+testFramework: junit
+sourceLanguage: java
