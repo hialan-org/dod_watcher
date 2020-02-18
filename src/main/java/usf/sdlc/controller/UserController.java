@@ -54,7 +54,7 @@ public class UserController {
 
         return HttpResponse
                 .created(user)
-                .headers(headers -> headers.location(location((long) user.getUserId())));
+                .headers(headers -> headers.location(location( user.getUserId())));
     }
 
     @Delete("/{userId}")
@@ -68,6 +68,6 @@ public class UserController {
     }
 
     protected URI location(User user) {
-        return location((long)user.getUserId());
+        return location(user.getUserId());
     }
 }

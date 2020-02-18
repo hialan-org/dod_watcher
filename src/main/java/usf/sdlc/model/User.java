@@ -17,6 +17,10 @@ import java.util.Set;
 @Table(name = "user")
 public class User {
 
+
+    public User() {
+    }
+
     public User(String email, Timestamp createdDate) {
         this.email=email;
         this.createdDate=createdDate;
@@ -24,7 +28,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
+    private long userId;
 
     @NotNull
     @Column(name = "email", nullable = false, unique = true)
@@ -50,11 +54,11 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
