@@ -1,3 +1,19 @@
 micronaut:
   application:
     name: dod
+    max: 50
+datasources:
+    default:
+      url: jdbc:mysql://usfsdlcdb.czayjykbj4rh.us-west-1.rds.amazonaws.com:3306/dod_db
+      username: usfsdlcDB
+      password: hialan2020
+      driverClassName: "com.mysql.jdbc.Driver"
+jpa:
+    default:
+      packages-to-scan:
+        - 'usf.sdlc.model'
+      properties:
+        hibernate:
+          hbm2ddl:
+            auto: update
+          show_sql: true

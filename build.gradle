@@ -37,6 +37,17 @@ dependencies {
         exclude group: "com.fasterxml.jackson.module", module: "jackson-module-afterburner"
     }
     implementation "io.micronaut:micronaut-http-server-netty"
+
+    //Hibernate and Mysql
+    implementation "io.micronaut.configuration:micronaut-hibernate-jpa"
+    implementation "io.micronaut.configuration:micronaut-jdbc-hikari"
+    runtime "com.h2database:h2"
+    //mysql????
+    //    runtime 'mysql:mysql-connector-java:8.0.17'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+
+    //Hibernate-End
+
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
