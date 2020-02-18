@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - 'hiepbp_dev'
+      - 'master'
 
 jobs:
   build:
