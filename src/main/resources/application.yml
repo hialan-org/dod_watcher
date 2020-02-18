@@ -4,10 +4,10 @@ micronaut:
     max: 50
   datasources:
     default:
-      url: ${JDBC_URL:`jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
-      username: ${JDBC_USER:sa}
-      password: ${JDBC_PASSWORD:""}
-      driverClassName: ${JDBC_DRIVER:org.h2.Driver}
+      url:jdbc: mysql://usfsdlcdb.czayjykbj4rh.us-west-1.rds.amazonaws.com:3306/dod_db
+      username: usfsdlcDB
+      password: hialan2020
+      driverClassName: com.mysql.jdbc.Driver
   jpa:
     default:
       packages-to-scan:

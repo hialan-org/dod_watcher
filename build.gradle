@@ -38,10 +38,13 @@ dependencies {
     }
     implementation "io.micronaut:micronaut-http-server-netty"
 
-    //Hibernate
+    //Hibernate and Mysql
     implementation "io.micronaut.configuration:micronaut-hibernate-jpa"
     implementation "io.micronaut.configuration:micronaut-jdbc-hikari"
-    runtime "com.h2database:h2"
+    //runtime "com.h2database:h2"
+    //mysql????
+    runtime 'io.micronaut.configuration:micronaut-jdbc-dbcp'
+
     //Hibernate-End
 
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
