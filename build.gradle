@@ -41,9 +41,10 @@ dependencies {
     //Hibernate and Mysql
     implementation "io.micronaut.configuration:micronaut-hibernate-jpa"
     implementation "io.micronaut.configuration:micronaut-jdbc-hikari"
-    //runtime "com.h2database:h2"
+    runtime "com.h2database:h2"
     //mysql????
-    runtime 'io.micronaut.configuration:micronaut-jdbc-dbcp'
+    //    runtime 'mysql:mysql-connector-java:8.0.17'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
 
     //Hibernate-End
 
