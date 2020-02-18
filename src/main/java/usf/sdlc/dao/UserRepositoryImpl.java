@@ -31,8 +31,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<User> findById(@NotNull Long id) {
-        return Optional.ofNullable(entityManager.find(User.class, id));
+    public Optional<User> findById(@NotNull Long userId) {
+        return Optional.ofNullable(entityManager.find(User.class, userId));
     }
 
     @Override
@@ -46,8 +46,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     @Transactional
-    public void deleteById(@NotNull Long id) {
-        findById(id).ifPresent(user -> entityManager.remove(user));
+    public void deleteById(@NotNull Long userId) {
+        findById(userId).ifPresent(user -> entityManager.remove(user));
     }
 
     private final static List<String> VALID_PROPERTY_NAMES = Arrays.asList("id", "email");
@@ -67,10 +67,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     @Transactional
-    public int update(@NotNull Long id, @NotBlank String email) {
-        return entityManager.createQuery("UPDATE User u SET email = :name where id = :id")
+    public int update(@NotNull Long userId, @NotBlank String email) {
+        return entityManager.createQuery("UPDATE User u SET email = :email where userId = :userId")
                 .setParameter("email", email)
-                .setParameter("id", id)
+                .setParameter("userId", userId)
                 .executeUpdate();
     }
 }

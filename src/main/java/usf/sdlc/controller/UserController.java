@@ -27,7 +27,7 @@ public class UserController {
         this.userRepository = genreRepository;
     }
 
-    @Get("/{id}")
+    @Get("/{userId}")
     public User show(Long userId) {
         return userRepository
                 .findById(userId)
@@ -57,7 +57,7 @@ public class UserController {
                 .headers(headers -> headers.location(location(user.getUserId())));
     }
 
-    @Delete("/{id}")
+    @Delete("/{userId}")
     public HttpResponse delete(Long userId) {
         userRepository.deleteById(userId);
         return HttpResponse.noContent();
