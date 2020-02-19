@@ -1,21 +1,21 @@
-package usf.sdlc.dao;
+package usf.sdlc.form;
 import io.micronaut.core.annotation.Introspected;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Introspected
-public class UserUpdateCommand {
+public class UserUpdateForm {
     @NotNull
     private Long userId;
 
     @NotBlank
     private String email;
 
-    public UserUpdateCommand() {
+    public UserUpdateForm() {
     }
 
-    public UserUpdateCommand(Long id, String email) {
+    public UserUpdateForm(Long id, String email) {
         this.userId = id;
         this.email = email;
     }

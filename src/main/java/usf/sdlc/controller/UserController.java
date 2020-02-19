@@ -10,8 +10,8 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
 import usf.sdlc.dao.SortingAndOrderArguments;
 import usf.sdlc.dao.UserRepository;
-import usf.sdlc.dao.UserSaveCommand;
-import usf.sdlc.dao.UserUpdateCommand;
+import usf.sdlc.form.UserCreateForm;
+import usf.sdlc.form.UserUpdateForm;
 import usf.sdlc.model.User;
 
 import javax.validation.Valid;
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @Put("/")
-    public HttpResponse update(@Body @Valid UserUpdateCommand command) {
+    public HttpResponse update(@Body @Valid UserUpdateForm command) {
         int numberOfEntitiesUpdated = userRepository.update(command.getUserId(), command.getEmail());
 
         return HttpResponse
@@ -49,8 +49,8 @@ public class UserController {
     }
 
     @Post("/")
-    public HttpResponse<User> save(@Body @Valid UserSaveCommand cmd) {
-        User user = userRepository.save(cmd.getEmail());
+    public HttpResponse<User> save(@Body @Valid UserCreateForm cmd) {
+        User user = userRepository.create(cmd.getEmail());
 
         return HttpResponse
                 .created(user)

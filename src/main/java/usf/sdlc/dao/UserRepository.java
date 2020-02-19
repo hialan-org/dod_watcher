@@ -11,7 +11,7 @@ public interface UserRepository {
 
     Optional<User> findById(@NotNull Long userId);
 
-    User save(@NotBlank String email);
+    User create(@NotBlank String email);
 
     void deleteById(@NotNull Long userId);
 
