@@ -38,7 +38,7 @@ jobs:
       - name: Build jar file
         run: ./gradlew shadowJar
       - name: List build folder
-        run: ls ./build/distributions
+        run: ls ./build/libs
       - name: Copy files to S3 with the AWS CLI
         run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-dod-s3
       - name: Create/Update cloud formation
