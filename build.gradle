@@ -58,9 +58,9 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 
     //Micronaut data
-//    annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0'
-//    runtime "io.micronaut.configuration:micronaut-jdbc-hikari"
-//    compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0'
+    annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0'
+    runtime "io.micronaut.configuration:micronaut-jdbc-hikari"
+    compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0'
 }
 
 test.classpath += configurations.developmentOnly
