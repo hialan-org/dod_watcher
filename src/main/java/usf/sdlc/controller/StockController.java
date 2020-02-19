@@ -29,7 +29,6 @@ public class StockController {
 
     @Post("/add")
     public HttpResponse<Stock> save(@Body @Valid StockCreateForm stockDTO) {
-
         Stock stock = stockRepository.save(stockDTO);
 
         return HttpResponse

@@ -11,6 +11,7 @@ public class Stock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "stockId", nullable = false, unique = true)
     private long stockId;
 
     @Column(name = "symbol", nullable = false, unique = true)

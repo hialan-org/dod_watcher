@@ -44,8 +44,9 @@ dependencies {
 //    runtime "com.h2database:h2"
     //mysql????
     //    runtime 'mysql:mysql-connector-java:8.0.17'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+//    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
 
+    runtime 'org.postgresql:postgresql:42.2.10'
     //Hibernate-End
 
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
