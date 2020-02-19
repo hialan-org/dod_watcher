@@ -44,7 +44,6 @@ dependencies {
 //    runtime "com.h2database:h2"
     //mysql????
     //    runtime 'mysql:mysql-connector-java:8.0.17'
-//    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
 
     //Hibernate-End
 
@@ -59,7 +58,8 @@ dependencies {
     annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0'
     runtime "io.micronaut.configuration:micronaut-jdbc-hikari"
     compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0'
-    runtime 'org.postgresql:postgresql:42.2.10'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+//    runtime 'org.postgresql:postgresql:42.2.10'
 }
 
 test.classpath += configurations.developmentOnly
@@ -103,4 +103,4 @@ task exploded(type: Copy) {
     }
 }
 
-shadowJar.dependsOn buildZip
+shadowJar.dependsOn exploded

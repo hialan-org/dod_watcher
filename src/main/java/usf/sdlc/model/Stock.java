@@ -2,6 +2,7 @@ package usf.sdlc.model;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name="stock")
 public class Stock {
