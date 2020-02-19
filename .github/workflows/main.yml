@@ -37,10 +37,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Copy files to S3 with the AWS CLI
-        run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml |
-          --s3-bucket sdlc-dod-s3
+        run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-dod-s3
       - name: Create/Update cloud formation
-        run: aws cloudformation deploy --template-file output-sam.yaml --stack-name SdlcDod |
-          --capabilities CAPABILITY_IAM
+        run: aws cloudformation deploy --template-file output-sam.yaml --stack-name SdlcDod --capabilities CAPABILITY_IAM
       - name: Show CloudFormation information
         run: aws cloudformation describe-stacks --stack-name SdlcDod
