@@ -21,10 +21,10 @@ configurations {
 
 dependencies {
     annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
-//    annotationProcessor "io.micronaut:micronaut-graal"
+    annotationProcessor "io.micronaut:micronaut-graal"
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
-//    compileOnly "org.graalvm.nativeimage:svm"
+    compileOnly "org.graalvm.nativeimage:svm"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http-client"
     implementation "io.micronaut:micronaut-inject"
@@ -58,9 +58,9 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 
     //Micronaut data
-    annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0'
-    runtime "io.micronaut.configuration:micronaut-jdbc-hikari"
-    compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0'
+//    annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0'
+//    runtime "io.micronaut.configuration:micronaut-jdbc-hikari"
+//    compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0'
 }
 
 test.classpath += configurations.developmentOnly
