@@ -40,13 +40,11 @@ dependencies {
 
     //Hibernate and Mysql
 //    implementation "io.micronaut.configuration:micronaut-hibernate-jpa"
-    implementation "io.micronaut.configuration:micronaut-jdbc-hikari"
-    runtime "com.h2database:h2"
+//    implementation "io.micronaut.configuration:micronaut-jdbc-hikari"
+//    runtime "com.h2database:h2"
     //mysql????
     //    runtime 'mysql:mysql-connector-java:8.0.17'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
-    compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0'
-
 
     //Hibernate-End
 
@@ -60,6 +58,7 @@ dependencies {
 
     //Micronaut data
     annotationProcessor 'io.micronaut.data:micronaut-data-processor:1.0.0'
+    runtime "io.micronaut.configuration:micronaut-jdbc-hikari"
     compile 'io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0'
 }
 
