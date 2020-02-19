@@ -32,7 +32,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Build the Docker image
-      run: docker build . -t dod-functions
+      run: docker build . -t dod-functions --initialize-at-run-time=io.micronaut.http.bind.binders.ContinuationArgumentBinder, com.mysql.cj.jdbc.Driver
     - name: This extracts the function.zip file built by the docker container to the build/ directory
       run: mkdir build && docker run --rm --entrypoint cat dod-functions  /home/application/function.zip > build/function.zip
     - name: List build folder
