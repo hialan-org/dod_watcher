@@ -10,22 +10,22 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
 import usf.sdlc.dao.SortingAndOrderArguments;
 import usf.sdlc.dao.UserRepository;
-import usf.sdlc.dao.UserSaveCommand;
-import usf.sdlc.dao.UserUpdateCommand;
+import usf.sdlc.form.UserCreateForm;
+import usf.sdlc.form.UserUpdateForm;
 import usf.sdlc.model.User;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Controller("/users")
 public class UserController {
 
-    protected final UserRepository userRepository;
-
-    public UserController(UserRepository genreRepository) {
-        this.userRepository = genreRepository;
-    }
+    @Inject
+    UserRepository userRepository;
 
     @Get("/{userId}")
     public User show(Long userId) {
@@ -35,8 +35,12 @@ public class UserController {
     }
 
     @Put("/")
-    public HttpResponse update(@Body @Valid UserUpdateCommand command) {
-        int numberOfEntitiesUpdated = userRepository.update(command.getUserId(), command.getEmail());
+    public HttpResponse update(@Body @Valid UserUpdateForm command) {
+        Optional<User> user = userRepository.findById(command.getUserId());
+        if(user!=null){
+            user.get().setEmail(command.getEmail());
+        }
+        userRepository.update(user.get());
 
         return HttpResponse
                 .noContent()
@@ -45,12 +49,15 @@ public class UserController {
 
     @Get(value = "/list{?args*}")
     public List<User> list(@Valid SortingAndOrderArguments args) {
-        return userRepository.findAll(args);
+        return (List<User>) userRepository.findAll();
     }
 
     @Post("/")
-    public HttpResponse<User> save(@Body @Valid UserSaveCommand cmd) {
-        User user = userRepository.save(cmd.getEmail());
+    public HttpResponse<User> save(@Body @Valid UserCreateForm cmd) {
+        User temp = new User();
+        temp.setEmail(cmd.getEmail());
+        temp.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        User user = userRepository.save(temp);
 
         return HttpResponse
                 .created(user)

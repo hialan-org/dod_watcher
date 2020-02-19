@@ -1,19 +1,19 @@
-package usf.sdlc.dao;
+package usf.sdlc.form;
 
 import io.micronaut.core.annotation.Introspected;
 
 import javax.validation.constraints.NotBlank;
 
 @Introspected
-public class UserSaveCommand {
+public class UserCreateForm {
 
     @NotBlank
     private String email;
 
-    public UserSaveCommand() {
+    public UserCreateForm() {
     }
 
-    public UserSaveCommand(String email) {
+    public UserCreateForm(String email) {
         this.email = email;
     }
 

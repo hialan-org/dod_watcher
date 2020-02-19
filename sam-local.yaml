@@ -10,8 +10,8 @@ Resources:
     Properties:
       Handler: usf.sdlc.StreamLambdaHandler::handleRequest
       Runtime: java8
-      CodeUri: build/libs/dod-all.jar
-      MemorySize: 512
+      CodeUri: build/exploded
+      MemorySize: 320
       Policies: AWSLambdaBasicExecutionRole
       Timeout: 15
       Events:
