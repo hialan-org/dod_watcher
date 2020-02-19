@@ -1,7 +1,9 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
+    id 'java-library'
     id "net.ltgt.apt-eclipse" version "0.21"
+    id "net.ltgt.apt-idea" version "0.21"
 }
 
 
@@ -69,6 +71,9 @@ test {
 }
 
 shadowJar {
+    archiveBaseName = "dod"
+    archiveClassifier = 'all'
+    archiveVersion = ""
     mergeServiceFiles()
 }
 
@@ -78,6 +83,7 @@ tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
 }
+
 task buildZip(type: Zip) {
     from sourceSets.main.output
     into('lib') {

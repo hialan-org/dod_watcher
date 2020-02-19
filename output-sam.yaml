@@ -5,12 +5,12 @@ Globals:
   Api:
     EndpointConfiguration: REGIONAL
 Resources:
-  MyAppFunction:
+  DodFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: usf.sdlc.StreamLambdaHandler::handleRequest
       Runtime: java8
-      CodeUri: s3://sdlc-dod-s3/1d1ccbc29cc1764a523e0b601f37022f
+      CodeUri: s3://sdlc-dod-s3/ab90515659724c09238d9ddb7d1c94d3
       MemorySize: 512
       Policies: AWSLambdaBasicExecutionRole
       Timeout: 15
