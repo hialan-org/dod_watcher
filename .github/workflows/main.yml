@@ -21,6 +21,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: List build folder
+      run: ls ./build/distributions
   deploy:
     needs: [build]
     runs-on: ubuntu-18.04
@@ -35,7 +37,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-
+      - name: Build jar file
+        run: ./gradlew shadowJar
+      - name: List build folder
+        run: ls ./build/distributions
       - name: Copy files to S3 with the AWS CLI
         run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-dod-s3
       - name: Create/Update cloud formation
