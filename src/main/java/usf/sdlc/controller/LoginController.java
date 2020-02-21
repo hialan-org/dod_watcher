@@ -1,5 +1,6 @@
 package usf.sdlc.controller;
 
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class HomeController {
+public class LoginController {
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @View("home")
@@ -18,4 +19,13 @@ public class HomeController {
     public Map<String, Object> index() {
         return new HashMap<>();
     }
+
+   @Get("/oauth/callback/google")
+    public String callback() {
+
+        System.out.println("call back received!!");
+
+        return "Test";
+    }
+
 }
