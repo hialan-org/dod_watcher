@@ -22,7 +22,7 @@ micronaut:
         signatures:
           secret:
             generator:
-              secret: svJKQX5dZQqOIMvroicZ6IG7
+              secret: alperhiepanuragalperhiepanuraga1 #Must be 32 charachters. 256 bits. IMPORTANT!!!
     endpoints:
       logout:
         enabled: true

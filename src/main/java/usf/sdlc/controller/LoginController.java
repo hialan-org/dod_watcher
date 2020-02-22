@@ -20,12 +20,4 @@ public class LoginController {
         return new HashMap<>();
     }
 
-   @Get("/oauth/callback/google")
-    public String callback() {
-
-        System.out.println("call back received!!");
-
-        return "Test";
-    }
-
 }
