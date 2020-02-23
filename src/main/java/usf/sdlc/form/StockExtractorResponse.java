@@ -1,6 +1,7 @@
 package usf.sdlc.form;
 
 import io.micronaut.core.annotation.Introspected;
+import usf.sdlc.model.StockHistory;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
 public class StockExtractorResponse {
 
     private String message;
-    private List<StockForm> stockForms;
+    private List<StockHistory> stocksHistory;
 
     public StockExtractorResponse() {
     }
@@ -21,11 +22,11 @@ public class StockExtractorResponse {
         this.message = message;
     }
 
-    public List<StockForm> getStockForms() {
-        return stockForms;
+    public List<StockHistory> getStocksHistory() {
+        return stocksHistory;
     }
 
-    public void setStockForms(List<StockForm> stockForms) {
-        this.stockForms = stockForms;
+    public void setStocksHistory(List<StockHistory> stocksHistory) {
+        this.stocksHistory = stocksHistory;
     }
 }

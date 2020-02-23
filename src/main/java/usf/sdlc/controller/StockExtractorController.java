@@ -24,7 +24,7 @@ public class StockExtractorController {
             LOG.debug("Extracting data for stocks, in total {} ...",""/*sym.length*/);
         }
         resp.setMessage("Success!");
-        resp.setStockForms(stockExtractorService.fetchStockQuotes());
+        resp.setStocksHistory(stockExtractorService.fetchStockDetails());
         return HttpResponse.created(resp);
     }
 
