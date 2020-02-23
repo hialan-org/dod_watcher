@@ -56,23 +56,23 @@ public class StockExtractorControllerTest {
 //        assertEquals(10, stockHistoryForms.size());
 //    }
 
-    @Test
-    void testFetch2() {
-        System.out.println("Starting testFetch2");
-        StockExtractorResponse response = client.toBlocking().retrieve(HttpRequest.GET("/run-extractor"), StockExtractorResponse.class);
-        String  q = response.getMessage();
-        System.out.println(q);
-        assertEquals("Success!", q);
-    }
+//    @Test
+//    void testFetch2() {
+//        System.out.println("Starting testFetch2");
+//        StockExtractorResponse response = client.toBlocking().retrieve(HttpRequest.GET("/run-extractor"), StockExtractorResponse.class);
+//        String  q = response.getMessage();
+//        System.out.println(q);
+//        assertEquals("Success!", q);
+//    }
 
-    @Test
-    void testFetch3() {
-        System.out.println("Starting testFetch3");
-        StockExtractorResponse response = client.toBlocking().retrieve(HttpRequest.GET("/run-extractor"), StockExtractorResponse.class);
-        List<StockHistory> q = response.getStocksHistory();
-        System.out.println(q);
-        assertEquals(30, q.size());
-    }
+//    @Test
+//    void testFetch3() {
+//        System.out.println("Starting testFetch3");
+//        StockExtractorResponse response = client.toBlocking().retrieve(HttpRequest.GET("/run-extractor"), StockExtractorResponse.class);
+//        List<StockHistory> q = response.getStocksHistory();
+//        System.out.println(q);
+//        assertEquals(30, q.size());
+//    }
 
 //    @Test
 //    void testConvertToTimestamp() throws ParseException {
