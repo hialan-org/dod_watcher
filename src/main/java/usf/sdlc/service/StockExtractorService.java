@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
+import io.reactivex.Flowable;
 import usf.sdlc.dao.StockHistoryRepository;
 import usf.sdlc.form.Stock;
 import usf.sdlc.model.StockHistory;
@@ -78,7 +79,9 @@ public class StockExtractorService {
         // forming uri to hit IEX endpoint // todo - get token from github secret
         String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
         HttpRequest<String> request = HttpRequest.GET(uri);
-        String body = client.toBlocking().retrieve(request);
+        //String body = client.toBlocking().retrieve(request);
+        Flowable<String> body = client.retrieve(request);
+        //.retrieve(request);
 
         //// converting HTTP response to java object
         Type type = new TypeToken<HashMap<String, Stock>>(){}.getType();
@@ -86,7 +89,7 @@ public class StockExtractorService {
         //System.out.println("BODY : "+ body);
         //HashMap<String, Stock> stockDetails = gson.fromJson(body, type);
 
-        return gson.fromJson(body, type);
+        return gson.fromJson(String.valueOf(body), type);
     }
 
     private ArrayList<StockHistory> buildEntityListForStockHistory
