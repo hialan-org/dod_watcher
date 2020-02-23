@@ -3,7 +3,7 @@ micronaut:
     name: dod
     max: 50
   security:
-    enabled: true
+    enabled: false
     oauth2:
       enabled: true
       clients:

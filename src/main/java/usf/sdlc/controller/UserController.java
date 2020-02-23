@@ -10,9 +10,11 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
 import usf.sdlc.dao.SortingAndOrderArguments;
 import usf.sdlc.dao.UserRepository;
+import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.UserCreateForm;
 import usf.sdlc.form.UserUpdateForm;
 import usf.sdlc.model.User;
+import usf.sdlc.service.UserStockActivityService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -26,6 +28,12 @@ public class UserController {
 
     @Inject
     UserRepository userRepository;
+
+    UserStockActivityService userStockActivityService;
+
+    public UserController(UserStockActivityService userStockActivityService){
+        this.userStockActivityService = userStockActivityService;
+    }
 
     @Get("/{userId}")
     public User show(Long userId) {
@@ -66,8 +74,16 @@ public class UserController {
 
     @Delete("/{userId}")
     public HttpResponse delete(Long userId) {
+
         userRepository.deleteById(userId);
         return HttpResponse.noContent();
+    }
+
+    @Post("/{userId}/addStock")
+    public HttpResponse addStock(Long userId, @Body @Valid AddStocksForm stocks) {
+        System.out.println(stocks);
+        userStockActivityService.saveAll(userId, stocks);
+        return HttpResponse.ok();
     }
 
     protected URI location(Long userId) {
