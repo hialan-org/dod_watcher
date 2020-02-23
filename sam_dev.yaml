@@ -13,7 +13,7 @@ Resources:
       CodeUri: build/libs/dod-all.jar
       MemorySize: 512
       Policies: AWSLambdaBasicExecutionRole
-      Timeout: 15
+      Timeout: 29
       Events:
         GetResource:
           Type: Api
