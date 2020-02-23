@@ -7,6 +7,7 @@ import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
+import io.reactivex.Flowable;
 import org.junit.jupiter.api.Test;
 import usf.sdlc.form.Stock;
 import usf.sdlc.form.StockExtractorResponse;
@@ -40,8 +41,19 @@ public class StockExtractorControllerTest {
     @Test
     void testGetStockDetailsFromOutside() {
         System.out.println("Starting testFetchAllFromStockTable");
-        HashMap<String, Stock> s = stockExtractorService.getStockDetailsFromOutside("dow,aapl");
-        assertEquals(2, s.size());
+        // forming uri to hit IEX endpoint // todo - get token from github secret
+        String symStr = "dow,aapl";
+        String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
+        HttpRequest<String> request = HttpRequest.GET(uri);
+        //String body = client.toBlocking().retrieve(request);
+        String body = client.toBlocking().retrieve(request);
+        //// converting HTTP response to java object
+        Type type = new TypeToken<HashMap<String, Stock>>(){}.getType();
+        Gson gson = new Gson();
+        //System.out.println("BODY : "+ body);
+        HashMap<String, Stock> stockDetails = gson.fromJson(body, type);
+
+        assertEquals(2, stockDetails.size());
     }
 
 //    @Test
