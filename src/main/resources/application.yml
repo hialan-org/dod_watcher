@@ -2,31 +2,6 @@ micronaut:
   application:
     name: dod
     max: 50
-  security:
-    enabled: false
-    oauth2:
-      enabled: true
-      clients:
-        google:
-          #client-id: '${OAUTH_CLIENT_ID}'
-          client-id: '152090196286-jbnm794cl1ah9gc85hnr6qk658gnida4.apps.googleusercontent.com'
-          #client-secret: '${OAUTH_CLIENT_SECRET}'
-          client-secret: 'svJKQX5dZQqOIMvroicZ6IG7'
-          openid:
-            issuer: 'https://accounts.google.com'
-    token:
-      jwt:
-        enabled: true
-        cookie:
-          enabled: true
-        signatures:
-          secret:
-            generator:
-              secret: svJKQX5dZQqOIMvroicZ6IG7
-    endpoints:
-      logout:
-        enabled: true
-        get-allowed: true
 datasources:
     default:
       url: jdbc:mysql://usfsdlcdb.czayjykbj4rh.us-west-1.rds.amazonaws.com:3306/dod_db
