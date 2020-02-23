@@ -74,7 +74,7 @@ public class StockExtractorService {
         return symStr;
     }
 
-    private HashMap<String, Stock> getStockDetailsFromOutside(String symStr) {
+    public HashMap<String, Stock> getStockDetailsFromOutside(String symStr) {
         // forming uri to hit IEX endpoint // todo - get token from github secret
         String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
         HttpRequest<String> request = HttpRequest.GET(uri);

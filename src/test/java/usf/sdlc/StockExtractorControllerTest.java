@@ -12,6 +12,7 @@ import usf.sdlc.form.Stock;
 import usf.sdlc.form.StockExtractorResponse;
 import usf.sdlc.form.StockHistoryForm;
 import usf.sdlc.model.StockHistory;
+import usf.sdlc.service.StockExtractorService;
 
 import javax.inject.Inject;
 
@@ -33,28 +34,15 @@ public class StockExtractorControllerTest {
     @Client("/")
     HttpClient client;
 
-//    @Test
-//    void testFetch1() {
-//        System.out.println("Starting testFetch1");
-//        String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols=DOW,XOM,IBM,VZ,CVX,PFE,MMM,WBA,CSCO,KO&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
-//        HttpRequest<String> request = HttpRequest.GET(uri);
-//        String body = client.toBlocking().retrieve(request);
-//        Type type = new TypeToken<HashMap<String, Stock>>(){}.getType();
-//        Gson gson = new Gson();
-//        HashMap<String, Stock> stockMap = gson.fromJson(body, type);
-//        /////
-//        List<StockHistoryForm> stockHistoryForms = new ArrayList<>(stockMap.size());
-//        for ( String sym : stockMap.keySet()) { // assuming size of stockMap and stockForms are same
-//            StockHistoryForm s = new StockHistoryForm();
-//            s.setSymbol(sym);
-//            s.setLatestPrice(stockMap.get(sym).getQuote().getLatestPrice());
-//            s.setLatestTime(stockMap.get(sym).getQuote().getLatestTime());
-//            s.setDividendYield(stockMap.get(sym).getStats().getDividendYield());
-//            stockHistoryForms.add(s);
-//        }
-//        /////
-//        assertEquals(10, stockHistoryForms.size());
-//    }
+    @Inject
+    StockExtractorService stockExtractorService;
+
+    @Test
+    void testGetStockDetailsFromOutside() {
+        System.out.println("Starting testFetchAllFromStockTable");
+        HashMap<String, Stock> s = stockExtractorService.getStockDetailsFromOutside("dow,aapl");
+        assertEquals(2, s.size());
+    }
 
 //    @Test
 //    void testFetch2() {
