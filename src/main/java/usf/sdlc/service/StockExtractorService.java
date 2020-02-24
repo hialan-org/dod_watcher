@@ -2,13 +2,11 @@ package usf.sdlc.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.http.util.EntityUtils;
 import usf.sdlc.dao.StockHistoryRepository;
 import usf.sdlc.form.Stock;
 import usf.sdlc.model.StockHistory;

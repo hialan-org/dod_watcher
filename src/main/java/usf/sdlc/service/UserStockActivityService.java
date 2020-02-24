@@ -6,5 +6,5 @@ import usf.sdlc.model.UserStockActivity;
 import java.util.List;
 
 public interface UserStockActivityService {
-    public void saveAll(long userId, AddStocksForm userStockActivities);
+    void saveAll(long userId, AddStocksForm userStockActivities);
 }
