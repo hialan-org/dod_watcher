@@ -2,16 +2,18 @@ package usf.sdlc.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import io.micronaut.http.HttpRequest;
-import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
-import io.reactivex.Flowable;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import usf.sdlc.dao.StockHistoryRepository;
 import usf.sdlc.form.Stock;
 import usf.sdlc.model.StockHistory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -25,7 +27,7 @@ public class StockExtractorService {
 
     @Inject
     @Client("/")
-    RxHttpClient client;
+    HttpClient client;
 
     @Inject
     StockService stockService;
@@ -78,9 +80,22 @@ public class StockExtractorService {
     private HashMap<String, Stock> getStockDetailsFromOutside(String symStr) {
         // forming uri to hit IEX endpoint // todo - get token from github secret
         String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
-        HttpRequest<String> request = HttpRequest.GET(uri);
-        //String body = client.toBlocking().retrieve(request);
-        Flowable<String> body = client.retrieve(request);
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(uri)
+                .build();
+        String body = "";
+        try (Response response = client.newCall(request).execute()) {
+            body = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+//        HttpRequest<String> request = HttpRequest.GET(uri);
+//        //String body = client.toBlocking().retrieve(request);
+//        Publisher<String> body = client.retrieve(request);
 
         //// converting HTTP response to java object
         Type type = new TypeToken<HashMap<String, Stock>>(){}.getType();
