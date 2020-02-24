@@ -19,6 +19,6 @@ public class StockHistoryServiceImpl implements StockHistoryService {
     public List<StockHistory> getStockHistoryByDate(Date date) {
         Timestamp timestamp = new Timestamp(date.getTime());
         System.out.println(date + " : " + timestamp);
-        return stockHistoryRepository.findByLatestTime(timestamp);
+        return stockHistoryRepository.customFindByLatestTime(timestamp);
     }
 }

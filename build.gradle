@@ -41,7 +41,7 @@ dependencies {
     runtimeOnly "com.amazonaws:aws-lambda-java-log4j2:1.1.0"
 
     //Hibernate and Mysql
-//    implementation "io.micronaut.configuration:micronaut-hibernate-jpa"
+    implementation "io.micronaut.configuration:micronaut-hibernate-jpa"
 //    implementation "io.micronaut.configuration:micronaut-jdbc-hikari"
 //    runtime "com.h2database:h2"
     //mysql????
