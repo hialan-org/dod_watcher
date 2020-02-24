@@ -29,6 +29,11 @@ public class StockHistoryTest {
                     .getStockHistoryByDate(new SimpleDateFormat("yyyy-MM-dd")
                     .parse("2020-02-21"));
             System.out.println(stockHistoryList);
+
+            for (StockHistory sh:stockHistoryList){
+                System.out.println(sh);
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

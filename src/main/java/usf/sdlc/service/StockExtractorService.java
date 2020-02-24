@@ -15,10 +15,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Singleton
 public class StockExtractorService {
@@ -144,7 +147,7 @@ public class StockExtractorService {
         return stocksHistory;
     }
 
-    private Timestamp getTimeStamp(String timeStr) {
+    private Date getTimeStamp(String timeStr) {
         String[] timeStrArr = timeStr.split(" ");
         if (timeStrArr.length == 3) {
             timeStrArr[1] = timeStrArr[1].substring(0, timeStrArr[1].length()-1);
@@ -152,14 +155,17 @@ public class StockExtractorService {
             timeStrArr = new String[]{"January", "1", "2000"};
         }
 
-        Date date = null;
+        Date sqlDate = null;
         try {
-            date = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);
+            java.util.Date utilDate = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);
+
+            sqlDate = new java.sql.Date(utilDate.getTime());
+
         } catch (ParseException e) {
             System.out.println("Parse Exception in getTimeStamp func, "+ e.getMessage());
         }
-        assert date != null;
-        return new Timestamp(date.getTime());
+        assert sqlDate != null;
+        return sqlDate;
     }
 
 }// end of class

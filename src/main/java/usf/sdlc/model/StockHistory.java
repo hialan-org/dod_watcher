@@ -1,6 +1,7 @@
 package usf.sdlc.model;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -25,7 +26,7 @@ public class StockHistory {
     private float dividendYield;
 
     @Column(name = "latestTime", nullable = false, unique = false)
-    private Timestamp latestTime;
+    private Date latestTime;
 
     public long getId() {
         return id;
@@ -59,11 +60,22 @@ public class StockHistory {
         this.dividendYield = dividendYield;
     }
 
-    public Timestamp getLatestTime() {
+    public Date getLatestTime() {
         return latestTime;
     }
 
-    public void setLatestTime(Timestamp latestTime) {
+    public void setLatestTime(Date latestTime) {
         this.latestTime = latestTime;
+    }
+
+    @Override
+    public String toString() {
+        return "StockHistory{" +
+                "id=" + id +
+                ", stockId=" + stockId +
+                ", latestPrice=" + latestPrice +
+                ", dividendYield=" + dividendYield +
+                ", latestTime=" + latestTime +
+                '}';
     }
 }
