@@ -48,3 +48,4 @@ jpa:
           hbm2ddl:
             auto: update
           show_sql: true
+          format_sql: true

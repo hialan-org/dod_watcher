@@ -1,15 +1,14 @@
-name: Producation Action
+name: Development Action
 
 on:
   push:
     branches:
-      - 'master'
+      - 'anu_dev'
+      - 'hiepbp_dev'
 
 jobs:
   build:
-
     runs-on: ubuntu-18.04
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -20,14 +19,13 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build
+  
   deploy:
     needs: [build]
     runs-on: ubuntu-18.04
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -39,8 +37,8 @@ jobs:
       - name: List build folder
         run: ls ./build/libs
       - name: Copy files to S3 with the AWS CLI
-        run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-dod-s3
+        run: aws cloudformation package --template-file sam_dev.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-dev
       - name: Create/Update cloud formation
-        run: aws cloudformation deploy --template-file output-sam.yaml --stack-name SdlcDod --capabilities CAPABILITY_IAM
+        run: aws cloudformation deploy --template-file output-sam.yaml --stack-name sdlcDev --capabilities CAPABILITY_IAM
       - name: Show CloudFormation information
-        run: aws cloudformation describe-stacks --stack-name SdlcDod
+        run: aws cloudformation describe-stacks --stack-name sdlcDev
