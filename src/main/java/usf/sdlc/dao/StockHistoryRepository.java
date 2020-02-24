@@ -36,11 +36,14 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
         this.applicationConfiguration = applicationConfiguration;
     }
 
-    public List<StockHistory> customFindByLatestTime(Date date) {
+    public List<StockHistory> customFindByLatestTime(Date date, int numOfResult) {
         System.out.println("Timestamp: " + date);
         TypedQuery<StockHistory> query = entityManager
-                .createQuery("SELECT s FROM StockHistory s WHERE s.latestTime = :date order by s.dividendYield DESC ", StockHistory.class)
-                .setParameter("date", date);
+                .createQuery("SELECT sh FROM StockHistory sh " +
+                        "WHERE sh.latestTime = :date AND sh.stockId<>(SELECT s.stockId FROM Stock s WHERE s.symbol='SPY')" +
+                        "order by sh.dividendYield DESC", StockHistory.class)
+                .setParameter("date", date)
+                .setMaxResults(numOfResult);
         return query.getResultList();
     }
 

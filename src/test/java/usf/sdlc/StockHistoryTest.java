@@ -37,6 +37,6 @@ public class StockHistoryTest {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        assertEquals(31, stockHistoryList.size());
+        assertEquals(10, stockHistoryList.size());
     }
 }
