@@ -5,13 +5,9 @@ import com.google.gson.reflect.TypeToken;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.http.util.EntityUtils;
 import usf.sdlc.dao.StockHistoryRepository;
 import usf.sdlc.form.Stock;
@@ -34,8 +30,6 @@ public class StockExtractorService {
     @Inject
     @Client("/")
     RxHttpClient client;
-
-    CloseableHttpClient httpclient = HttpClients.createDefault();
 
     @Inject
     StockService stockService;
@@ -90,26 +84,37 @@ public class StockExtractorService {
         String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
 
         System.out.println("Start getStockDetailsFromOutside:" + uri);
+        String body = "{}";
 
 
 //        HttpRequest<String> request = HttpRequest.GET(uri);
 //        String body = client.retrieve(request);
-        HttpGet httpGet = new HttpGet(uri);
-        String body = "{}";
-        try(CloseableHttpResponse response = httpclient.execute(httpGet)) {
-            System.out.println(response.getStatusLine().toString());
+//        HttpGet httpGet = new HttpGet(uri);
+//        try(CloseableHttpResponse response = httpclient.execute(httpGet)) {
+//            System.out.println(response.getStatusLine().toString());
+//
+//            HttpEntity entity = response.getEntity();
+//            Header headers = entity.getContentType();
+//            System.out.println(headers);
+//
+//            if (entity != null) {
+//                // return it as a String
+//                body = EntityUtils.toString(entity);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-            HttpEntity entity = response.getEntity();
-            Header headers = entity.getContentType();
-            System.out.println(headers);
+        OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(uri)
+                    .build();
 
-            if (entity != null) {
-                // return it as a String
-                body = EntityUtils.toString(entity);
+            try (Response response = client.newCall(request).execute()) {
+                body = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         System.out.println(body);
 
         System.out.println("Finish call IEXAPI");
