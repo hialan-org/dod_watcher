@@ -8,4 +8,6 @@ import usf.sdlc.model.Stock;
 public interface StockRepository extends CrudRepository<Stock, Long> {
 
     Stock findBySymbol(String symbol);
+
+
 }

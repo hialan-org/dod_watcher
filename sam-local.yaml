@@ -13,7 +13,7 @@ Resources:
       CodeUri: build/exploded
       MemorySize: 320
       Policies: AWSLambdaBasicExecutionRole
-      Timeout: 15
+      Timeout: 29
       Events:
         GetResource:
           Type: Api
