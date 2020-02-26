@@ -2,7 +2,6 @@ package usf.sdlc.dao;
 
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
-import usf.sdlc.form.StockHistoryForm;
 import usf.sdlc.model.StockHistory;
 
 @Repository
