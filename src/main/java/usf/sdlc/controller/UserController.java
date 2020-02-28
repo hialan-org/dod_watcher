@@ -19,6 +19,7 @@ import usf.sdlc.service.UserStockActivityService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +65,7 @@ public class UserController {
     public HttpResponse<User> save(@Body @Valid UserCreateForm cmd) {
         User temp = new User();
         temp.setEmail(cmd.getEmail());
-        temp.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        temp.setCreatedDate(new Date(System.currentTimeMillis()));
         User user = userRepository.save(temp);
 
         return HttpResponse

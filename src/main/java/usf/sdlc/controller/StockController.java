@@ -1,10 +1,7 @@
 package usf.sdlc.controller;
 
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.*;
 import usf.sdlc.dao.SortingAndOrderArguments;
 import usf.sdlc.dao.StockRepository;
 import usf.sdlc.form.StockCreateForm;
@@ -18,6 +15,8 @@ import usf.sdlc.service.StockService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,8 +46,17 @@ public class StockController {
                 .headers(headers -> headers.location(location( stock.getStockId())));
     }
 
+//    @Get("/dogOfTheDow/{dateStr}")
     @Get("/dogOfTheDow")
-    public List<StockHistory> getDogOfTheDow(@Body @Valid Date date) {
+    public List<StockHistory> getDogOfTheDow(@QueryValue String dateStr, @Header String Authorization) {
+        System.out.println(Authorization);
+        System.out.println(dateStr);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         List<StockHistory> stockHistoryList = new ArrayList<>();
         stockHistoryList = stockHistoryService.getStockHistoryByDate(date);
 

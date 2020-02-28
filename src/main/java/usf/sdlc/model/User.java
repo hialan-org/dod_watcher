@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -21,13 +22,16 @@ public class User {
     public User() {
     }
 
-    public User(String email, Timestamp createdDate) {
+    public User(String email, Date createdDate, String accessToken, String refreshToken) {
         this.email=email;
         this.createdDate=createdDate;
+        this.accessToken=accessToken;
+        this.refreshToken=refreshToken;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id", nullable = false, unique = true)
     private long userId;
 
     @NotNull
@@ -35,8 +39,15 @@ public class User {
     private String email;
 
     @NotNull
-    @Column(name = "createdDate", nullable = false, unique = true)
-    private Timestamp createdDate;
+    @Column(name = "created_date", nullable = false)
+    private Date createdDate;
+
+    @NotNull
+    @Column(name = "access_token", nullable = false)
+    private String accessToken;
+
+    @Column(name = "refresh_token")
+    private String refreshToken;
 
     public String getEmail() {
         return email;
@@ -46,11 +57,11 @@ public class User {
         this.email = email;
     }
 
-    public Timestamp getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -60,6 +71,22 @@ public class User {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     @Override

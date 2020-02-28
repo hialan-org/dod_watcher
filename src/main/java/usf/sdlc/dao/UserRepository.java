@@ -1,6 +1,7 @@
 package usf.sdlc.dao;
 
 import io.micronaut.data.annotation.Repository;
+import io.micronaut.data.jpa.repository.JpaRepository;
 import io.micronaut.data.repository.CrudRepository;
 import usf.sdlc.model.User;
 
@@ -10,9 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public abstract class UserRepository implements JpaRepository<User, Long> {
 
-    Optional<User> findById(@NotNull Long userId);
+    public abstract Optional<User> findById(@NotNull Long userId);
 
-    void deleteById(@NotNull Long userId);
+    public abstract void deleteById(@NotNull Long userId);
+
+    public abstract Optional<User> findByEmail(@NotNull String email);
 }

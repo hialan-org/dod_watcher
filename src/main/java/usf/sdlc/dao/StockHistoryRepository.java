@@ -1,6 +1,5 @@
 package usf.sdlc.dao;
 
-import io.micronaut.configuration.hibernate.jpa.scope.CurrentSession;
 import io.micronaut.data.annotation.Query;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
@@ -12,6 +11,7 @@ import usf.sdlc.model.StockHistory;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -25,17 +25,13 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
 ////    @Query("SELECT s FROM StockHistory s")
 //    public abstract List<StockHistory> findByLatestTime(Timestamp timestamp);
 
+    private final EntityManager entityManager;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-    private final ApplicationConfiguration applicationConfiguration;
-
-    public StockHistoryRepository(@CurrentSession EntityManager entityManager,
-                                      ApplicationConfiguration applicationConfiguration) {
+    public StockHistoryRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.applicationConfiguration = applicationConfiguration;
     }
 
+    @Transactional
     public List<StockHistory> customFindByLatestTime(Date date, int numOfResult) {
         System.out.println("Timestamp: " + date);
         TypedQuery<StockHistory> query = entityManager
