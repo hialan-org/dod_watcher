@@ -2,82 +2,74 @@ package usf.sdlc.controller;
 
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Delete;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
-import io.micronaut.http.annotation.Put;
-import usf.sdlc.dao.SortingAndOrderArguments;
-import usf.sdlc.dao.UserRepository;
+import io.micronaut.http.annotation.*;
 import usf.sdlc.form.AddStocksForm;
-import usf.sdlc.form.UserCreateForm;
+import usf.sdlc.form.Pagination;
 import usf.sdlc.form.UserUpdateForm;
 import usf.sdlc.model.User;
+import usf.sdlc.service.UserService;
 import usf.sdlc.service.UserStockActivityService;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 @Controller("/users")
 public class UserController {
 
     @Inject
-    UserRepository userRepository;
-
+    UserService userService;
+    @Inject
     UserStockActivityService userStockActivityService;
 
-    public UserController(UserStockActivityService userStockActivityService){
-        this.userStockActivityService = userStockActivityService;
+    public UserController(){
     }
 
     @Get("/{userId}")
-    public User show(Long userId) {
-        return userRepository
-                .findById(userId)
-                .orElse(null);
+    public HttpResponse show(Long userId) {
+        User user = userService
+                .findByUserId(userId);
+        if(user == null){
+            return HttpResponse.notFound();
+        }
+        return HttpResponse
+                .ok(user);
     }
 
-    @Put("/")
+    @Put()
     public HttpResponse update(@Body @Valid UserUpdateForm command) {
-        Optional<User> user = userRepository.findById(command.getUserId());
+        User user = userService.findByUserId(command.getUserId());
         if(user!=null){
-            user.get().setEmail(command.getEmail());
+            user.setEmail(command.getEmail());
+        } else {
+            return HttpResponse
+                    .notFound();
         }
-        userRepository.update(user.get());
+        userService.update(user);
 
         return HttpResponse
-                .noContent()
+                .ok()
                 .header(HttpHeaders.LOCATION, location(command.getUserId()).getPath());
     }
 
-    @Get(value = "/list{?args*}")
-    public List<User> list(@Valid SortingAndOrderArguments args) {
-        return (List<User>) userRepository.findAll();
-    }
-
-    @Post("/")
-    public HttpResponse<User> save(@Body @Valid UserCreateForm cmd) {
-        User temp = new User();
-        temp.setEmail(cmd.getEmail());
-        temp.setCreatedDate(new Date(System.currentTimeMillis()));
-        User user = userRepository.save(temp);
-
-        return HttpResponse
-                .created(user)
-                .headers(headers -> headers.location(location( user.getUserId())));
+    @Get(value = "{?email,args*}")
+    public List<User> list(@Valid Pagination args, @QueryValue @Nullable String email) {
+        System.out.println(email);
+        System.out.println(args.getPage());
+        System.out.println(args.getMax());
+        return (List<User>) userService.list(email, args.getPage(), args.getMax());
     }
 
     @Delete("/{userId}")
     public HttpResponse delete(Long userId) {
-
-        userRepository.deleteById(userId);
-        return HttpResponse.noContent();
+        try{
+            userService.deleteByUserId(userId);
+        } catch (Exception e){
+            return HttpResponse.notFound();
+        }
+        return HttpResponse.ok();
     }
 
     @Post("/{userId}/addStock")
