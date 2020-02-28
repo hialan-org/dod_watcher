@@ -43,6 +43,5 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
         return query.getResultList();
     }
 
-
     //StockHistory save(StockHistoryForm shf);
 }
