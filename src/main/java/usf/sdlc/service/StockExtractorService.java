@@ -79,7 +79,7 @@ public class StockExtractorService {
         symStr = symStr.substring(0, symStr.length()-1);
         return symStr;
     }
-
+  
     private HashMap<String, Stock> getStockDetailsFromOutside(String symStr) {
         // forming uri to hit IEX endpoint // todo - get token from github secret
         HashMap<String, Stock> s = new HashMap<>();
@@ -136,7 +136,6 @@ public class StockExtractorService {
         } else {
             timeStrArr = new String[]{"January", "1", "2000"};
         }
-
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);

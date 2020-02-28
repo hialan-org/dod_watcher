@@ -10,13 +10,16 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
 import usf.sdlc.dao.SortingAndOrderArguments;
 import usf.sdlc.dao.UserRepository;
+import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.UserCreateForm;
 import usf.sdlc.form.UserUpdateForm;
 import usf.sdlc.model.User;
+import usf.sdlc.service.UserStockActivityService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +29,12 @@ public class UserController {
 
     @Inject
     UserRepository userRepository;
+
+    UserStockActivityService userStockActivityService;
+
+    public UserController(UserStockActivityService userStockActivityService){
+        this.userStockActivityService = userStockActivityService;
+    }
 
     @Get("/{userId}")
     public User show(Long userId) {
@@ -56,7 +65,7 @@ public class UserController {
     public HttpResponse<User> save(@Body @Valid UserCreateForm cmd) {
         User temp = new User();
         temp.setEmail(cmd.getEmail());
-        temp.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        temp.setCreatedDate(new Date(System.currentTimeMillis()));
         User user = userRepository.save(temp);
 
         return HttpResponse
@@ -66,8 +75,16 @@ public class UserController {
 
     @Delete("/{userId}")
     public HttpResponse delete(Long userId) {
+
         userRepository.deleteById(userId);
         return HttpResponse.noContent();
+    }
+
+    @Post("/{userId}/addStock")
+    public HttpResponse addStock(Long userId, @Body @Valid AddStocksForm stocks) {
+        System.out.println(stocks);
+        userStockActivityService.saveAll(userId, stocks);
+        return HttpResponse.ok();
     }
 
     protected URI location(Long userId) {

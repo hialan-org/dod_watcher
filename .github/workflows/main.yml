@@ -1,9 +1,8 @@
-name: Java CI
+name: Producation Action
 
 on:
   push:
     branches:
-      - 'hiepbp_dev'
       - 'master'
 
 jobs:
