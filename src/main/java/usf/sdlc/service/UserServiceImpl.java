@@ -15,11 +15,13 @@ public class UserServiceImpl implements UserService {
 
     @Inject
     UserRepository userRepository;
+    @Inject
+    Utils utils;
 
     @Override
     public User loginWithGoogle(String accessToken) {
         java.util.Date utilDate = new java.util.Date();
-        GoogleResponse googleResponse = Utils.validateAccessToken(accessToken);
+        GoogleResponse googleResponse = utils.validateAccessToken(accessToken);
         User user = null;
         if(googleResponse!=null){
             if(googleResponse.getAud().equals(Constant.GOOGLE_CLIENT_ID)){
@@ -54,17 +56,12 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         if(email==null){
-            if(size == 0){
-                return userRepository.findAll();
-            }
-            return userRepository.findAll(Pageable.from(page, size)).getContent();
-        } else {
-            email = '%' + email + '%';
-            if(size == 0){
-                return userRepository.findByEmailLike(email);
-            }
-            return userRepository.findByEmailLike(email, Pageable.from(page, size)).getContent();
+            email = "";
         }
+        if(size == 0){
+            return userRepository.findByEmailContains(email);
+        }
+        return userRepository.findByEmailContains(email, Pageable.from(page, size)).getContent();
     }
 
     @Override
@@ -74,5 +71,11 @@ public class UserServiceImpl implements UserService {
 
     public User update(User user){
         return userRepository.update(user);
+    }
+
+    @Override
+    public User findByAccessToken(String accessToken) {
+        User user = userRepository.findByAccessToken(accessToken).orElse(null);
+        return user;
     }
 }

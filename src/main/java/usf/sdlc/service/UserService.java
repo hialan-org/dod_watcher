@@ -11,4 +11,5 @@ public interface UserService {
     List<User> list(String email, int page, int size);
     void deleteByUserId(long userId);
     User update(User user);
+    User findByAccessToken(String accessToken);
 }

@@ -3,6 +3,8 @@ package usf.sdlc.controller;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
+import usf.sdlc.Constant;
+import usf.sdlc.Utils;
 import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.Pagination;
 import usf.sdlc.form.UserUpdateForm;
@@ -23,11 +25,13 @@ public class UserController {
     UserService userService;
     @Inject
     UserStockActivityService userStockActivityService;
+    @Inject
+    Utils utils;
 
     public UserController(){
     }
 
-    @Get("/{userId}")
+    @Get("/{userId}") //TODO: Set authorization
     public HttpResponse show(Long userId) {
         User user = userService
                 .findByUserId(userId);
@@ -38,7 +42,7 @@ public class UserController {
                 .ok(user);
     }
 
-    @Put()
+    @Put() //TODO: Set authorization
     public HttpResponse update(@Body @Valid UserUpdateForm command) {
         User user = userService.findByUserId(command.getUserId());
         if(user!=null){
@@ -55,14 +59,14 @@ public class UserController {
     }
 
     @Get(value = "{?email,args*}")
-    public List<User> list(@Valid Pagination args, @QueryValue @Nullable String email) {
-        System.out.println(email);
-        System.out.println(args.getPage());
-        System.out.println(args.getMax());
-        return (List<User>) userService.list(email, args.getPage(), args.getMax());
+    public HttpResponse list(@Header String Authorization, @Valid Pagination args, @QueryValue @Nullable String email) {
+        if(!utils.authorization(Authorization, new String[]{Constant.ROLE_ADMIN})){
+            return HttpResponse.unauthorized();
+        };
+        return HttpResponse.ok(userService.list(email, args.getPage(), args.getMax()));
     }
 
-    @Delete("/{userId}")
+    @Delete("/{userId}") //TODO: Set authorization
     public HttpResponse delete(Long userId) {
         try{
             userService.deleteByUserId(userId);
@@ -72,7 +76,7 @@ public class UserController {
         return HttpResponse.ok();
     }
 
-    @Post("/{userId}/addStock")
+    @Post("/{userId}/addStock") //TODO: Set authorization
     public HttpResponse addStock(Long userId, @Body @Valid AddStocksForm stocks) {
         System.out.println(stocks);
         userStockActivityService.saveAll(userId, stocks);

@@ -22,7 +22,9 @@ public abstract class UserRepository implements JpaRepository<User, Long> {
 
     public abstract Optional<User> findByEmail(@NotNull String email);
 
-    public abstract Page<User> findByEmailLike(String email, Pageable pageable);
+    public abstract Page<User> findByEmailContains(String email, Pageable pageable);
 
-    public abstract List<User> findByEmailLike(String email);
+    public abstract List<User> findByEmailContains(String email);
+
+    public abstract Optional<User> findByAccessToken(@NotNull String accessToken);
 }
