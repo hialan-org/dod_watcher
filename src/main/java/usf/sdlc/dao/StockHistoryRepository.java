@@ -26,7 +26,6 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
 //    public abstract List<StockHistory> findByLatestTime(Timestamp timestamp);
 
     public abstract StockHistory findById(String id);
-  
     private final EntityManager entityManager;
 
     public StockHistoryRepository(EntityManager entityManager) {

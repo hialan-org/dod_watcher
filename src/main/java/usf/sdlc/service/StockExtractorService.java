@@ -121,7 +121,7 @@ public class StockExtractorService {
         for (String stockDetailKey : stockDetails.keySet()) {
             StockHistory s = new StockHistory();
             s.setStockId(stocksEntityMap.get(stockDetailKey).getStockId());
-            s.setLatestTime(getTimeStamp(stockDetails.get(stockDetailKey).getQuote().getLatestTime()));
+            s.setLatestTime(getSqlDate(stockDetails.get(stockDetailKey).getQuote().getLatestTime()));
             s.setLatestPrice(stockDetails.get(stockDetailKey).getQuote().getLatestPrice());
             s.setDividendYield(stockDetails.get(stockDetailKey).getStats().getDividendYield());
             stocksHistory.add(s);
@@ -129,7 +129,7 @@ public class StockExtractorService {
         return stocksHistory;
     }
 
-    private Timestamp getTimeStamp(String timeStr) {
+    private java.sql.Date getSqlDate(String timeStr) {
         String[] timeStrArr = timeStr.split(" ");
         if (timeStrArr.length == 3) {
             timeStrArr[1] = timeStrArr[1].substring(0, timeStrArr[1].length()-1);
@@ -143,7 +143,7 @@ public class StockExtractorService {
             System.out.println("Parse Exception in getTimeStamp func, "+ e.getMessage());
         }
         assert date != null;
-        return new Timestamp(date.getTime());
+        return new java.sql.Date(date.getTime());
     }
 
 }// end of class
