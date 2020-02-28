@@ -76,7 +76,7 @@ public class StockExtractorService {
         symStr = symStr.substring(0, symStr.length()-1);
         return symStr;
     }
-
+  
     private HashMap<String, Stock> getStockDetailsFromOutside(String symStr) {
         // forming uri to hit IEX endpoint // todo - get token from github secret
         String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
@@ -128,6 +128,7 @@ public class StockExtractorService {
         } else {
             timeStrArr = new String[]{"January", "1", "2000"};
         }
+
 
         Date date = null;
         try {

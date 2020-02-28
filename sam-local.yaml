@@ -11,9 +11,9 @@ Resources:
       Handler: usf.sdlc.StreamLambdaHandler::handleRequest
       Runtime: java8
       CodeUri: build/exploded
-      MemorySize: 320
+      MemorySize: 512
       Policies: AWSLambdaBasicExecutionRole
-      Timeout: 29
+      Timeout: 30
       Events:
         GetResource:
           Type: Api

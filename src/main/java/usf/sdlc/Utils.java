@@ -1,0 +1,47 @@
+package usf.sdlc;
+
+import com.google.gson.Gson;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import usf.sdlc.form.GoogleResponse;
+
+import java.io.IOException;
+
+public class Utils {
+    public static GoogleResponse validateAccessToken(String accessToken) {
+        String uri = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + accessToken;
+        HttpGet request = new HttpGet(uri);
+        try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
+            try (CloseableHttpResponse response = client.execute(request)) {
+
+                // Get HttpResponse Status
+                int statusCode = response.getStatusLine().getStatusCode();
+                System.out.println(statusCode);
+                if(statusCode!=200) { //TODO: change to constant value
+                    return null;
+                }
+                HttpEntity entity = response.getEntity();
+                Header headers = entity.getContentType();
+                System.out.println(headers);
+
+                if (entity != null) {
+                    // return it as a String
+                    String result = EntityUtils.toString(entity);
+                    System.out.println(result);
+                    Gson gson = new Gson();
+                    GoogleResponse googleResponse = gson.fromJson(result, GoogleResponse.class);
+                    return googleResponse;
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
