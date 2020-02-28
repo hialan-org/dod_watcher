@@ -7,21 +7,13 @@ import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
-import io.reactivex.Flowable;
 import org.junit.jupiter.api.Test;
-import org.reactivestreams.Publisher;
 import usf.sdlc.form.Stock;
-import usf.sdlc.form.StockExtractorResponse;
-import usf.sdlc.form.StockHistoryForm;
-import usf.sdlc.model.StockHistory;
 import usf.sdlc.service.StockExtractorService;
 
 import javax.inject.Inject;
 
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
