@@ -68,7 +68,8 @@ public class Utils {
                     return true;
                 }
             }
+            return false; //If not return false
         }
-        return false;
+        return true;
     }
 }
