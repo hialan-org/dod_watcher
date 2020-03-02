@@ -28,6 +28,6 @@ public class GoogleController {
         if(user==null){
             return HttpResponse.unauthorized();
         }
-        return HttpResponse.ok();
+        return HttpResponse.ok(user);
     }
 }
