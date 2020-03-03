@@ -1,5 +1,6 @@
 package usf.sdlc.controller;
 
+import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -28,6 +29,6 @@ public class GoogleController {
         if(user==null){
             return HttpResponse.unauthorized();
         }
-        return HttpResponse.ok(user);
+        return HttpResponse.ok(user).header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
     }
 }
