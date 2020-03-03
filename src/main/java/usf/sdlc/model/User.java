@@ -22,11 +22,12 @@ public class User {
     public User() {
     }
 
-    public User(String email, Date createdDate, String accessToken, String refreshToken) {
+    public User(String email, Date createdDate, String accessToken, String refreshToken, String role) {
         this.email=email;
         this.createdDate=createdDate;
         this.accessToken=accessToken;
         this.refreshToken=refreshToken;
+        this.role=role;
     }
 
     @Id
@@ -48,6 +49,9 @@ public class User {
 
     @Column(name = "refresh_token")
     private String refreshToken;
+
+    @Column(name = "role")
+    private String role;
 
     public String getEmail() {
         return email;
@@ -87,6 +91,14 @@ public class User {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

@@ -8,12 +8,22 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import usf.sdlc.dao.UserRepository;
 import usf.sdlc.form.GoogleResponse;
+import usf.sdlc.model.User;
+import usf.sdlc.service.UserService;
 
+import javax.inject.Inject;
 import java.io.IOException;
 
 public class Utils {
-    public static GoogleResponse validateAccessToken(String accessToken) {
+    @Inject
+    private UserRepository userService;
+
+    public Utils() {
+    }
+
+    public GoogleResponse validateAccessToken(String accessToken) {
         String uri = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + accessToken;
         HttpGet request = new HttpGet(uri);
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
@@ -43,5 +53,23 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean authorization(String authHeader, String[] roles) {
+        String accessToken = authHeader.split(" ")[1];
+        System.out.println(accessToken);
+        User user = userService.findByAccessToken(accessToken).orElse(null);
+        if(user == null){
+            return false;
+        }
+        if(roles.length>0){ //Check if user's role is in the roles list
+            for (String role : roles) {
+                if(role.equals(user.getRole())){
+                    return true;
+                }
+            }
+            return false; //If not return false
+        }
+        return true;
     }
 }

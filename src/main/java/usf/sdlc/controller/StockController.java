@@ -32,12 +32,12 @@ public class StockController {
         this.stockHistoryService = stockHistoryService;
     }
 
-    @Get("/")
+    @Get() //TODO: Set authorization
     public List<Stock> list() {
         return stockService.list();
     }
 
-    @Post("/add")
+    @Post("/add") //TODO: Set authorization
     public HttpResponse<Stock> save(@Body @Valid StockCreateForm stockDTO) {
         Stock stock = stockService.save(stockDTO);
 
@@ -47,7 +47,7 @@ public class StockController {
     }
 
 //    @Get("/dogOfTheDow/{dateStr}")
-    @Get("/dogOfTheDow")
+    @Get("/dogOfTheDow") //TODO: Set authorization
     public List<StockHistory> getDogOfTheDow(@QueryValue String dateStr, @Header String Authorization) {
         System.out.println(Authorization);
         System.out.println(dateStr);

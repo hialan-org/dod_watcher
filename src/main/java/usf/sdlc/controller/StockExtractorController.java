@@ -17,7 +17,7 @@ public class StockExtractorController {
         this.stockExtractorService = stockExtractorService;
     }
 
-    @Get("/run-extractor")
+    @Get("/run-extractor") //TODO: Set authorization
     public HttpResponse<StockExtractorResponse> runExtractors(/*String[] sym*/) {
         StockExtractorResponse resp = new StockExtractorResponse();
         if (LOG.isDebugEnabled()) {
