@@ -10,6 +10,8 @@ import usf.sdlc.model.User;
 import usf.sdlc.service.UserService;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller()
 public class GoogleController {
@@ -29,6 +31,10 @@ public class GoogleController {
         if(user==null){
             return HttpResponse.unauthorized();
         }
-        return HttpResponse.ok(user).header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        Map<CharSequence, CharSequence> headers = new HashMap<>();
+        headers.put(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        headers.put(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+        return HttpResponse.ok(user).headers(headers);
+//        return HttpResponse.ok(user).header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
     }
 }
