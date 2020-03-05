@@ -35,13 +35,13 @@ public class GoogleController {
     }
 
 
-    @Options("/loginWithGoogle")
-    public HttpResponse option(@Header String Authorization) {
-        Map<CharSequence, CharSequence> headers = new HashMap<>();
-
-        headers.put("Access-Control-Allow-Credentials", "true");
-        headers.put("Access-Control-Allow-Origin", "*");
-
-        return HttpResponse.ok().headers(headers);
-    }
+//    @Options("/loginWithGoogle")
+//    public HttpResponse option(@Header String Authorization) {
+//        Map<CharSequence, CharSequence> headers = new HashMap<>();
+//
+//        headers.put("Access-Control-Allow-Credentials", "true");
+//        headers.put("Access-Control-Allow-Origin", "*");
+//
+//        return HttpResponse.ok().headers(headers);
+//    }
 }
