@@ -2,6 +2,9 @@ micronaut:
   application:
     name: dod
     max: 50
+  server:
+    cors:
+      enabled: true
 datasources:
     default:
       url: jdbc:mysql://usfsdlcdb.czayjykbj4rh.us-west-1.rds.amazonaws.com:3306/dod_db
