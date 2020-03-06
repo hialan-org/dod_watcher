@@ -1,8 +1,10 @@
 package usf.sdlc.service;
 
 import usf.sdlc.dao.StockHistoryRepository;
+import usf.sdlc.dao.UserProfitRepository;
 import usf.sdlc.dao.UserStockRepository;
 import usf.sdlc.model.StockHistory;
+import usf.sdlc.model.UserProfit;
 import usf.sdlc.model.UserStock;
 
 import javax.inject.Inject;
@@ -24,12 +26,18 @@ public class UserProfitServiceImpl implements UserProfitService {
     @Inject
     StockHistoryRepository stockHistoryRepository;
 
+    @Inject
+    UserProfitRepository userProfitRepository;
+
     @Override
-    public float getUserProfitByDate(Long userId, Date date) {
-        return 0;
+    public Iterable<UserProfit> saveUserProfit(Long userId, Date date) {
+        List<UserStock> s = this.getUserStocks(userId);
+        Map<Long, StockHistory> m = this.getLatestStockDetails(date);
+        List<UserProfit> p = this.createProfitDetails(s, m);
+        return userProfitRepository.saveAll(p);
     }
 
-    public List<UserStock> getUserStocks(Long userId){
+    private List<UserStock> getUserStocks(Long userId){ // from user_stock table
         Iterable<UserStock> usersStocks = userStockRepository.findAll();
         List<UserStock> userStocks = new ArrayList<>();
         for (UserStock s : usersStocks) {
@@ -40,7 +48,7 @@ public class UserProfitServiceImpl implements UserProfitService {
         return userStocks;
     }
 
-    public Map<Long, StockHistory> getLatestStockDetails(Date d) {
+    private Map<Long, StockHistory> getLatestStockDetails(Date d) { // from stock_history table
         if(d == null) {
             d = stockHistoryRepository.customFindLatestDate();
         }
@@ -52,15 +60,43 @@ public class UserProfitServiceImpl implements UserProfitService {
         return m;
     }
 
-    public Map<Long, Double> createProfitDetails(List<UserStock> userStocks, Map<Long, StockHistory> stocksHistory) {
-        Map<Long, Double> userEachStockProfit = new HashMap<>();
+    private List<UserProfit> createProfitDetails(List<UserStock> userStocks, Map<Long, StockHistory> stocksHistory) {
+        List<UserProfit> userStockProfit = this.getUserStockProfit(userStocks, stocksHistory);//new ArrayList<>();
+        UserProfit userOverallProfit = this.getUserOverallProfit(userStockProfit);//new UserProfit();
+        userStockProfit.add(userOverallProfit);
+        return userStockProfit;
+    }
+
+    private List<UserProfit> getUserStockProfit(List<UserStock> userStocks, Map<Long, StockHistory> stocksHistory) {
+        List<UserProfit> userStockProfit = new ArrayList<>();
         for(UserStock userStock : userStocks){
-            Long userStock_stockId = userStock.getUserStockId().getStockId();
-            StockHistory stockHistory = stocksHistory.get(userStock_stockId);
-            double priceDifference = stockHistory.getLatestPrice() - userStock.getStockAveragePrice();
-            double profit = priceDifference * userStock.getStockQuantity();
-            userEachStockProfit.put(userStock_stockId, profit);
+            UserProfit up = new UserProfit();
+            up.setUserId(userStock.getUserStockId().getUserId());
+            up.setStockId(userStock.getUserStockId().getStockId());
+            StockHistory stockHistory = stocksHistory.get(up.getStockId());
+            up.setDate(stockHistory.getLatestTime());
+            up.setInvestedAmount(userStock.getStockQuantity() * userStock.getStockAveragePrice());
+            up.setTotalAmount(userStock.getStockQuantity() * stockHistory.getLatestPrice());
+            up.setUserProfit(up.getTotalAmount() - up.getInvestedAmount());
+            userStockProfit.add(up);
         }
-        return userEachStockProfit;
+        return userStockProfit;
+    }
+
+    private UserProfit getUserOverallProfit(List<UserProfit> userStockProfit) {
+        UserProfit userOverallProfit = new UserProfit();
+        if (userStockProfit.size() > 0) {
+            userOverallProfit.setUserId(userStockProfit.get(0).getUserId());
+            userOverallProfit.setDate(userStockProfit.get(0).getDate());
+            userOverallProfit.setInvestedAmount(0);
+            userOverallProfit.setTotalAmount(0);
+            userOverallProfit.setUserProfit(0);
+        }
+        for (UserProfit userProfit : userStockProfit) {
+            userOverallProfit.setInvestedAmount(userOverallProfit.getInvestedAmount() + userProfit.getInvestedAmount());
+            userOverallProfit.setTotalAmount(userOverallProfit.getTotalAmount() + userProfit.getTotalAmount());
+            userOverallProfit.setUserProfit(userOverallProfit.getUserProfit() + userProfit.getUserProfit());
+        }
+        return userOverallProfit;
     }
 }
