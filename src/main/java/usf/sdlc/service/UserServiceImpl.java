@@ -1,8 +1,8 @@
 package usf.sdlc.service;
 
 import io.micronaut.data.model.Pageable;
-import usf.sdlc.Constant;
-import usf.sdlc.Utils;
+import usf.sdlc.config.Constant;
+import usf.sdlc.utils.Utils;
 import usf.sdlc.dao.UserRepository;
 import usf.sdlc.form.GoogleResponse;
 import usf.sdlc.model.User;
@@ -77,5 +77,25 @@ public class UserServiceImpl implements UserService {
     public User findByAccessToken(String accessToken) {
         User user = userRepository.findByAccessToken(accessToken).orElse(null);
         return user;
+    }
+
+    @Override
+    public boolean authorizeUser(String authHeader, String[] roles) {
+        System.out.println("Checking the authorization....");
+        String accessToken = authHeader.split(" ")[1];
+        System.out.println(accessToken);
+        User user = this.findByAccessToken(accessToken);
+        if(user == null){
+            return false;
+        }
+        if(roles.length>0){ //Check if user's role is in the roles list
+            for (String role : roles) {
+                if(role.equals(user.getRole())){
+                    return true;
+                }
+            }
+            return false; //If not return false
+        }
+        return true;
     }
 }

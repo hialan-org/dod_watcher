@@ -12,4 +12,5 @@ public interface UserService {
     void deleteByUserId(long userId);
     User update(User user);
     User findByAccessToken(String accessToken);
+    boolean authorizeUser(String authHeader, String[] roles);
 }
