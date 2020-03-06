@@ -1,8 +1,8 @@
 package usf.sdlc.service;
 
 import io.micronaut.data.model.Pageable;
-import usf.sdlc.Constant;
-import usf.sdlc.Utils;
+import usf.sdlc.config.Constant;
+import usf.sdlc.utils.Utils;
 import usf.sdlc.dao.UserRepository;
 import usf.sdlc.form.GoogleResponse;
 import usf.sdlc.model.User;

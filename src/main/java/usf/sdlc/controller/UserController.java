@@ -3,8 +3,8 @@ package usf.sdlc.controller;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
-import usf.sdlc.Constant;
-import usf.sdlc.Utils;
+import usf.sdlc.config.Constant;
+import usf.sdlc.utils.Utils;
 import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.Pagination;
 import usf.sdlc.form.UserUpdateForm;
@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @Controller("/users")
 public class UserController {
