@@ -23,10 +23,10 @@ public class UserProfitController {
         this.userProfitController = userProfitController;
     }
 
-//    @Get(value = "/user-profit{?userId}")
-//    public HttpResponse<UserProfitResponse> runProfitSaveServiceForAUser() {
-//        UserProfitResponse resp = new UserProfitResponse();
-//
-//        return HttpResponse.created(resp);
-//    }
+    @Get("/user-profit/{userId}")
+    public HttpResponse<UserProfitResponse> runProfitSaveServiceForAUser() {
+        UserProfitResponse resp = new UserProfitResponse();
+
+        return HttpResponse.created(resp);
+    }
 }
