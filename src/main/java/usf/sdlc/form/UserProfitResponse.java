@@ -10,7 +10,7 @@ import java.util.List;
 public class UserProfitResponse {
 
     private String message;
-    private Iterable<UserProfit> userProfits;
+    private List<UserProfit> userProfits;
 
     public UserProfitResponse() {
     }
@@ -27,7 +27,7 @@ public class UserProfitResponse {
         return userProfits;
     }
 
-    public void setUserProfits(Iterable<UserProfit> userProfits) {
+    public void setUserProfits(List<UserProfit> userProfits) {
         this.userProfits = userProfits;
     }
 }
