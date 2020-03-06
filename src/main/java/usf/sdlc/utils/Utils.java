@@ -1,4 +1,4 @@
-package usf.sdlc;
+package usf.sdlc.utils;
 
 import com.google.gson.Gson;
 import org.apache.http.Header;
