@@ -35,5 +35,17 @@ public class UserProfitTest {
         assertTrue(done.iterator().hasNext());
     }
 
+    @Test
+    void saveAllUserProfitWithDateTest() {
+        boolean done = userProfitServiceImpl.saveAllUserProfit(Date.valueOf("2020-03-04"));
+        assertTrue(done);
+    }
+
+    @Test
+    void saveAllUserProfitWithNullTest() {
+        boolean done = userProfitServiceImpl.saveAllUserProfit(null);
+        assertTrue(done);
+    }
+
 
 }

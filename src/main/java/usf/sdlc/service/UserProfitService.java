@@ -7,4 +7,6 @@ import java.util.Date;
 
 public interface UserProfitService {
     Iterable<UserProfit> saveUserProfit(Long userId, Date date);
+
+    boolean saveAllUserProfit(Date date);
 }

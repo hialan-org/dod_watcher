@@ -30,6 +30,21 @@ public class UserProfitServiceImpl implements UserProfitService {
     UserProfitRepository userProfitRepository;
 
     @Override
+    public boolean saveAllUserProfit(Date date) {
+        Iterable<UserStock> si = userStockRepository.findAll();
+        Set<Long> allUsers = new HashSet<>();
+        for (UserStock us : si) {
+            allUsers.add(us.getUserStockId().getUserId());
+        }
+
+        for(long uid : allUsers) {
+            this.saveUserProfit(uid, date);
+        }
+
+        return true;
+    }
+
+    @Override
     public Iterable<UserProfit> saveUserProfit(Long userId, Date date) {
         List<UserStock> s = this.getUserStocks(userId);
         Map<Long, StockHistory> m = this.getLatestStockDetails(date);
