@@ -78,4 +78,24 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByAccessToken(accessToken).orElse(null);
         return user;
     }
+
+    @Override
+    public boolean authorizeUser(String authHeader, String[] roles) {
+        System.out.println("Checking the authorization....");
+        String accessToken = authHeader.split(" ")[1];
+        System.out.println(accessToken);
+        User user = this.findByAccessToken(accessToken);
+        if(user == null){
+            return false;
+        }
+        if(roles.length>0){ //Check if user's role is in the roles list
+            for (String role : roles) {
+                if(role.equals(user.getRole())){
+                    return true;
+                }
+            }
+            return false; //If not return false
+        }
+        return true;
+    }
 }

@@ -32,6 +32,9 @@ public class UserController {
 
     @Get("/{userId}") //TODO: Set authorization
     public HttpResponse show(Long userId) {
+
+        System.out.println("UserController.show is triggered.");
+
         User user = userService
                 .findByUserId(userId);
         if(user == null){
@@ -59,9 +62,9 @@ public class UserController {
 
     @Get(value = "{?email,args*}")
     public HttpResponse list(@Header String Authorization, @Valid Pagination args, @QueryValue @Nullable String email) {
-        if(!utils.authorization(Authorization, new String[]{Constant.ROLE_ADMIN})){
+       /* if(!utils.authorization(Authorization, new String[]{Constant.ROLE_ADMIN})){
             return HttpResponse.unauthorized();
-        };
+        };*/
         return HttpResponse.ok(userService.list(email, args.getPage(), args.getMax()));
     }
 
