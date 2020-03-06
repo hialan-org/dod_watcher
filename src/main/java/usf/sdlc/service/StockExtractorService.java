@@ -121,7 +121,7 @@ public class StockExtractorService {
         for (String stockDetailKey : stockDetails.keySet()) {
             StockHistory s = new StockHistory();
             s.setStockId(stocksEntityMap.get(stockDetailKey).getStockId());
-            s.setLatestTime(getSqlDate(stockDetails.get(stockDetailKey).getQuote().getLatestTime()));
+            s.setLatestTime(getSqlDateFromUnixTime(stockDetails.get(stockDetailKey).getQuote().getLatestUpdate())); // changing here to resolve correct date issue
             s.setLatestPrice(stockDetails.get(stockDetailKey).getQuote().getLatestPrice());
             s.setDividendYield(stockDetails.get(stockDetailKey).getStats().getDividendYield());
             stocksHistory.add(s);
@@ -129,21 +129,29 @@ public class StockExtractorService {
         return stocksHistory;
     }
 
-    private java.sql.Date getSqlDate(String timeStr) {
-        String[] timeStrArr = timeStr.split(" ");
-        if (timeStrArr.length == 3) {
-            timeStrArr[1] = timeStrArr[1].substring(0, timeStrArr[1].length()-1);
-        } else {
-            timeStrArr = new String[]{"January", "1", "2000"};
-        }
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);
-        } catch (ParseException e) {
-            System.out.println("Parse Exception in getTimeStamp func, "+ e.getMessage());
-        }
-        assert date != null;
-        return new java.sql.Date(date.getTime());
+    private java.sql.Date getSqlDateFromUnixTime(String timeStr) {
+        long timestamp = Long.parseLong(timeStr);
+        java.sql.Date date=new java.sql.Date(timestamp);
+        return date;
     }
+
+//    private java.sql.Date getSqlDate(String timeStr) {
+//        String[] timeStrArr = timeStr.split(" ");
+//        if (timeStrArr.length == 3) {
+//            timeStrArr[1] = timeStrArr[1].substring(0, timeStrArr[1].length()-1);
+//        } else {
+//            timeStrArr = new String[]{"January", "1", "2000"};
+//        }
+//        Date date = null;
+//        try {
+//            date = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);
+//        } catch (ParseException e) {
+//            System.out.println("Parse Exception in getTimeStamp func, "+ e.getMessage());
+//        }
+//        assert date != null;
+//        return new java.sql.Date(date.getTime());
+//    }
+
+
 
 }// end of class
