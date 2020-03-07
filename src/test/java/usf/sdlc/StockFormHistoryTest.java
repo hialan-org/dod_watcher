@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
-public class StockHistoryTest {
+public class StockFormHistoryTest {
     @Inject
     StockHistoryService stockHistoryService;
 
@@ -25,7 +25,7 @@ public class StockHistoryTest {
         try {
             stockHistoryList = stockHistoryService
                     .getStockHistoryByDate(new SimpleDateFormat("yyyy-MM-dd")
-                    .parse("2020-03-05"));
+                    .parse("2020-03-06"));
             System.out.println(stockHistoryList);
 
             for (StockHistory sh:stockHistoryList){

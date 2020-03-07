@@ -86,4 +86,13 @@ public class UserStock {
     public void setIsOwned(int isOwned) {
         this.isOwned = isOwned;
     }
+
+    @Override
+    public String toString() {
+        return "userStockId->"+this.userStockId.toString()
+                +" , stockAveragePrice:"+this.stockAveragePrice
+                +", stockQuantity:"+this.stockQuantity
+                +", this.updatedDate:"+this.updatedDate
+                +", isOwned:"+this.isOwned;
+    }
 }
