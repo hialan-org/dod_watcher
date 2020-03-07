@@ -1,10 +1,10 @@
 package usf.sdlc.form;
 
-public class Stock {
+public class StockForm {
     private Quote quote;
     private Stats stats;
 
-    public Stock() {
+    public StockForm() {
     }
 
     public Quote getQuote() {

@@ -8,7 +8,7 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
-import usf.sdlc.form.Stock;
+import usf.sdlc.form.StockForm;
 import usf.sdlc.service.StockExtractorService;
 
 import javax.inject.Inject;
@@ -41,10 +41,10 @@ public class StockExtractorControllerTest {
         String body = client.toBlocking().retrieve(request);
 //        Publisher<String> body = client.retrieve(request);
         //// converting HTTP response to java object
-        Type type = new TypeToken<HashMap<String, Stock>>(){}.getType();
+        Type type = new TypeToken<HashMap<String, StockForm>>(){}.getType();
         Gson gson = new Gson();
         //System.out.println("BODY : "+ body);
-        HashMap<String, Stock> stockDetails = gson.fromJson(String.valueOf(body), type);
+        HashMap<String, StockForm> stockDetails = gson.fromJson(String.valueOf(body), type);
 
         assertEquals(2, stockDetails.size());
     }
