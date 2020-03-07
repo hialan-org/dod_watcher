@@ -22,8 +22,6 @@ import java.util.*;
 
 @Singleton
 public class StockExtractorService {
-    // List of stock symbols
-    //public final String[] SYMBOLS = {"DOW","XOM","IBM","VZ","CVX","PFE","MMM","WBA","CSCO","KO"};
 
     @Inject
     @Client("/")
@@ -89,11 +87,13 @@ public class StockExtractorService {
     }
 
     private HashMap<String, StockForm> sendGet(String symStr) throws Exception {
+
         String uri = "https://cloud.iexapis.com/v1/stock/market/batch?" +
                 "types=quote,stats" +
                 "&symbols="+symStr+
                 "&filter=latestPrice,dividendYield,latestTime,latestUpdate"+
                 "&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
+
         HttpGet request = new HttpGet(uri);
         String result = "";
         CloseableHttpClient httpClient = HttpClients.createDefault();

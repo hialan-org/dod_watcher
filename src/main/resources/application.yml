@@ -2,12 +2,15 @@ micronaut:
   application:
     name: dod
     max: 50
+  server:
+    cors:
+      enabled: true
 datasources:
-    default:
-      url: jdbc:mysql://usfsdlcdb.czayjykbj4rh.us-west-1.rds.amazonaws.com:3306/dod_db
-      username: usfsdlcDB
-      password: hialan2020
-      driverClassName: "com.mysql.cj.jdbc.Driver"
+  default:
+    url: jdbc:mysql://usfsdlcdb.czayjykbj4rh.us-west-1.rds.amazonaws.com:3306/dod_db
+    username: usfsdlcDB
+    password: hialan2020
+    driverClassName: "com.mysql.cj.jdbc.Driver"
 #datasources:
 #  default:
 #    url: jdbc:postgresql://usfsdlcdbpostgres.czayjykbj4rh.us-west-1.rds.amazonaws.com:5432/dod_db
@@ -15,12 +18,12 @@ datasources:
 #    password: hialan2020
 #    driverClassName: org.postgresql.Driver
 jpa:
-    default:
-      packages-to-scan:
-        - 'usf.sdlc.model'
-      properties:
-        hibernate:
-          hbm2ddl:
-            auto: update
-          show_sql: true
-          format_sql: true
+  default:
+    packages-to-scan:
+      - 'usf.sdlc.model'
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+        format_sql: true

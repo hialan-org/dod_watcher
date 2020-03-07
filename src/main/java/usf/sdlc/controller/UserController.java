@@ -3,8 +3,8 @@ package usf.sdlc.controller;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
-import usf.sdlc.Constant;
-import usf.sdlc.Utils;
+import usf.sdlc.config.Constant;
+import usf.sdlc.utils.Utils;
 import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.Pagination;
 import usf.sdlc.form.UserUpdateForm;
@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @Controller("/users")
 public class UserController {
@@ -33,6 +32,9 @@ public class UserController {
 
     @Get("/{userId}") //TODO: Set authorization
     public HttpResponse show(Long userId) {
+
+        System.out.println("UserController.show is triggered.");
+
         User user = userService
                 .findByUserId(userId);
         if(user == null){
@@ -60,9 +62,9 @@ public class UserController {
 
     @Get(value = "{?email,args*}")
     public HttpResponse list(@Header String Authorization, @Valid Pagination args, @QueryValue @Nullable String email) {
-        if(!utils.authorization(Authorization, new String[]{Constant.ROLE_ADMIN})){
+       /* if(!utils.authorization(Authorization, new String[]{Constant.ROLE_ADMIN})){
             return HttpResponse.unauthorized();
-        };
+        };*/
         return HttpResponse.ok(userService.list(email, args.getPage(), args.getMax()));
     }
 

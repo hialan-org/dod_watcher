@@ -2,13 +2,9 @@ package usf.sdlc.controller;
 
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
-import usf.sdlc.dao.SortingAndOrderArguments;
-import usf.sdlc.dao.StockRepository;
 import usf.sdlc.form.StockCreateForm;
-import usf.sdlc.form.UserCreateForm;
 import usf.sdlc.model.Stock;
 import usf.sdlc.model.StockHistory;
-import usf.sdlc.model.User;
 import usf.sdlc.service.StockHistoryService;
 import usf.sdlc.service.StockService;
 
