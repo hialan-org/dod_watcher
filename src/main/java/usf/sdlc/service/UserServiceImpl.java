@@ -1,6 +1,7 @@
 package usf.sdlc.service;
 
 import io.micronaut.data.model.Pageable;
+import io.micronaut.http.HttpResponse;
 import usf.sdlc.config.Constant;
 import usf.sdlc.utils.Utils;
 import usf.sdlc.dao.UserRepository;
@@ -65,8 +66,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByUserId(long userId) {
-        userRepository.deleteById(userId);
+    public boolean deleteByUserId(long userId) {
+        User user = findByUserId(userId);
+        if(user!=null){
+            user.setActive(Constant.PASSIVE);
+        } else {
+          return false;
+        }
+        update(user);
+     return true;
     }
 
     public User update(User user){

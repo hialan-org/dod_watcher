@@ -53,6 +53,9 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "active")
+    private byte active;
+
     public String getEmail() {
         return email;
     }
@@ -99,6 +102,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public byte getActive() {
+        return active;
+    }
+
+    public void setActive(byte active) {
+        this.active = active;
     }
 
     @Override

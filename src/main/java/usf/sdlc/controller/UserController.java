@@ -81,19 +81,19 @@ public class UserController {
 
     @Delete("/{userId}") //TODO: Set authorization
     public HttpResponse delete(@Header String Authorization,Long userId) {
-
         System.out.println("UserController.delete is triggered.");
-
         if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
             System.out.println("User doesn't have permission to delete user.");
             return HttpResponse.unauthorized();
         };
         try{
-            userService.deleteByUserId(userId);
+            if(userService.deleteByUserId(userId))
+                return HttpResponse.ok();
+            else
+                return HttpResponse.notFound();
         } catch (Exception e){
             return HttpResponse.notFound();
         }
-        return HttpResponse.ok();
     }
 
     @Post("/{userId}/addStock")
