@@ -1,22 +1,12 @@
 package usf.sdlc;
 
-import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpHeaders;
-import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
-import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.test.annotation.MicronautTest;
-import org.junit.jupiter.api.Test;
-import usf.sdlc.form.UserCreateForm;
-import usf.sdlc.form.UserUpdateForm;
-import usf.sdlc.model.User;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
