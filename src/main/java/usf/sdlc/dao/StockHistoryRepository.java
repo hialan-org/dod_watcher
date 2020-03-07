@@ -44,5 +44,24 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
         return query.getResultList();
     }
 
+    @Transactional
+    public Date customFindLatestDate() {
+        TypedQuery<Date> query = entityManager
+                .createQuery("SELECT sh.latestTime FROM StockHistory sh order by sh.latestTime Desc" , Date.class)
+                .setMaxResults(1);;
+        List<Date> s = query.getResultList();
+        return query.getResultList().get(0);
+    }
+
+    @Transactional
+    public List<StockHistory> customFindStocksHistoryOnDate(Date d) {
+        TypedQuery<StockHistory> query = entityManager
+                .createQuery("SELECT sh FROM StockHistory sh WHERE sh.latestTime= :d" , StockHistory.class)
+                .setParameter("d", d);
+//                .createQuery("SELECT sh FROM StockHistory sh WHERE sh.stockId= :stockId order by sh.latestTime Desc" , StockHistory.class)
+//                .setParameter("stockId", stockId)
+        return query.getResultList();
+    }
+
     //StockHistory save(StockHistoryForm shf);
 }

@@ -12,15 +12,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import usf.sdlc.dao.StockHistoryRepository;
-import usf.sdlc.form.Stock;
+import usf.sdlc.form.StockForm;
 import usf.sdlc.model.StockHistory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Singleton
@@ -50,7 +47,7 @@ public class StockExtractorService {
         // building string of all stock symbols
         String symStr = buildStockSymbolsStringForQuery(stocksEntityMap);
         // forming uri to hit IEX endpoint // todo - get token from github secret
-        HashMap<String, Stock> stockDetails = getStockDetailsFromOutside(symStr);
+        HashMap<String, StockForm> stockDetails = getStockDetailsFromOutside(symStr);
         // converting Map to List of StockHistory (model) to put in StockHistory table
         List<StockHistory> stocksHistory = buildEntityListForStockHistory(stockDetails, stocksEntityMap);
         // putting stocksHistory in stock_history table
@@ -80,9 +77,9 @@ public class StockExtractorService {
         return symStr;
     }
   
-    private HashMap<String, Stock> getStockDetailsFromOutside(String symStr) {
+    private HashMap<String, StockForm> getStockDetailsFromOutside(String symStr) {
         // forming uri to hit IEX endpoint // todo - get token from github secret
-        HashMap<String, Stock> s = new HashMap<>();
+        HashMap<String, StockForm> s = new HashMap<>();
         try {
             s = sendGet(symStr);
         } catch (Exception e) {
@@ -91,8 +88,12 @@ public class StockExtractorService {
         return s;
     }
 
-    private HashMap<String, Stock> sendGet(String symStr) throws Exception {
-        String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
+    private HashMap<String, StockForm> sendGet(String symStr) throws Exception {
+        String uri = "https://cloud.iexapis.com/v1/stock/market/batch?" +
+                "types=quote,stats" +
+                "&symbols="+symStr+
+                "&filter=latestPrice,dividendYield,latestTime,latestUpdate"+
+                "&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
         HttpGet request = new HttpGet(uri);
         String result = "";
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -109,19 +110,19 @@ public class StockExtractorService {
             }
         }
         //// converting HTTP response to java object
-        Type type = new TypeToken<HashMap<String, Stock>>(){}.getType();
+        Type type = new TypeToken<HashMap<String, StockForm>>(){}.getType();
         Gson gson = new Gson();
         return gson.fromJson(result, type);
     }
 
     private ArrayList<StockHistory> buildEntityListForStockHistory
-            (HashMap<String, Stock> stockDetails, HashMap<String, usf.sdlc.model.Stock> stocksEntityMap) {
+            (HashMap<String, StockForm> stockDetails, HashMap<String, usf.sdlc.model.Stock> stocksEntityMap) {
         // converting Map to List of StockHistory (model) to put in StockHistory table
         ArrayList<StockHistory> stocksHistory = new ArrayList<>(stockDetails.size());
         for (String stockDetailKey : stockDetails.keySet()) {
             StockHistory s = new StockHistory();
             s.setStockId(stocksEntityMap.get(stockDetailKey).getStockId());
-            s.setLatestTime(getSqlDate(stockDetails.get(stockDetailKey).getQuote().getLatestTime()));
+            s.setLatestTime(getSqlDateFromUnixTime(stockDetails.get(stockDetailKey).getQuote().getLatestUpdate())); // changing here to resolve correct date issue
             s.setLatestPrice(stockDetails.get(stockDetailKey).getQuote().getLatestPrice());
             s.setDividendYield(stockDetails.get(stockDetailKey).getStats().getDividendYield());
             stocksHistory.add(s);
@@ -129,21 +130,29 @@ public class StockExtractorService {
         return stocksHistory;
     }
 
-    private java.sql.Date getSqlDate(String timeStr) {
-        String[] timeStrArr = timeStr.split(" ");
-        if (timeStrArr.length == 3) {
-            timeStrArr[1] = timeStrArr[1].substring(0, timeStrArr[1].length()-1);
-        } else {
-            timeStrArr = new String[]{"January", "1", "2000"};
-        }
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);
-        } catch (ParseException e) {
-            System.out.println("Parse Exception in getTimeStamp func, "+ e.getMessage());
-        }
-        assert date != null;
-        return new java.sql.Date(date.getTime());
+    private java.sql.Date getSqlDateFromUnixTime(String timeStr) {
+        long timestamp = Long.parseLong(timeStr);
+        java.sql.Date date=new java.sql.Date(timestamp);
+        return date;
     }
+
+//    private java.sql.Date getSqlDate(String timeStr) {
+//        String[] timeStrArr = timeStr.split(" ");
+//        if (timeStrArr.length == 3) {
+//            timeStrArr[1] = timeStrArr[1].substring(0, timeStrArr[1].length()-1);
+//        } else {
+//            timeStrArr = new String[]{"January", "1", "2000"};
+//        }
+//        Date date = null;
+//        try {
+//            date = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);
+//        } catch (ParseException e) {
+//            System.out.println("Parse Exception in getTimeStamp func, "+ e.getMessage());
+//        }
+//        assert date != null;
+//        return new java.sql.Date(date.getTime());
+//    }
+
+
 
 }// end of class

@@ -4,6 +4,7 @@ public class Quote {
     private String symbol;
     private float latestPrice;
     private String latestTime;
+    private String latestUpdate;
 
     public Quote() {}
 
@@ -29,5 +30,13 @@ public class Quote {
 
     public void setLatestTime(String latestTime) {
         this.latestTime = latestTime;
+    }
+
+    public String getLatestUpdate() {
+        return latestUpdate;
+    }
+
+    public void setLatestUpdate(String latestUpdate) {
+        this.latestUpdate = latestUpdate;
     }
 }

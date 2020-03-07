@@ -35,4 +35,8 @@ public class UserStockId implements Serializable {
     public void setStockId(long stockId) {
         this.stockId = stockId;
     }
+
+    public String toString() {
+        return "userId:"+ this.userId+ ", stockId:"+ this.stockId;
+    }
 }
