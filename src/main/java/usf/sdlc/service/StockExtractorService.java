@@ -12,15 +12,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import usf.sdlc.dao.StockHistoryRepository;
-import usf.sdlc.form.Stock;
+import usf.sdlc.form.StockForm;
 import usf.sdlc.model.StockHistory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Singleton
@@ -50,7 +47,7 @@ public class StockExtractorService {
         // building string of all stock symbols
         String symStr = buildStockSymbolsStringForQuery(stocksEntityMap);
         // forming uri to hit IEX endpoint // todo - get token from github secret
-        HashMap<String, Stock> stockDetails = getStockDetailsFromOutside(symStr);
+        HashMap<String, StockForm> stockDetails = getStockDetailsFromOutside(symStr);
         // converting Map to List of StockHistory (model) to put in StockHistory table
         List<StockHistory> stocksHistory = buildEntityListForStockHistory(stockDetails, stocksEntityMap);
         // putting stocksHistory in stock_history table
@@ -80,9 +77,9 @@ public class StockExtractorService {
         return symStr;
     }
   
-    private HashMap<String, Stock> getStockDetailsFromOutside(String symStr) {
+    private HashMap<String, StockForm> getStockDetailsFromOutside(String symStr) {
         // forming uri to hit IEX endpoint // todo - get token from github secret
-        HashMap<String, Stock> s = new HashMap<>();
+        HashMap<String, StockForm> s = new HashMap<>();
         try {
             s = sendGet(symStr);
         } catch (Exception e) {
@@ -91,8 +88,12 @@ public class StockExtractorService {
         return s;
     }
 
-    private HashMap<String, Stock> sendGet(String symStr) throws Exception {
-        String uri = "https://cloud.iexapis.com/v1/stock/market/batch?types=quote,stats&symbols="+symStr+"&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
+    private HashMap<String, StockForm> sendGet(String symStr) throws Exception {
+        String uri = "https://cloud.iexapis.com/v1/stock/market/batch?" +
+                "types=quote,stats" +
+                "&symbols="+symStr+
+                "&filter=latestPrice,dividendYield,latestTime,latestUpdate"+
+                "&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
         HttpGet request = new HttpGet(uri);
         String result = "";
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -109,13 +110,13 @@ public class StockExtractorService {
             }
         }
         //// converting HTTP response to java object
-        Type type = new TypeToken<HashMap<String, Stock>>(){}.getType();
+        Type type = new TypeToken<HashMap<String, StockForm>>(){}.getType();
         Gson gson = new Gson();
         return gson.fromJson(result, type);
     }
 
     private ArrayList<StockHistory> buildEntityListForStockHistory
-            (HashMap<String, Stock> stockDetails, HashMap<String, usf.sdlc.model.Stock> stocksEntityMap) {
+            (HashMap<String, StockForm> stockDetails, HashMap<String, usf.sdlc.model.Stock> stocksEntityMap) {
         // converting Map to List of StockHistory (model) to put in StockHistory table
         ArrayList<StockHistory> stocksHistory = new ArrayList<>(stockDetails.size());
         for (String stockDetailKey : stockDetails.keySet()) {

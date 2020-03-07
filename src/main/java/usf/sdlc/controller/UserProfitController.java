@@ -40,4 +40,17 @@ public class UserProfitController {
         resp.setMessage("Success");
         return HttpResponse.created(resp);
     }
+
+    @Get("/user-profit/all") // todo : here
+    public HttpResponse<UserProfitResponse> runProfitSaveServiceForAllUsers(Long userId) {
+        UserProfitResponse resp = new UserProfitResponse();
+        Iterable<UserProfit> rowsToSaveIter = userProfitServiceImpl.saveUserProfit(userId, null);
+        List<UserProfit> rowsToSave = new ArrayList<>();
+        for(UserProfit us : rowsToSaveIter) {
+            rowsToSave.add(us);
+        }
+        resp.setUserProfits(rowsToSave);
+        resp.setMessage("Success");
+        return HttpResponse.created(resp);
+    }
 }
