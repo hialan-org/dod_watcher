@@ -45,7 +45,14 @@ public class UserController {
     }
 
     @Put() //TODO: Set authorization
-    public HttpResponse update(@Body @Valid UserUpdateForm command) {
+    public HttpResponse update(@Header String Authorization,@Body @Valid UserUpdateForm command) {
+
+        System.out.println("UserController.update is triggered.");
+
+        if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
+            System.out.println("User doesn't have permission to update user.");
+            return HttpResponse.unauthorized();
+        };
         User user = userService.findByUserId(command.getUserId());
         if(user!=null){
             user.setEmail(command.getEmail());
@@ -61,25 +68,39 @@ public class UserController {
     }
 
     @Get(value = "{?email,args*}")
-    public HttpResponse list(@Header String Authorization, @Valid Pagination args, @QueryValue @Nullable String email) {
-       /* if(!utils.authorization(Authorization, new String[]{Constant.ROLE_ADMIN})){
+    public HttpResponse list(@Header String Authorization,@Valid Pagination args, @QueryValue @Nullable String email) {
+
+        System.out.println("UserController.list is triggered.");
+
+        if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
+            System.out.println("User doesn't have permission to list users.");
             return HttpResponse.unauthorized();
-        };*/
+        };
         return HttpResponse.ok(userService.list(email, args.getPage(), args.getMax()));
     }
 
     @Delete("/{userId}") //TODO: Set authorization
-    public HttpResponse delete(Long userId) {
+    public HttpResponse delete(@Header String Authorization,Long userId) {
+        System.out.println("UserController.delete is triggered.");
+        if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
+            System.out.println("User doesn't have permission to delete user.");
+            return HttpResponse.unauthorized();
+        };
         try{
-            userService.deleteByUserId(userId);
+            if(userService.deleteByUserId(userId))
+                return HttpResponse.ok();
+            else
+                return HttpResponse.notFound();
         } catch (Exception e){
             return HttpResponse.notFound();
         }
-        return HttpResponse.ok();
     }
 
-    @Post("/{userId}/addStock") //TODO: Set authorization
+    @Post("/{userId}/addStock")
     public HttpResponse addStock(Long userId, @Body @Valid AddStocksForm stocks) {
+
+        System.out.println("UserController.addStock is triggered.");
+
         System.out.println(stocks);
         userStockActivityService.saveAll(userId, stocks);
         return HttpResponse.ok();

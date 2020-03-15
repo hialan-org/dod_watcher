@@ -9,7 +9,7 @@ public interface UserService {
     User loginWithGoogle(String accessToken);
     User findByUserId(long userId);
     List<User> list(String email, int page, int size);
-    void deleteByUserId(long userId);
+    boolean deleteByUserId(long userId);
     User update(User user);
     User findByAccessToken(String accessToken);
     boolean authorizeUser(String authHeader, String[] roles);
