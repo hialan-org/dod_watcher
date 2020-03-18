@@ -7,9 +7,9 @@ micronaut:
       enabled: true
 datasources:
     default:
-      url: ${DB_URL}
-      username: ${DB_USERNAME}
-      password: ${DB_PASSWORD}
+      url: ${db.url}
+      username: ${db.username}
+      password: ${db.password}
       driverClassName: "com.mysql.cj.jdbc.Driver"
 #datasources:
 #  default:
