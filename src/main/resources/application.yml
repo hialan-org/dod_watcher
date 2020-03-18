@@ -11,12 +11,6 @@ datasources:
       username: ${DB_USERNAME}
       password: ${DB_PASSWORD}
       driverClassName: "com.mysql.cj.jdbc.Driver"
-#datasources:
-#  default:
-#    url: jdbc:postgresql://usfsdlcdbpostgres.czayjykbj4rh.us-west-1.rds.amazonaws.com:5432/dod_db
-#    username: usfsdlcDB
-#    password: hialan2020
-#    driverClassName: org.postgresql.Driver
 jpa:
     default:
       packages-to-scan:
