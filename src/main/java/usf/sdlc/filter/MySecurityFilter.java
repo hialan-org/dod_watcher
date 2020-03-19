@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import java.net.URI;
 import java.util.Optional;
 
-@Filter("/**")
+@Filter("/")
 public class MySecurityFilter implements HttpServerFilter {
     @Inject
     UserService userService;
