@@ -21,10 +21,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         env:
-          DB_URL: ${{ secrets.PROD_DB_URL }}
-          DB_USERNAME: ${{ secrets.PROD_DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
+          ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
   deploy:
     needs: [build]
     runs-on: ubuntu-18.04
@@ -42,10 +44,12 @@ jobs:
       - name: Build jar file
         run: ./gradlew shadowJar
         env:
-          DB_URL: ${{ secrets.PROD_DB_URL }}
-          DB_USERNAME: ${{ secrets.PROD_DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
+          ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
       - name: List build folder
         run: ls ./build/libs
       - name: Copy files to S3 with the AWS CLI

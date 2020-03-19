@@ -25,7 +25,9 @@ public class UserServiceImpl implements UserService {
         GoogleResponse googleResponse = utils.validateAccessToken(accessToken);
         User user = null;
         if(googleResponse!=null){
-            if(googleResponse.getAud().equals(Constant.GOOGLE_CLIENT_ID) || googleResponse.getAud().equals(Constant.EXPO_CLIENT_ID)){
+            if(googleResponse.getAud().equals(Constant.GOOGLE_CLIENT_ID)
+                    || googleResponse.getAud().equals(Constant.EXPO_CLIENT_ID)
+                    || googleResponse.getAud().equals(Constant.ANDROID_CLIENT_ID)){
                 Optional<User> queryResult = userRepository.findByEmail(googleResponse.getEmail());
                 if(queryResult.isPresent()){ //Update user access token
                     user = queryResult.get();

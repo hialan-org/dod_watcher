@@ -24,6 +24,8 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
+          ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
   
   deploy:
     needs: [build]
@@ -44,6 +46,8 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
+          ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
       - name: List build folder
         run: ls ./build/libs
       - name: Copy files to S3 with the AWS CLI
