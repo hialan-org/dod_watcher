@@ -25,7 +25,7 @@ public class StockFormHistoryTest {
         try {
             stockHistoryList = stockHistoryService
                     .getStockHistoryByDate(new SimpleDateFormat("yyyy-MM-dd")
-                    .parse("2020-03-06"));
+                    .parse("2020-03-05"));
             System.out.println(stockHistoryList);
 
             for (StockHistory sh:stockHistoryList){
