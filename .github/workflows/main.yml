@@ -53,7 +53,7 @@ jobs:
       - name: List build folder
         run: ls ./build/libs
       - name: Copy files to S3 with the AWS CLI
-        run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-dod-s3
+        run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-lambda-prod
       - name: Create/Update cloud formation
         run: aws cloudformation deploy --template-file output-sam.yaml --stack-name SdlcDod --capabilities CAPABILITY_IAM
       - name: Show CloudFormation information
