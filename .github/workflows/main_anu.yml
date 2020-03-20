@@ -24,6 +24,8 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
+          ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
   
   deploy:
     needs: [build]
@@ -36,7 +38,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-1
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: Build jar file
         run: ./gradlew shadowJar
         env:
@@ -44,10 +46,12 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
+          ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
       - name: List build folder
         run: ls ./build/libs
       - name: Copy files to S3 with the AWS CLI
-        run: aws cloudformation package --template-file sam_dev.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-dev
+        run: aws cloudformation package --template-file sam_dev.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-lambda-dev
       - name: Create/Update cloud formation
         run: aws cloudformation deploy --template-file output-sam.yaml --stack-name sdlcDev --capabilities CAPABILITY_IAM
       - name: Show CloudFormation information
