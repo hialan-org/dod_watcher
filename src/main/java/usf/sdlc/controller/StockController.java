@@ -3,6 +3,7 @@ package usf.sdlc.controller;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import usf.sdlc.form.StockCreateForm;
+import usf.sdlc.form.StockHistoryForm;
 import usf.sdlc.model.Stock;
 import usf.sdlc.model.StockHistory;
 import usf.sdlc.service.StockHistoryService;
@@ -44,16 +45,16 @@ public class StockController {
 
 //    @Get("/dogOfTheDow/{dateStr}")
     @Get("/dogOfTheDow") //TODO: Set authorization
-    public List<StockHistory> getDogOfTheDow(@QueryValue String dateStr, @Header String Authorization) {
+    public List<StockHistoryForm> getDogOfTheDow(@QueryValue String dateStr, @Header String Authorization) {
         System.out.println(Authorization);
         System.out.println(dateStr);
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+            date = new SimpleDateFormat("MM-dd-yyyy").parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        List<StockHistory> stockHistoryList = new ArrayList<>();
+        List<StockHistoryForm> stockHistoryList = new ArrayList<>();
         stockHistoryList = stockHistoryService.getStockHistoryByDate(date);
 
         return stockHistoryList;

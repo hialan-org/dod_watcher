@@ -1,6 +1,8 @@
 package usf.sdlc.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -12,14 +14,17 @@ public class Stock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "stockId", nullable = false, unique = true)
+    @Column(name = "stock_id", nullable = false, unique = true)
     private long stockId;
 
     @Column(name = "symbol", nullable = false, unique = true)
     private String symbol;
 
-    @Column(name = "companyName", nullable = false, unique = true)
+    @Column(name = "company_name", nullable = false, unique = true)
     private String companyName;
+
+    @OneToMany
+    private List<StockHistory> stockHistoryList = new ArrayList<>();
 
     public long getStockId() {
         return stockId;

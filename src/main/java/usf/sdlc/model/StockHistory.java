@@ -16,17 +16,21 @@ public class StockHistory {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-    @Column(name = "stockId", nullable = false, unique = false)
+    @Column(name = "stock_id", nullable = false, unique = false)
     private long stockId;
 
-    @Column(name = "latestPrice", nullable = false, unique = false)
+    @Column(name = "latest_price", nullable = false, unique = false)
     private float latestPrice;
 
-    @Column(name = "dividendYield", nullable = false, unique = false)
+    @Column(name = "dividend_yield", nullable = false, unique = false)
     private float dividendYield;
 
-    @Column(name = "latestTime", nullable = false, unique = false)
+    @Column(name = "latest_time", nullable = false, unique = false)
     private Date latestTime;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "stock_id", insertable = false, updatable = false)
+    private Stock stock;
 
     public long getId() {
         return id;
@@ -66,6 +70,14 @@ public class StockHistory {
 
     public void setLatestTime(Date latestTime) {
         this.latestTime = latestTime;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 
     @Override
