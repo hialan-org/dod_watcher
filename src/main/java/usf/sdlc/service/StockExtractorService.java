@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import usf.sdlc.config.Constant;
 import usf.sdlc.dao.StockHistoryRepository;
 import usf.sdlc.form.StockForm;
 import usf.sdlc.model.StockHistory;
@@ -93,7 +94,7 @@ public class StockExtractorService {
                 "types=quote,stats" +
                 "&symbols="+symStr+
                 "&filter=latestPrice,dividendYield,latestTime,latestUpdate"+
-                "&token=pk_76512460ba7a434eb1aff6f1e40f0f1a";
+                "&token=" + Constant.IEX_TOKEN;
         HttpGet request = new HttpGet(uri);
         String result = "";
         CloseableHttpClient httpClient = HttpClients.createDefault();
