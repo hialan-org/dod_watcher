@@ -70,7 +70,7 @@ public class UserProfitServiceImpl implements UserProfitService {
         List<StockHistory> ss = stockHistoryRepository.customFindStocksHistoryOnDate(d);
         Map<Long, StockHistory> m = new HashMap<>();
         for(StockHistory s : ss) {
-            m.put(s.getStockId(), s);
+            m.put(s.getStock().getStockId(), s);
         }
         return m;
     }

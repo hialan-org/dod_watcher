@@ -10,4 +10,6 @@ public class Constant {
     public static final byte PASSIVE=0;
     public static final byte ACTIVE=1;
 
+    public static final String IEX_TOKEN = "pk_95dcc4cc2ceb446da4eabc164d65bc66";
+
 }
