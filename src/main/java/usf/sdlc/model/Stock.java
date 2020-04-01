@@ -3,6 +3,7 @@ package usf.sdlc.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -23,8 +24,8 @@ public class Stock {
     @Column(name = "company_name", nullable = false, unique = true)
     private String companyName;
 
-    @OneToMany
-    private List<StockHistory> stockHistoryList = new ArrayList<>();
+    @OneToMany(mappedBy = "stock")
+    private Set<StockHistory> stockHistoryList;
 
     public long getStockId() {
         return stockId;

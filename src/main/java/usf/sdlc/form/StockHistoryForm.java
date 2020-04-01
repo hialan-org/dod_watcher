@@ -23,7 +23,7 @@ public class StockHistoryForm {
     }
 
     public StockHistoryForm(StockHistory stockHistory) {
-        this.stockId = stockHistory.getStockId();
+        this.stockId = stockHistory.getStock().getStockId();
         this.symbol = stockHistory.getStock().getSymbol();
         this.companyName = stockHistory.getStock().getCompanyName();
         this.latestPrice = stockHistory.getLatestPrice();

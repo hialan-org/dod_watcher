@@ -31,8 +31,8 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
     public List<StockHistory> customFindTopYieldByLatestTime(Date date, int numOfResult) {
         System.out.println("Timestamp: " + date);
         TypedQuery<StockHistory> query = entityManager
-                .createQuery("SELECT sh FROM StockHistory sh INNER JOIN Stock s ON sh.stockId = s.stockId " +
-                        "WHERE sh.latestTime = :date AND sh.stockId<>(SELECT s.stockId FROM Stock s WHERE s.symbol='SPY')" +
+                .createQuery("SELECT sh FROM StockHistory sh " +
+                        "WHERE sh.latestTime = :date AND sh.stock.stockId<>(SELECT s.stockId FROM Stock s WHERE s.symbol='SPY')" +
                         "order by sh.dividendYield DESC", StockHistory.class)
                 .setParameter("date", date)
                 .setMaxResults(numOfResult);

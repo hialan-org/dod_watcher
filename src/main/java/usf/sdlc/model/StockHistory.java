@@ -16,8 +16,8 @@ public class StockHistory {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-    @Column(name = "stock_id", nullable = false, unique = false)
-    private long stockId;
+//    @Column(name = "stock_id", nullable = false, unique = false)
+//    private long stockId;
 
     @Column(name = "latest_price", nullable = false, unique = false)
     private float latestPrice;
@@ -28,8 +28,8 @@ public class StockHistory {
     @Column(name = "latest_time", nullable = false, unique = false)
     private Date latestTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "stock_id", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
     private Stock stock;
 
     public long getId() {
@@ -40,13 +40,13 @@ public class StockHistory {
         this.id = id;
     }
 
-    public long getStockId() {
-        return stockId;
-    }
-
-    public void setStockId(long stockId) {
-        this.stockId = stockId;
-    }
+//    public long getStockId() {
+//        return stockId;
+//    }
+//
+//    public void setStockId(long stockId) {
+//        this.stockId = stockId;
+//    }
 
     public float getLatestPrice() {
         return latestPrice;
@@ -84,7 +84,7 @@ public class StockHistory {
     public String toString() {
         return "StockHistory{" +
                 "id=" + id +
-                ", stockId=" + stockId +
+//                ", stockId=" + stockId +
                 ", latestPrice=" + latestPrice +
                 ", dividendYield=" + dividendYield +
                 ", latestTime=" + latestTime +

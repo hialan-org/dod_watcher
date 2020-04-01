@@ -49,6 +49,7 @@ public class StockExtractorService {
         String symStr = buildStockSymbolsStringForQuery(stocksEntityMap);
         // forming uri to hit IEX endpoint // todo - get token from github secret
         HashMap<String, StockForm> stockDetails = getStockDetailsFromOutside(symStr);
+        System.out.println("STOCK LIST SIZE: " + stockDetails.size());
         // converting Map to List of StockHistory (model) to put in StockHistory table
         List<StockHistory> stocksHistory = buildEntityListForStockHistory(stockDetails, stocksEntityMap);
         // putting stocksHistory in stock_history table
@@ -122,10 +123,12 @@ public class StockExtractorService {
         ArrayList<StockHistory> stocksHistory = new ArrayList<>(stockDetails.size());
         for (String stockDetailKey : stockDetails.keySet()) {
             StockHistory s = new StockHistory();
-            s.setStockId(stocksEntityMap.get(stockDetailKey).getStockId());
+            System.out.println("Stock ID:"+stocksEntityMap.get(stockDetailKey).getStockId());
+            s.setStock(stocksEntityMap.get(stockDetailKey));
             s.setLatestTime(getSqlDateFromUnixTime(stockDetails.get(stockDetailKey).getQuote().getLatestUpdate())); // changing here to resolve correct date issue
             s.setLatestPrice(stockDetails.get(stockDetailKey).getQuote().getLatestPrice());
             s.setDividendYield(stockDetails.get(stockDetailKey).getStats().getDividendYield());
+            System.out.println(s.toString());
             stocksHistory.add(s);
         }
         return stocksHistory;
