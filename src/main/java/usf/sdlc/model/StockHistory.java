@@ -2,7 +2,6 @@ package usf.sdlc.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name="stock_history")
@@ -28,7 +27,8 @@ public class StockHistory {
     @Column(name = "latest_time", nullable = false, unique = false)
     private Date latestTime;
 
-    @ManyToOne
+
+    @OneToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "stock_id")
     private Stock stock;
 
@@ -39,14 +39,6 @@ public class StockHistory {
     public void setId(long id) {
         this.id = id;
     }
-
-//    public long getStockId() {
-//        return stockId;
-//    }
-//
-//    public void setStockId(long stockId) {
-//        this.stockId = stockId;
-//    }
 
     public float getLatestPrice() {
         return latestPrice;
@@ -84,7 +76,7 @@ public class StockHistory {
     public String toString() {
         return "StockHistory{" +
                 "id=" + id +
-//                ", stockId=" + stockId +
+                ", stockId=" + this.getStock().getStockId() +
                 ", latestPrice=" + latestPrice +
                 ", dividendYield=" + dividendYield +
                 ", latestTime=" + latestTime +

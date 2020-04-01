@@ -24,9 +24,6 @@ public class Stock {
     @Column(name = "company_name", nullable = false, unique = true)
     private String companyName;
 
-    @OneToMany(mappedBy = "stock")
-    private Set<StockHistory> stockHistoryList;
-
     public long getStockId() {
         return stockId;
     }

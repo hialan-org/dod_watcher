@@ -123,7 +123,9 @@ public class StockExtractorService {
         ArrayList<StockHistory> stocksHistory = new ArrayList<>(stockDetails.size());
         for (String stockDetailKey : stockDetails.keySet()) {
             StockHistory s = new StockHistory();
+
             System.out.println("Stock ID:"+stocksEntityMap.get(stockDetailKey).getStockId());
+
             s.setStock(stocksEntityMap.get(stockDetailKey));
             s.setLatestTime(getSqlDateFromUnixTime(stockDetails.get(stockDetailKey).getQuote().getLatestUpdate())); // changing here to resolve correct date issue
             s.setLatestPrice(stockDetails.get(stockDetailKey).getQuote().getLatestPrice());
