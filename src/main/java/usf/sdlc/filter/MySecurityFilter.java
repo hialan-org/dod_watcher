@@ -52,6 +52,14 @@ public class MySecurityFilter implements HttpServerFilter {
                 System.out.println("No need to check Authorization. By passing it!");
                 return true;
             }
+            if(uri.toString().endsWith("run-extractor")){
+                System.out.println("No need to check Authorization. By passing it!");
+                return true;
+            }
+//            if(uri.toString().endsWith("loginWithGoogle")){
+//                System.out.println("No need to check Authorization. By passing it!");
+//                return true;
+//            }
             System.out.println("Security Engaged!");
             Optional<String> authorization =request.getHeaders().getAuthorization();
             if(authorization.isPresent()){

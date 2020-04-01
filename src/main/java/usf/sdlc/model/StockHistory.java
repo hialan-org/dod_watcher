@@ -2,7 +2,6 @@ package usf.sdlc.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name="stock_history")
@@ -16,17 +15,22 @@ public class StockHistory {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-    @Column(name = "stockId", nullable = false, unique = false)
-    private long stockId;
+//    @Column(name = "stock_id", nullable = false, unique = false)
+//    private long stockId;
 
-    @Column(name = "latestPrice", nullable = false, unique = false)
+    @Column(name = "latest_price", nullable = false, unique = false)
     private float latestPrice;
 
-    @Column(name = "dividendYield", nullable = false, unique = false)
+    @Column(name = "dividend_yield", nullable = false, unique = false)
     private float dividendYield;
 
-    @Column(name = "latestTime", nullable = false, unique = false)
+    @Column(name = "latest_time", nullable = false, unique = false)
     private Date latestTime;
+
+
+    @OneToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
 
     public long getId() {
         return id;
@@ -34,14 +38,6 @@ public class StockHistory {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getStockId() {
-        return stockId;
-    }
-
-    public void setStockId(long stockId) {
-        this.stockId = stockId;
     }
 
     public float getLatestPrice() {
@@ -68,11 +64,19 @@ public class StockHistory {
         this.latestTime = latestTime;
     }
 
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
         return "StockHistory{" +
                 "id=" + id +
-                ", stockId=" + stockId +
+                ", stockId=" + this.getStock().getStockId() +
                 ", latestPrice=" + latestPrice +
                 ", dividendYield=" + dividendYield +
                 ", latestTime=" + latestTime +
