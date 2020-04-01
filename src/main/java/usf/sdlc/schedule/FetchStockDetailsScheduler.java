@@ -13,7 +13,7 @@ public class FetchStockDetailsScheduler {
     private static final Logger LOG = LoggerFactory.getLogger(FetchStockDetailsScheduler.class);
 
     //@Scheduled(cron = "0 30 4 1/1 * ?") //Every night 04:30AM.....
-    @Scheduled(fixedDelay = "10s")
+//    @Scheduled(fixedDelay = "10s")
     void executeEveryTen() {
         System.out.println("Alper.Scheduled.Job.10....");
         LOG.info("Simple Job every 10 seconds: {}", new SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(new Date()));
