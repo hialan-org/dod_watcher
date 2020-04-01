@@ -6,18 +6,18 @@ micronaut:
     cors:
       enabled: true
 datasources:
-    default:
-      url: "jdbc:mysql://doddev.cpezfbtz6fl6.us-east-1.rds.amazonaws.com:3306/dod_db"
-      username: "usfsdlcDB"
-      password: "hialan2020"
-      driverClassName: "com.mysql.cj.jdbc.Driver"
+  default:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: "com.mysql.cj.jdbc.Driver"
 jpa:
-    default:
-      packages-to-scan:
-        - 'usf.sdlc.model'
-      properties:
-        hibernate:
-          hbm2ddl:
-            auto: update
-          show_sql: false
-          format_sql: true
+  default:
+    packages-to-scan:
+      - 'usf.sdlc.model'
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+        format_sql: true
