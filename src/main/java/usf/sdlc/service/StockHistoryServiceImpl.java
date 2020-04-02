@@ -16,11 +16,11 @@ public class StockHistoryServiceImpl implements StockHistoryService {
     StockHistoryRepository stockHistoryRepository;
 
     @Override
-    public List<StockHistoryForm> getStockHistoryByDate(Date date) {
+    public List<StockHistoryForm> getTopYieldStockByDate(Date date, int numOfResult) {
         Timestamp timestamp = new Timestamp(date.getTime());
         System.out.println(date + " : " + timestamp);
         List<StockHistoryForm> result = new ArrayList<>();
-        List<StockHistory> stockHistories = stockHistoryRepository.customFindTopYieldByLatestTime(timestamp, 10);
+        List<StockHistory> stockHistories = stockHistoryRepository.customFindTopYieldByLatestTime(timestamp, numOfResult);
         for(int i=0;i<stockHistories.size();i++){
 //            System.out.println(stockHistories.get(i).getStock().getSymbol());
             result.add(new StockHistoryForm(stockHistories.get(i)));

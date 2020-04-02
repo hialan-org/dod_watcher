@@ -7,5 +7,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface StockHistoryService {
-    List<StockHistoryForm> getStockHistoryByDate(Date date);
+    List<StockHistoryForm> getTopYieldStockByDate(Date date, int numOfResult);
 }
