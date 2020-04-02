@@ -25,17 +25,13 @@ public class StockFormHistoryTest {
         List<StockHistoryForm> stockHistoryList = new ArrayList<>();
         try {
             stockHistoryList = stockHistoryService
-                    .getStockHistoryByDate(new SimpleDateFormat("yyyy-MM-dd")
-                    .parse("2020-03-06"));
+                    .getTopYieldStockByDate(new SimpleDateFormat("yyyy-MM-dd")
+                    .parse("2020-04-01"), 10);
             System.out.println(stockHistoryList);
-
-            for (StockHistoryForm sh:stockHistoryList){
-                System.out.println(sh);
-            }
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        assertEquals(10, stockHistoryList.size());
+        assertEquals(10, stockHistoryList.size());
     }
 }
