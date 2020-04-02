@@ -19,5 +19,5 @@ jpa:
       hibernate:
         hbm2ddl:
           auto: update
-        show_sql: ${HIBERNATE.SHOW_SQL}
+        show_sql: ${HIBERNATE_SHOW_SQL}
         format_sql: true
