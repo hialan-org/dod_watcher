@@ -49,7 +49,7 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
           ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
-            HIBERNATE_SHOW_SQL: ${{ secrets.HIBERNATE_SHOW_SQL }}
+          HIBERNATE_SHOW_SQL: ${{ secrets.HIBERNATE_SHOW_SQL }}
       - name: List build folder
         run: ls ./build/libs
       - name: Copy files to S3 with the AWS CLI
