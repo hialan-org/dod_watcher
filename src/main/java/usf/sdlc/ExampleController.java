@@ -9,8 +9,8 @@ import io.micronaut.http.annotation.*;
 public class ExampleController {
     private static final Logger LOG = LoggerFactory.getLogger(ExampleController.class);
 
-    @Get("/ping")
+    @Get()
     public String index() {
-        return "{\"pong\":true, \"graal\": true}";
+        return "DoD API";
     }
 }
