@@ -124,11 +124,10 @@ public class StockExtractorService {
         for (String stockDetailKey : stockDetails.keySet()) {
             StockHistory s = new StockHistory();
 
-            s.setStock(stocksEntityMap.get(stockDetailKey));
+            s.setStockId(stocksEntityMap.get(stockDetailKey).getStockId());
             s.setLatestTime(getSqlDateFromUnixTime(stockDetails.get(stockDetailKey).getQuote().getLatestUpdate())); // changing here to resolve correct date issue
             s.setLatestPrice(stockDetails.get(stockDetailKey).getQuote().getLatestPrice());
             s.setDividendYield(stockDetails.get(stockDetailKey).getStats().getDividendYield());
-            System.out.println(s.toString());
             stocksHistory.add(s);
         }
         return stocksHistory;

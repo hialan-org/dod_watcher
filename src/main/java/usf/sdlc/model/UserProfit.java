@@ -33,7 +33,6 @@ public class UserProfit {
     @Column(name = "snp500_profit", nullable = false)
     private double snp500Profit;
 
-
     public UserProfit() {
     }
 

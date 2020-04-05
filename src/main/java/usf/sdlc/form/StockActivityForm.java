@@ -64,4 +64,14 @@ public class StockActivityForm {
     public void setBuy(boolean buy) {
         isBuy = buy;
     }
+
+    @Override
+    public String toString() {
+        return "StockActivityForm{" +
+                "stockId=" + stockId +
+                ", stockQuantity=" + stockQuantity +
+                ", stockPrice=" + stockPrice +
+                ", isBuy=" + isBuy +
+                '}';
+    }
 }
