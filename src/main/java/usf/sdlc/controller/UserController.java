@@ -4,6 +4,8 @@ import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import usf.sdlc.config.Constant;
+import usf.sdlc.form.OwnedStockForm;
+import usf.sdlc.service.UserStockService;
 import usf.sdlc.utils.Utils;
 import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.Pagination;
@@ -16,6 +18,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @Controller("/users")
 public class UserController {
@@ -24,6 +27,8 @@ public class UserController {
     UserService userService;
     @Inject
     UserStockActivityService userStockActivityService;
+    @Inject
+    UserStockService userStockService;
     @Inject
     Utils utils;
 
@@ -107,6 +112,20 @@ public class UserController {
 
         System.out.println("UserController.addStock is finished.");
         return HttpResponse.ok();
+    }
+
+    @Get("/stocks")
+    public List<OwnedStockForm> findOwnedStocks(@Header String Authorization){
+        long startTime = System.currentTimeMillis();
+        System.out.println("UserController.findOwnedStocks: triggered.");
+        String accessToken = Authorization.split(" ")[1];
+        User user = userService.findByAccessToken(accessToken);
+        List<OwnedStockForm> result = userStockService.findOwnedStock(user.getUserId());
+
+        long endTime = System.currentTimeMillis();
+        System.out.printf("UserController.findOwnedStocks: finished in %dms\n", endTime-startTime);
+
+        return result;
     }
 
     protected URI location(Long userId) {

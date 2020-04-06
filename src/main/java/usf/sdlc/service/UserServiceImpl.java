@@ -91,9 +91,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean authorizeUser(String authHeader, String[] roles) {
-        System.out.println("Checking the authorization....");
         String accessToken = authHeader.split(" ")[1];
-        System.out.println(accessToken);
         User user = this.findByAccessToken(accessToken);
         if(user == null){
             return false;

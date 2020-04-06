@@ -60,10 +60,10 @@ public class MySecurityFilter implements HttpServerFilter {
 //                System.out.println("No need to check Authorization. By passing it!");
 //                return true;
 //            }
-            System.out.println("Security Engaged!");
+//            System.out.println("Security Engaged!");
             Optional<String> authorization =request.getHeaders().getAuthorization();
             if(authorization.isPresent()){
-                System.out.println("authorization PRESENT:" + authorization.get());
+//                System.out.println("authorization PRESENT:" + authorization.get());
                 if(!userService.authorizeUser(authorization.get(), roles)){
                     System.out.println("Authorization is FAILED!");
                     return false;
