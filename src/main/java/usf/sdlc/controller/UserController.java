@@ -96,13 +96,16 @@ public class UserController {
         }
     }
 
-    @Post("/{userId}/addStock")
-    public HttpResponse addStock(Long userId, @Body @Valid AddStocksForm stocks) {
+    @Post("/addStock")
+    public HttpResponse addStock(@Header String Authorization, @Body @Valid AddStocksForm stocks) {
 
         System.out.println("UserController.addStock is triggered.");
+        String accessToken = Authorization.split(" ")[1];
+        User user = userService.findByAccessToken(accessToken);
+        System.out.println(stocks.toString());
+        userStockActivityService.saveAll(user.getUserId(), stocks);
 
-        System.out.println(stocks);
-        userStockActivityService.saveAll(userId, stocks);
+        System.out.println("UserController.addStock is finished.");
         return HttpResponse.ok();
     }
 

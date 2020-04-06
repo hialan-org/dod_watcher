@@ -31,7 +31,7 @@ public class UserProfitTest {
 
     @Test
     void saveUserProfitWithDateTest() {
-        Iterable<UserProfit> done = userProfitServiceImpl.saveUserProfit((long) 1, Date.valueOf("2020-03-06"));
+        Iterable<UserProfit> done = userProfitServiceImpl.saveUserProfit((long) 1, Date.valueOf("2020-04-03"));
         assertTrue(done.iterator().hasNext());
     }
 

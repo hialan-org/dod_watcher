@@ -15,8 +15,8 @@ public class StockHistory {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-//    @Column(name = "stock_id", nullable = false, unique = false)
-//    private long stockId;
+    @Column(name = "stock_id", nullable = false, unique = false)
+    private long stockId;
 
     @Column(name = "latest_price", nullable = false, unique = false)
     private float latestPrice;
@@ -29,7 +29,7 @@ public class StockHistory {
 
 
     @OneToOne(cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "stock_id")
+    @JoinColumn(name = "stock_id", insertable = false, updatable = false)
     private Stock stock;
 
     public long getId() {
@@ -72,11 +72,19 @@ public class StockHistory {
         this.stock = stock;
     }
 
+    public long getStockId() {
+        return stockId;
+    }
+
+    public void setStockId(long stockId) {
+        this.stockId = stockId;
+    }
+
     @Override
     public String toString() {
         return "StockHistory{" +
                 "id=" + id +
-                ", stockId=" + this.getStock().getStockId() +
+                ", stockId=" + stockId +
                 ", latestPrice=" + latestPrice +
                 ", dividendYield=" + dividendYield +
                 ", latestTime=" + latestTime +

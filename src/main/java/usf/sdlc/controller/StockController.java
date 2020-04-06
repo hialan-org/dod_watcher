@@ -46,7 +46,9 @@ public class StockController {
 //    @Get("/dogOfTheDow/{dateStr}")
     @Get("/getTopYield") //TODO: Set authorization
     public List<StockHistoryForm> getTopYield(@QueryValue("date") String dateStr, @QueryValue int range, @Header String Authorization) {
-        System.out.printf("CALLED: /stocks/getTopYield?date=%s&range=%d\n", dateStr, range);
+
+        System.out.println("StockController.getTopYield: triggered.");
+        System.out.printf("StockController.getTopYield: /stocks/getTopYield?date=%s&range=%d\n", dateStr, range);
         Date date = null;
         try {
             date = new SimpleDateFormat("MM-dd-yyyy").parse(dateStr);
@@ -55,6 +57,7 @@ public class StockController {
         }
         List<StockHistoryForm> stockHistoryList = new ArrayList<>();
         stockHistoryList = stockHistoryService.getTopYieldStockByDate(date, range);
+        System.out.println("StockController.getTopYield: finished.");
 
         return stockHistoryList;
     }
