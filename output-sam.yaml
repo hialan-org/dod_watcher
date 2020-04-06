@@ -10,10 +10,10 @@ Resources:
     Properties:
       Handler: usf.sdlc.StreamLambdaHandler::handleRequest
       Runtime: java8
-      CodeUri: s3://sdlc-dod-s3/ab90515659724c09238d9ddb7d1c94d3
+      CodeUri: s3://sdlc-lambda-dev/9113d030edd1ab46d00c0c155a41382c
       MemorySize: 512
       Policies: AWSLambdaBasicExecutionRole
-      Timeout: 15
+      Timeout: 29
       Events:
         GetResource:
           Type: Api
@@ -22,9 +22,9 @@ Resources:
             Method: any
 
 Outputs:
-  MyServiceApi:
+  DevApi:
     Description: URL for application
     Value:
       Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping
     Export:
-      Name: MyServiceApi
+      Name: DevApi

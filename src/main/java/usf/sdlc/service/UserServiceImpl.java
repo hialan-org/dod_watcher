@@ -1,6 +1,7 @@
 package usf.sdlc.service;
 
 import io.micronaut.data.model.Pageable;
+import io.micronaut.http.HttpResponse;
 import usf.sdlc.config.Constant;
 import usf.sdlc.utils.Utils;
 import usf.sdlc.dao.UserRepository;
@@ -24,7 +25,9 @@ public class UserServiceImpl implements UserService {
         GoogleResponse googleResponse = utils.validateAccessToken(accessToken);
         User user = null;
         if(googleResponse!=null){
-            if(googleResponse.getAud().equals(Constant.GOOGLE_CLIENT_ID)){
+            if(googleResponse.getAud().equals(Constant.GOOGLE_CLIENT_ID)
+                    || googleResponse.getAud().equals(Constant.EXPO_CLIENT_ID)
+                    || googleResponse.getAud().equals(Constant.ANDROID_CLIENT_ID)){
                 Optional<User> queryResult = userRepository.findByEmail(googleResponse.getEmail());
                 if(queryResult.isPresent()){ //Update user access token
                     user = queryResult.get();
@@ -65,8 +68,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByUserId(long userId) {
-        userRepository.deleteById(userId);
+    public boolean deleteByUserId(long userId) {
+        User user = findByUserId(userId);
+        if(user!=null){
+            user.setActive(Constant.PASSIVE);
+        } else {
+          return false;
+        }
+        update(user);
+     return true;
     }
 
     public User update(User user){

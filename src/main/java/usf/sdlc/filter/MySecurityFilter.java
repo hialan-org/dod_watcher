@@ -14,10 +14,11 @@ import org.reactivestreams.Publisher;
 import usf.sdlc.config.Constant;
 import usf.sdlc.service.UserService;
 import javax.inject.Inject;
+import javax.security.auth.login.Configuration;
 import java.net.URI;
 import java.util.Optional;
 
-@Filter("/")
+@Filter("/**")
 public class MySecurityFilter implements HttpServerFilter {
     @Inject
     UserService userService;
@@ -26,7 +27,7 @@ public class MySecurityFilter implements HttpServerFilter {
     public Publisher<MutableHttpResponse<?>> doFilter(HttpRequest<?> request, ServerFilterChain chain) {
         URI uri = request.getUri();
         System.out.println("MySecurityFilter.Filter is called for uri: "+uri);
-        Publisher<MutableHttpResponse<?>> resp = checkAuthorization(request)
+        Publisher<MutableHttpResponse<?>> resp = checkAuthorization(request,new String[]{Constant.ROLE_ADMIN, Constant.ROLE_USER})
                 .switchMap((authResult) -> { // authResult - is you result from SecurityService
                     if (!authResult) {
                         return Publishers.just(HttpResponse.unauthorized()); // reject request
@@ -43,7 +44,7 @@ public class MySecurityFilter implements HttpServerFilter {
     }
 
 
-    Flowable<Boolean> checkAuthorization(HttpRequest<?> request)
+    Flowable<Boolean> checkAuthorization(HttpRequest<?> request,String[] roles)
     {
         Flowable<Boolean> flow = Flowable.fromCallable(()->{
             URI uri = request.getUri();
@@ -51,11 +52,19 @@ public class MySecurityFilter implements HttpServerFilter {
                 System.out.println("No need to check Authorization. By passing it!");
                 return true;
             }
+            if(uri.toString().endsWith("run-extractor")){
+                System.out.println("No need to check Authorization. By passing it!");
+                return true;
+            }
+//            if(uri.toString().endsWith("loginWithGoogle")){
+//                System.out.println("No need to check Authorization. By passing it!");
+//                return true;
+//            }
             System.out.println("Security Engaged!");
             Optional<String> authorization =request.getHeaders().getAuthorization();
             if(authorization.isPresent()){
                 System.out.println("authorization PRESENT:" + authorization.get());
-                if(!userService.authorizeUser(authorization.get(), new String[]{Constant.ROLE_ADMIN})){
+                if(!userService.authorizeUser(authorization.get(), roles)){
                     System.out.println("Authorization is FAILED!");
                     return false;
                 }else{

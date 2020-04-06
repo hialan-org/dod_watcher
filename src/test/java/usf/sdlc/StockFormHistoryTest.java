@@ -2,6 +2,7 @@ package usf.sdlc;
 
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
+import usf.sdlc.form.StockHistoryForm;
 import usf.sdlc.model.StockHistory;
 import usf.sdlc.service.StockHistoryService;
 
@@ -21,16 +22,12 @@ public class StockFormHistoryTest {
     @Test
     void testGetStockHistoryListFromDate() {
         System.out.println("Starting testFetchAllFromStockTable");
-        List<StockHistory> stockHistoryList = new ArrayList<>();
+        List<StockHistoryForm> stockHistoryList = new ArrayList<>();
         try {
             stockHistoryList = stockHistoryService
-                    .getStockHistoryByDate(new SimpleDateFormat("yyyy-MM-dd")
-                    .parse("2020-03-06"));
+                    .getTopYieldStockByDate(new SimpleDateFormat("yyyy-MM-dd")
+                    .parse("2020-04-01"), 10);
             System.out.println(stockHistoryList);
-
-            for (StockHistory sh:stockHistoryList){
-                System.out.println(sh);
-            }
 
         } catch (ParseException e) {
             e.printStackTrace();
