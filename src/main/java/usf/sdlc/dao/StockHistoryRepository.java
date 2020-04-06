@@ -58,5 +58,13 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
         return query.getResultList();
     }
 
+    @Transactional
+    public StockHistory findLatestByStockId(long stockId) {
+        TypedQuery<StockHistory> query = entityManager
+                .createQuery("SELECT sh FROM StockHistory  sh WHERE sh.stockId=:stockId ORDER BY sh.id DESC", StockHistory.class)
+                .setParameter("stockId", stockId).setMaxResults(1);
+        return query.getSingleResult();
+    }
+
     //StockHistory save(StockHistoryForm shf);
 }
