@@ -4,12 +4,9 @@ import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import usf.sdlc.config.Constant;
-import usf.sdlc.form.OwnedStockForm;
+import usf.sdlc.form.*;
 import usf.sdlc.service.UserStockService;
 import usf.sdlc.utils.Utils;
-import usf.sdlc.form.AddStocksForm;
-import usf.sdlc.form.Pagination;
-import usf.sdlc.form.UserUpdateForm;
 import usf.sdlc.model.User;
 import usf.sdlc.service.UserService;
 import usf.sdlc.service.UserStockActivityService;
@@ -102,7 +99,7 @@ public class UserController {
     }
 
     @Post("/addStock")
-    public HttpResponse addStock(@Header String Authorization, @Body @Valid AddStocksForm stocks) {
+    public HttpResponse addStock(@Header String Authorization, @Body @Valid List<StockActivityForm> stocks) {
 
         System.out.println("UserController.addStock is triggered.");
         String accessToken = Authorization.split(" ")[1];

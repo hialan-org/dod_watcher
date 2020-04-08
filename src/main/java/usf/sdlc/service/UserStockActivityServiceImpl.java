@@ -25,14 +25,14 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
     UserStockRepository userStockRepository;
 
     @Override
-    public void saveAll(long userId, AddStocksForm userStockActivities) {
+    public void saveAll(long userId, List<StockActivityForm> userStockActivities) {
         List<UserStockActivity> userStockActivitiesModel = new ArrayList<>();
         List<UserStock> userStocksModel = new ArrayList<>();
 //        UserProfit userProfit = new UserProfit();
 //        double investAmount = 0;
 
         //Parse from AddStocksForm to List of UserStock and List of UserStockActivity
-        for (StockActivityForm stockActivityForm : userStockActivities.getStockActivityForms()) {
+        for (StockActivityForm stockActivityForm : userStockActivities) {
             long stockId = stockActivityForm.getStockId();
             double stockPrice = stockActivityForm.getStockPrice();
             int stockQuantity = stockActivityForm.getStockQuantity();
@@ -50,8 +50,6 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
                 if (isBuy) {
                     //Calculate new average price for the stock own by user
                     int newQuantity = userStock.get().getStockQuantity() + stockQuantity;
-                    System.out.println("Total price: " + (userStock.get().getStockAveragePrice() * userStock.get().getStockQuantity() +
-                            stockQuantity * stockPrice));
                     double newAveragePrice = (userStock.get().getStockAveragePrice() * userStock.get().getStockQuantity() +
                             stockQuantity * stockPrice) /
                             newQuantity;
