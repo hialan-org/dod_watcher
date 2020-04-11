@@ -34,7 +34,7 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
         //Parse from AddStocksForm to List of UserStock and List of UserStockActivity
         for (StockActivityForm stockActivityForm : userStockActivities) {
             long stockId = stockActivityForm.getStockId();
-            double stockPrice = stockActivityForm.getStockPrice();
+            float stockPrice = stockActivityForm.getStockPrice();
             int stockQuantity = stockActivityForm.getStockQuantity();
             boolean isBuy = stockActivityForm.isBuy();
             userStockActivitiesModel.add(

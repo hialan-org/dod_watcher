@@ -4,12 +4,14 @@ public class OwnedStockForm {
     public OwnedStockForm() {
     }
 
-    public OwnedStockForm(long stockId, String symbol, double buyPrice, int quantity, double latestPrice) {
+    public OwnedStockForm(long stockId, String symbol, double buyPrice, int quantity, float latestPrice) {
         this.stockId = stockId;
         this.symbol = symbol;
         this.buyPrice = buyPrice;
         this.quantity = quantity;
         this.latestPrice = latestPrice;
+
+        System.out.println("Latest price: " + this.getLatestPrice() + " - " + latestPrice);
     }
 
     private long stockId;
@@ -20,7 +22,7 @@ public class OwnedStockForm {
 
     private int quantity;
 
-    private double latestPrice;
+    private float latestPrice;
 
     public String getSymbol() {
         return symbol;
@@ -46,11 +48,11 @@ public class OwnedStockForm {
         this.quantity = quantity;
     }
 
-    public double getLatestPrice() {
+    public float getLatestPrice() {
         return latestPrice;
     }
 
-    public void setLatestPrice(double latestPrice) {
+    public void setLatestPrice(float latestPrice) {
         this.latestPrice = latestPrice;
     }
 
