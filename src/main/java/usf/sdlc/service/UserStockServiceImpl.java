@@ -28,8 +28,9 @@ public class UserStockServiceImpl implements UserStockService {
                 StockHistory stockHistory = stockHistoryRepository
                         .findLatestByStockId(userStock.getUserStockId().getStockId());
                 OwnedStockForm ownedStockForm = new OwnedStockForm(
-                        stockHistory.getStock().getSymbol(), userStock.getStockAveragePrice(),
-                        userStock.getStockQuantity(), stockHistory.getLatestPrice());
+                        stockHistory.getStockId(), stockHistory.getStock().getSymbol(),
+                        userStock.getStockAveragePrice(), userStock.getStockQuantity(),
+                        stockHistory.getLatestPrice());
                 result.add(ownedStockForm);
             } catch (Exception e){
                 System.out.println(e);

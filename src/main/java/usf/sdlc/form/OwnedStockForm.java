@@ -4,12 +4,15 @@ public class OwnedStockForm {
     public OwnedStockForm() {
     }
 
-    public OwnedStockForm(String symbol, double buyPrice, int quantity, double latestPrice) {
+    public OwnedStockForm(long stockId, String symbol, double buyPrice, int quantity, double latestPrice) {
+        this.stockId = stockId;
         this.symbol = symbol;
         this.buyPrice = buyPrice;
         this.quantity = quantity;
         this.latestPrice = latestPrice;
     }
+
+    private long stockId;
 
     private String symbol;
 
@@ -49,5 +52,13 @@ public class OwnedStockForm {
 
     public void setLatestPrice(double latestPrice) {
         this.latestPrice = latestPrice;
+    }
+
+    public long getStockId() {
+        return stockId;
+    }
+
+    public void setStockId(long stockId) {
+        this.stockId = stockId;
     }
 }
