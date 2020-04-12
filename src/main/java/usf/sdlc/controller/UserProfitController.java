@@ -42,15 +42,11 @@ public class UserProfitController {
     }
 
     @Get("/user-profit/all") // todo : here
-    public HttpResponse<UserProfitResponse> runProfitSaveServiceForAllUsers(Long userId) {
+    public HttpResponse<UserProfitResponse> runProfitSaveServiceForAllUsers() {
         UserProfitResponse resp = new UserProfitResponse();
-        Iterable<UserProfit> rowsToSaveIter = userProfitServiceImpl.saveUserProfit(userId, null);
-        List<UserProfit> rowsToSave = new ArrayList<>();
-        for(UserProfit us : rowsToSaveIter) {
-            rowsToSave.add(us);
-        }
-        resp.setUserProfits(rowsToSave);
-        resp.setMessage("Success");
+        boolean isSaved = userProfitServiceImpl.saveAllUserProfit(null); // Todo: call individual profit api for user, to handle large user base
+        String msg = isSaved ? "Success":"Fail";
+        resp.setMessage(msg);
         return HttpResponse.created(resp);
     }
 }
