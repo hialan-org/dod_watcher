@@ -41,7 +41,7 @@ public class UserProfitController {
         return HttpResponse.created(resp);
     }
 
-    @Get("/user-profit/all") // todo : here
+    @Get("/user-profit/all")
     public HttpResponse<UserProfitResponse> runProfitSaveServiceForAllUsers() {
         UserProfitResponse resp = new UserProfitResponse();
         boolean isSaved = userProfitServiceImpl.saveAllUserProfit(null); // Todo: call individual profit api for user, to handle large user base
