@@ -6,6 +6,7 @@ import io.micronaut.data.repository.CrudRepository;
 import usf.sdlc.model.UserProfit;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.Date;
@@ -22,11 +23,12 @@ public abstract class UserProfitRepository implements JpaRepository<UserProfit, 
 
     @Transactional
     public int customDeleteUserProfitOnDate(Long uid, Date d) {
-        TypedQuery<UserProfit> query = entityManager
-                .createQuery("DELETE FROM StockHistory sh WHERE sh.latestTime= :d AND sh.id=:uid" , UserProfit.class)
+        Query query = entityManager
+                .createQuery("DELETE FROM UserProfit WHERE date= :d AND userId=:uid")
                 .setParameter("d", d).setParameter("uid", uid);
-        List<UserProfit> results = query.getResultList();
-        return results.size();
+
+        int deletedCount = query.executeUpdate();
+        return deletedCount;
     }
 
 
