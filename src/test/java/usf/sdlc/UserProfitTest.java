@@ -31,30 +31,35 @@ public class UserProfitTest {
 
     @Test
     void saveUserProfitWithDateTest() {
-        Iterable<UserProfit> done = userProfitServiceImpl.saveUserProfit((long) 1, Date.valueOf("2020-04-03"));
+        System.out.println("saveUserProfitWithDateTest");
+        Iterable<UserProfit> done = userProfitServiceImpl.saveUserProfit((long) 1, Date.valueOf("2020-03-31"));
         assertTrue(done.iterator().hasNext());
     }
 
     @Test
     void saveUserProfitWithNullTest() {
+        System.out.println("saveUserProfitWithNullTest");
         Iterable<UserProfit> done = userProfitServiceImpl.saveUserProfit((long) 1,null);
         assertTrue(done.iterator().hasNext());
     }
 
     @Test
     void saveAllUserProfitWithDateTest() {
-        boolean done = userProfitServiceImpl.saveAllUserProfit(Date.valueOf("2020-03-06"));
+        System.out.println("saveAllUserProfitWithDateTest");
+        boolean done = userProfitServiceImpl.saveAllUserProfit(Date.valueOf("2020-03-31"));
         assertTrue(done);
     }
 
     @Test
     void saveAllUserProfitWithNullTest() {
+        System.out.println("saveAllUserProfitWithNullTest");
         boolean done = userProfitServiceImpl.saveAllUserProfit(null);
         assertTrue(done);
     }
 
     @Test
     void runProfitSaveServiceForAUserTest() {
+        System.out.println("runProfitSaveServiceForAUserTest");
         HttpResponse<UserProfitResponse> r =  userProfitController.runProfitSaveServiceForAUser((long) 1);
         assertEquals(r.getStatus().getCode(), 201);
     }

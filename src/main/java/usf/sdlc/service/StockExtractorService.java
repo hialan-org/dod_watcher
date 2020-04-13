@@ -51,13 +51,13 @@ public class StockExtractorService {
         HashMap<String, StockForm> stockDetails = getStockDetailsFromOutside(symStr);
         System.out.println("STOCK LIST SIZE: " + stockDetails.size());
         // converting Map to List of StockHistory (model) to put in StockHistory table
-        List<StockHistory> stocksHistory = buildEntityListForStockHistory(stockDetails, stocksEntityMap);
+        ArrayList<StockHistory> stocksHistory = buildEntityListForStockHistory(stockDetails, stocksEntityMap);
         // putting stocksHistory in stock_history table
-        stockHistoryRepository.saveAll(stocksHistory);
+        List<StockHistory> stocksHistorySaved  = overwriteSave(stocksHistory);
 
         long endTime = System.currentTimeMillis();
         System.out.println("Total execution time: " + (endTime-startTime) + "ms");
-        return stocksHistory;
+        return stocksHistorySaved;
     }
 
     private HashMap<String, usf.sdlc.model.Stock> fetchAllFromStockTable() {
@@ -131,6 +131,18 @@ public class StockExtractorService {
             stocksHistory.add(s);
         }
         return stocksHistory;
+    }
+
+    private List<StockHistory> overwriteSave(ArrayList<StockHistory> stocksHistory) {
+        List<StockHistory> stocksHistorySaved = new ArrayList<>();
+        if (stocksHistory.size() > 0) {
+            Date d = stocksHistory.get(0).getLatestTime();
+            // delete existing rows at the given date in stock_history table
+            int numRowsDeleted = stockHistoryRepository.customDeleteStocksHistoryOnDate(d);
+            // adding new rows to stock_history table
+            stocksHistorySaved = stockHistoryRepository.saveAll(stocksHistory);
+        }
+        return stocksHistorySaved;
     }
 
     private java.sql.Date getSqlDateFromUnixTime(String timeStr) {

@@ -2,12 +2,15 @@ package usf.sdlc.controller;
 
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
+import usf.sdlc.dao.StockHistoryRepository;
 import usf.sdlc.form.StockCreateForm;
+import usf.sdlc.form.StockExtractorResponse;
 import usf.sdlc.form.StockHistoryForm;
 import usf.sdlc.model.Stock;
 import usf.sdlc.model.StockHistory;
 import usf.sdlc.service.StockHistoryService;
 import usf.sdlc.service.StockService;
+import usf.sdlc.service.StockServiceImpl;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -18,10 +21,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller("/stocks")
 public class StockController {
     @Inject
     StockService stockService;
+
+    @Inject
+    StockServiceImpl stockServiceImpl;
+
+    @Inject
+    StockHistoryRepository stockHistoryRepository;
 
     StockHistoryService stockHistoryService;
 
@@ -60,6 +72,15 @@ public class StockController {
         System.out.println("StockController.getTopYield: finished.");
 
         return stockHistoryList;
+    }
+
+    @Get("/stock-history/{dateStr}")
+    public HttpResponse<StockExtractorResponse> getStockHistoryForDate(String dateStr) {
+        StockExtractorResponse resp = new StockExtractorResponse();
+        resp.setMessage("Success!");
+        Date d = stockServiceImpl.getSqlDate(dateStr);
+        resp.setStocksHistory(stockHistoryRepository.customFindStocksHistoryOnDate(d));
+        return HttpResponse.created(resp);
     }
 
     protected URI location(Long stockId) {

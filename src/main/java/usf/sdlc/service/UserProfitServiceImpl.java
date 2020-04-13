@@ -49,7 +49,8 @@ public class UserProfitServiceImpl implements UserProfitService {
         List<UserStock> s = this.getUserStocks(userId);
         Map<Long, StockHistory> m = this.getLatestStockDetails(date);
         List<UserProfit> p = this.createProfitDetails(s, m);
-        return userProfitRepository.saveAll(p);
+        return this.overwriteAndSave(p);
+//        return userProfitRepository.saveAll(p);
     }
 
     private List<UserStock> getUserStocks(Long userId){ // from user_stock table
@@ -113,5 +114,21 @@ public class UserProfitServiceImpl implements UserProfitService {
             userOverallProfit.setUserProfit(userOverallProfit.getUserProfit() + userProfit.getUserProfit());
         }
         return userOverallProfit;
+    }
+
+    private List<UserProfit> overwriteAndSave(List<UserProfit> userProfit) {
+        List<UserProfit> userProfitSaved = new ArrayList<>();
+        if (userProfit.size() > 0) {
+            long uid = userProfit.get(0).getUserId();
+            Date d = userProfit.get(0).getDate();
+            // delete existing rows at the given date in user_profit table
+            int numRowsDeleted = userProfitRepository.customDeleteUserProfitOnDate(uid, d);
+            System.out.println("numRowsDeleted: "+ numRowsDeleted);
+            // adding new rows to user_profit table
+            userProfitSaved = userProfitRepository.saveAll(userProfit);
+            System.out.println("rows of userProfitSaved: "+ userProfitSaved.size());
+        }
+        return userProfitSaved;
+
     }
 }
