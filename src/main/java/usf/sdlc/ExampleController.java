@@ -11,6 +11,7 @@ public class ExampleController {
 
     @Get()
     public String index() {
+        System.out.println("Ping API");
         return "DoD API";
     }
 }
