@@ -20,7 +20,6 @@ public class UserStockServiceImpl implements UserStockService {
     @Override
     public List<OwnedStockForm> findOwnedStock(long userId) {
         List<OwnedStockForm> result = new ArrayList<>();
-        System.out.println("Find owned stocks for userId: " + userId);
         List<UserStock> userStocks = userStockRepository.findByUserIdAndIsOwned(userId, 1);
         for(int i=0;i<userStocks.size();i++){
             UserStock userStock = userStocks.get(i);
@@ -37,7 +36,6 @@ public class UserStockServiceImpl implements UserStockService {
                 return null;
             }
         }
-        System.out.println("Number of owned stocks: " + result.size());
         return result;
     }
 }

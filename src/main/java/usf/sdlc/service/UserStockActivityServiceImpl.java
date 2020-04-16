@@ -6,6 +6,7 @@ import usf.sdlc.dao.UserStockActivityRepository;
 import usf.sdlc.dao.UserStockRepository;
 import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.StockActivityForm;
+import usf.sdlc.form.UserStockForm;
 import usf.sdlc.model.UserProfit;
 import usf.sdlc.model.UserStock;
 import usf.sdlc.model.UserStockActivity;
@@ -25,9 +26,10 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
     UserStockRepository userStockRepository;
 
     @Override
-    public void saveAll(long userId, List<StockActivityForm> userStockActivities) {
+    public List<UserStockForm> saveAll(long userId, List<StockActivityForm> userStockActivities) {
         List<UserStockActivity> userStockActivitiesModel = new ArrayList<>();
         List<UserStock> userStocksModel = new ArrayList<>();
+        List<UserStockForm> updatedStocks = new ArrayList<>();
 //        UserProfit userProfit = new UserProfit();
 //        double investAmount = 0;
 
@@ -50,7 +52,7 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
                 if (isBuy) {
                     //Calculate new average price for the stock own by user
                     int newQuantity = userStock.get().getStockQuantity() + stockQuantity;
-                    double newAveragePrice = (userStock.get().getStockAveragePrice() * userStock.get().getStockQuantity() +
+                    float newAveragePrice = (userStock.get().getStockAveragePrice() * userStock.get().getStockQuantity() +
                             stockQuantity * stockPrice) /
                             newQuantity;
                     userStock.get().setStockAveragePrice(newAveragePrice);
@@ -67,14 +69,19 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
                 } else {
                     userStockRepository.update(userStock.get());
                 }
+                updatedStocks.add(new UserStockForm(userStock.get()));
             } else { //If userId - stockId not in db, create new UserStock and add to list
                 UserStock tmp = new UserStock(new UserStockId(userId, stockId), stockPrice, stockQuantity, 1);
                 userStocksModel.add(tmp);
             }
         }
         if (!userStocksModel.isEmpty()) {
-            userStockRepository.saveAll(userStocksModel);
+            List<UserStock> newStocks = userStockRepository.saveAll(userStocksModel);
+            for(int i=0;i<newStocks.size();i++){
+                updatedStocks.add(new UserStockForm(newStocks.get(i)));
+            }
         }
         userStockActivityRepository.saveAll(userStockActivitiesModel);
+        return updatedStocks;
     }
 }

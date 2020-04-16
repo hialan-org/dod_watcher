@@ -5,6 +5,7 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import usf.sdlc.config.Constant;
 import usf.sdlc.form.*;
+import usf.sdlc.model.UserStock;
 import usf.sdlc.service.UserStockService;
 import usf.sdlc.utils.Utils;
 import usf.sdlc.model.User;
@@ -99,16 +100,18 @@ public class UserController {
     }
 
     @Post("/addStock")
-    public HttpResponse addStock(@Header String Authorization, @Body @Valid List<StockActivityForm> stocks) {
+    public List<UserStockForm> addStock(@Header String Authorization, @Body @Valid List<StockActivityForm> stocks) {
 
-        System.out.println("UserController.addStock is triggered.");
+        long startTime = System.currentTimeMillis();
+        System.out.println("UserController.addStock: is triggered.");
         String accessToken = Authorization.split(" ")[1];
         User user = userService.findByAccessToken(accessToken);
         System.out.println(stocks.toString());
-        userStockActivityService.saveAll(user.getUserId(), stocks);
+        List<UserStockForm> updatedStocks = userStockActivityService.saveAll(user.getUserId(), stocks);
 
-        System.out.println("UserController.addStock is finished.");
-        return HttpResponse.ok();
+        long endTime = System.currentTimeMillis();
+        System.out.printf("UserController.addStock: finished in %dms\n", endTime-startTime);
+        return updatedStocks;
     }
 
     @Get("/stocks")
