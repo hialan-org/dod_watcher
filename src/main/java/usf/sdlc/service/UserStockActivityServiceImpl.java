@@ -1,16 +1,10 @@
 package usf.sdlc.service;
 
-import usf.sdlc.dao.UserProfitRepository;
-import usf.sdlc.dao.UserRepository;
-import usf.sdlc.dao.UserStockActivityRepository;
-import usf.sdlc.dao.UserStockRepository;
+import usf.sdlc.dao.*;
 import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.StockActivityForm;
 import usf.sdlc.form.UserStockForm;
-import usf.sdlc.model.UserProfit;
-import usf.sdlc.model.UserStock;
-import usf.sdlc.model.UserStockActivity;
-import usf.sdlc.model.UserStockId;
+import usf.sdlc.model.*;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
@@ -24,6 +18,8 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
     UserStockActivityRepository userStockActivityRepository;
     @Inject
     UserStockRepository userStockRepository;
+    @Inject
+    StockHistoryRepository stockHistoryRepository;
 
     @Override
     public List<UserStockForm> saveAll(long userId, List<StockActivityForm> userStockActivities) {
@@ -69,7 +65,9 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
                 } else {
                     userStockRepository.update(userStock.get());
                 }
-                updatedStocks.add(new UserStockForm(userStock.get()));
+                StockHistory stockHistory = stockHistoryRepository
+                        .findLatestByStockId(stockId);
+                updatedStocks.add(new UserStockForm(userStock.get(), stockHistory));
             } else { //If userId - stockId not in db, create new UserStock and add to list
                 UserStock tmp = new UserStock(new UserStockId(userId, stockId), stockPrice, stockQuantity, 1);
                 userStocksModel.add(tmp);
@@ -78,7 +76,9 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
         if (!userStocksModel.isEmpty()) {
             List<UserStock> newStocks = userStockRepository.saveAll(userStocksModel);
             for(int i=0;i<newStocks.size();i++){
-                updatedStocks.add(new UserStockForm(newStocks.get(i)));
+                StockHistory stockHistory = stockHistoryRepository
+                        .findLatestByStockId(newStocks.get(i).getUserStockId().getStockId());
+                updatedStocks.add(new UserStockForm(newStocks.get(i), stockHistory));
             }
         }
         userStockActivityRepository.saveAll(userStockActivitiesModel);
