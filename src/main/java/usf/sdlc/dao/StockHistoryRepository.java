@@ -1,19 +1,16 @@
 package usf.sdlc.dao;
 
-import io.micronaut.data.annotation.Join;
-import io.micronaut.data.annotation.Query;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
-import io.micronaut.data.repository.CrudRepository;
-import usf.sdlc.config.ApplicationConfiguration;
-import usf.sdlc.form.StockHistoryForm;
+import io.micronaut.data.model.query.DefaultQuery;
 import usf.sdlc.model.StockHistory;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+import javax.transaction.TransactionScoped;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -60,11 +57,12 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
 
     @Transactional
     public int customDeleteStocksHistoryOnDate(Date d) {
-        TypedQuery<StockHistory> query = entityManager
-                .createQuery("DELETE FROM StockHistory sh WHERE sh.latestTime= :d" , StockHistory.class)
-                .setParameter("d", d);
-        List<StockHistory> results = query.getResultList();
-        return results.size();
+        Query query = entityManager
+                .createQuery("DELETE FROM StockHistory WHERE latestTime=:d")
+                .setParameter("d",d);
+
+        int deletedCount = query.executeUpdate();
+        return deletedCount;
     }
 
 
