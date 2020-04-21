@@ -53,6 +53,12 @@ public class UserProfitServiceImpl implements UserProfitService {
 //        return userProfitRepository.saveAll(p);
     }
 
+    @Override
+    public Iterable<UserProfit> getUserProfitHistory(Long userId, Date startDate, Date endDate) {
+        // todo : add query in UserProfit table to get the profit details
+        return null;
+    }
+
     private List<UserStock> getUserStocks(Long userId){ // from user_stock table
         Iterable<UserStock> usersStocks = userStockRepository.findAll();
         List<UserStock> userStocks = new ArrayList<>();

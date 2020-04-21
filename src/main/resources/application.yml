@@ -7,9 +7,9 @@ micronaut:
       enabled: true
 datasources:
   default:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: "jdbc:mysql://doddev.cpezfbtz6fl6.us-east-1.rds.amazonaws.com:3306/dod_db"
+    username: "usfsdlcDB"
+    password: "hialan2020"
     driverClassName: "com.mysql.cj.jdbc.Driver"
 jpa:
   default:
@@ -19,5 +19,5 @@ jpa:
       hibernate:
         hbm2ddl:
           auto: update
-        show_sql: ${HIBERNATE_SHOW_SQL}
+        show_sql: false
         format_sql: true

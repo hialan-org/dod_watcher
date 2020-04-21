@@ -46,7 +46,7 @@ public class StockHistoryTest {
     @Test
     void getStockHistoryForDateTest() {
         System.out.println("Starting getStockHistoryForDateTest");
-        HttpResponse<StockExtractorResponse> resp =  stockController.getStockHistoryForDate("2020-04-08");
+        HttpResponse<StockExtractorResponse> resp =  stockController.getStockHistoryForDate("04-08-2020");
         assertEquals("Success!", Objects.requireNonNull(resp.body()).getMessage());
     }
 }

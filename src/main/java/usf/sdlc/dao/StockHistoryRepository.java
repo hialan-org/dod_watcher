@@ -1,19 +1,13 @@
 package usf.sdlc.dao;
 
-import io.micronaut.data.annotation.Join;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
-import io.micronaut.data.repository.CrudRepository;
-import usf.sdlc.config.ApplicationConfiguration;
-import usf.sdlc.form.StockHistoryForm;
 import usf.sdlc.model.StockHistory;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -64,6 +58,7 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
                 .createQuery("SELECT sh FROM StockHistory  sh WHERE sh.stockId=:stockId ORDER BY sh.id DESC", StockHistory.class)
                 .setParameter("stockId", stockId).setMaxResults(1);
         return query.getSingleResult();
+    }
     }
 
     @Transactional
