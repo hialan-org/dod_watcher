@@ -93,7 +93,7 @@ public class UserProfitTest {
     @Test
     void getUserProfitHistory() {
         System.out.println("getUserProfitHistoryTest");
-        String uri = "/user-profit/history/0/03-06-2020/03-18-2020";
+        String uri = "/user-profit/history/0?startDateStr=03-06-2020&endDateStr=03-18-2020";
         MutableHttpRequest<Object> request = HttpRequest.GET(uri).bearerAuth("ya29.a0Adw1xeWb3Vtk-HbLX5YrnSz1RF5aXYMrVF7CIEO-VdWH8FeVuYQrL7jyT5GUrQPghSCiYQFCkel5B3KQ8XnmGmoTAg4DyE_ItJXlh-EoQHFeJpotxX9-741H0pT08dEW5x-4eP1Uhtp2AQq9uoAQ82hTJALPPif83pI");
         String body = client.toBlocking().retrieve(request);
         assertTrue(body.contains("Success"));
