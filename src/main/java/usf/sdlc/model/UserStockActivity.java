@@ -10,7 +10,7 @@ public class UserStockActivity {
     public UserStockActivity() {
     }
 
-    public UserStockActivity(long userId, long stockId, int stockQuantity, double stockPrice, Timestamp buyDate, int active) {
+    public UserStockActivity(long userId, long stockId, int stockQuantity, float stockPrice, Timestamp buyDate, int active) {
         this.userId = userId;
         this.stockId = stockId;
         this.stockQuantity = stockQuantity;
@@ -34,7 +34,7 @@ public class UserStockActivity {
     private int stockQuantity;
 
     @Column(name = "stock_price", nullable = false)
-    private double stockPrice;
+    private float stockPrice;
 
     @Column(name = "buy_date")
     private Timestamp buyDate;
@@ -77,11 +77,11 @@ public class UserStockActivity {
         this.stockQuantity = stockQuantity;
     }
 
-    public double getStockPrice() {
+    public float getStockPrice() {
         return stockPrice;
     }
 
-    public void setStockPrice(double stockPrice) {
+    public void setStockPrice(float stockPrice) {
         this.stockPrice = stockPrice;
     }
 

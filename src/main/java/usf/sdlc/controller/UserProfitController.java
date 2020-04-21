@@ -43,10 +43,13 @@ public class UserProfitController {
 
     @Get("/user-profit/all")
     public HttpResponse<UserProfitResponse> runProfitSaveServiceForAllUsers() {
+        long startTime = System.currentTimeMillis();
         UserProfitResponse resp = new UserProfitResponse();
         boolean isSaved = userProfitServiceImpl.saveAllUserProfit(null); // Todo: call individual profit api for user, to handle large user base
         String msg = isSaved ? "Success":"Fail";
         resp.setMessage(msg);
+        long endTime = System.currentTimeMillis();
+        System.out.printf("UserController.findOwnedStocks: finished in %dms\n", endTime-startTime);
         return HttpResponse.created(resp);
     }
 }

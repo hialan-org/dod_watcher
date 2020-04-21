@@ -3,13 +3,13 @@ package usf.sdlc.controller;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import usf.sdlc.config.Constant;
-import usf.sdlc.form.OwnedStockForm;
+import usf.sdlc.form.*;
+import usf.sdlc.model.UserStock;
 import usf.sdlc.service.UserStockService;
 import usf.sdlc.utils.Utils;
-import usf.sdlc.form.AddStocksForm;
-import usf.sdlc.form.Pagination;
-import usf.sdlc.form.UserUpdateForm;
 import usf.sdlc.model.User;
 import usf.sdlc.service.UserService;
 import usf.sdlc.service.UserStockActivityService;
@@ -22,6 +22,7 @@ import java.util.List;
 
 @Controller("/users")
 public class UserController {
+    private Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Inject
     UserService userService;
@@ -38,7 +39,7 @@ public class UserController {
     @Get("/{userId}") //TODO: Set authorization
     public HttpResponse show(Long userId) {
 
-        System.out.println("UserController.show is triggered.");
+        log.trace("UserController.show is triggered.");
 
         User user = userService
                 .findByUserId(userId);
@@ -52,10 +53,10 @@ public class UserController {
     @Put() //TODO: Set authorization
     public HttpResponse update(@Header String Authorization,@Body @Valid UserUpdateForm command) {
 
-        System.out.println("UserController.update is triggered.");
+        log.trace("UserController.update is triggered.");
 
         if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
-            System.out.println("User doesn't have permission to update user.");
+            log.trace("User doesn't have permission to update user.");
             return HttpResponse.unauthorized();
         };
         User user = userService.findByUserId(command.getUserId());
@@ -75,10 +76,10 @@ public class UserController {
     @Get(value = "{?email,args*}")
     public HttpResponse list(@Header String Authorization,@Valid Pagination args, @QueryValue @Nullable String email) {
 
-        System.out.println("UserController.list is triggered.");
+        log.trace("UserController.list is triggered.");
 
         if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
-            System.out.println("User doesn't have permission to list users.");
+            log.trace("User doesn't have permission to list users.");
             return HttpResponse.unauthorized();
         };
         return HttpResponse.ok(userService.list(email, args.getPage(), args.getMax()));
@@ -86,9 +87,9 @@ public class UserController {
 
     @Delete("/{userId}") //TODO: Set authorization
     public HttpResponse delete(@Header String Authorization,Long userId) {
-        System.out.println("UserController.delete is triggered.");
+        log.trace("UserController.delete is triggered.");
         if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
-            System.out.println("User doesn't have permission to delete user.");
+            log.trace("User doesn't have permission to delete user.");
             return HttpResponse.unauthorized();
         };
         try{
@@ -102,28 +103,30 @@ public class UserController {
     }
 
     @Post("/addStock")
-    public HttpResponse addStock(@Header String Authorization, @Body @Valid AddStocksForm stocks) {
+    public List<UserStockForm> addStock(@Header String Authorization, @Body @Valid List<StockActivityForm> stocks) {
 
-        System.out.println("UserController.addStock is triggered.");
+        long startTime = System.currentTimeMillis();
+        log.trace("UserController.addStock: is triggered.");
         String accessToken = Authorization.split(" ")[1];
         User user = userService.findByAccessToken(accessToken);
-        System.out.println(stocks.toString());
-        userStockActivityService.saveAll(user.getUserId(), stocks);
+        log.trace(stocks.toString());
+        List<UserStockForm> updatedStocks = userStockActivityService.saveAll(user.getUserId(), stocks);
 
-        System.out.println("UserController.addStock is finished.");
-        return HttpResponse.ok();
+        long endTime = System.currentTimeMillis();
+        log.trace("UserController.addStock: finished in {}ms\n", endTime-startTime);
+        return updatedStocks;
     }
 
     @Get("/stocks")
     public List<OwnedStockForm> findOwnedStocks(@Header String Authorization){
         long startTime = System.currentTimeMillis();
-        System.out.println("UserController.findOwnedStocks: triggered.");
+        log.trace("UserController.findOwnedStocks: triggered.");
         String accessToken = Authorization.split(" ")[1];
         User user = userService.findByAccessToken(accessToken);
         List<OwnedStockForm> result = userStockService.findOwnedStock(user.getUserId());
 
         long endTime = System.currentTimeMillis();
-        System.out.printf("UserController.findOwnedStocks: finished in %dms\n", endTime-startTime);
+        log.trace("UserController.findOwnedStocks: finished in {}dms\n", endTime-startTime);
 
         return result;
     }

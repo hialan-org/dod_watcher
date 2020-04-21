@@ -1,15 +1,10 @@
 package usf.sdlc.service;
 
-import usf.sdlc.dao.UserProfitRepository;
-import usf.sdlc.dao.UserRepository;
-import usf.sdlc.dao.UserStockActivityRepository;
-import usf.sdlc.dao.UserStockRepository;
+import usf.sdlc.dao.*;
 import usf.sdlc.form.AddStocksForm;
 import usf.sdlc.form.StockActivityForm;
-import usf.sdlc.model.UserProfit;
-import usf.sdlc.model.UserStock;
-import usf.sdlc.model.UserStockActivity;
-import usf.sdlc.model.UserStockId;
+import usf.sdlc.form.UserStockForm;
+import usf.sdlc.model.*;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
@@ -23,18 +18,21 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
     UserStockActivityRepository userStockActivityRepository;
     @Inject
     UserStockRepository userStockRepository;
+    @Inject
+    StockHistoryRepository stockHistoryRepository;
 
     @Override
-    public void saveAll(long userId, AddStocksForm userStockActivities) {
+    public List<UserStockForm> saveAll(long userId, List<StockActivityForm> userStockActivities) {
         List<UserStockActivity> userStockActivitiesModel = new ArrayList<>();
         List<UserStock> userStocksModel = new ArrayList<>();
+        List<UserStockForm> updatedStocks = new ArrayList<>();
 //        UserProfit userProfit = new UserProfit();
 //        double investAmount = 0;
 
         //Parse from AddStocksForm to List of UserStock and List of UserStockActivity
-        for (StockActivityForm stockActivityForm : userStockActivities.getStockActivityForms()) {
+        for (StockActivityForm stockActivityForm : userStockActivities) {
             long stockId = stockActivityForm.getStockId();
-            double stockPrice = stockActivityForm.getStockPrice();
+            float stockPrice = stockActivityForm.getStockPrice();
             int stockQuantity = stockActivityForm.getStockQuantity();
             boolean isBuy = stockActivityForm.isBuy();
             userStockActivitiesModel.add(
@@ -50,9 +48,7 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
                 if (isBuy) {
                     //Calculate new average price for the stock own by user
                     int newQuantity = userStock.get().getStockQuantity() + stockQuantity;
-                    System.out.println("Total price: " + (userStock.get().getStockAveragePrice() * userStock.get().getStockQuantity() +
-                            stockQuantity * stockPrice));
-                    double newAveragePrice = (userStock.get().getStockAveragePrice() * userStock.get().getStockQuantity() +
+                    float newAveragePrice = (userStock.get().getStockAveragePrice() * userStock.get().getStockQuantity() +
                             stockQuantity * stockPrice) /
                             newQuantity;
                     userStock.get().setStockAveragePrice(newAveragePrice);
@@ -69,14 +65,23 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
                 } else {
                     userStockRepository.update(userStock.get());
                 }
+                StockHistory stockHistory = stockHistoryRepository
+                        .findLatestByStockId(stockId);
+                updatedStocks.add(new UserStockForm(userStock.get(), stockHistory));
             } else { //If userId - stockId not in db, create new UserStock and add to list
                 UserStock tmp = new UserStock(new UserStockId(userId, stockId), stockPrice, stockQuantity, 1);
                 userStocksModel.add(tmp);
             }
         }
         if (!userStocksModel.isEmpty()) {
-            userStockRepository.saveAll(userStocksModel);
+            List<UserStock> newStocks = userStockRepository.saveAll(userStocksModel);
+            for(int i=0;i<newStocks.size();i++){
+                StockHistory stockHistory = stockHistoryRepository
+                        .findLatestByStockId(newStocks.get(i).getUserStockId().getStockId());
+                updatedStocks.add(new UserStockForm(newStocks.get(i), stockHistory));
+            }
         }
         userStockActivityRepository.saveAll(userStockActivitiesModel);
+        return updatedStocks;
     }
 }

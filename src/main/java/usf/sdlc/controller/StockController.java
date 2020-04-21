@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 @Controller("/stocks")
 public class StockController {
+    private Logger log = LoggerFactory.getLogger(StockController.class);
     @Inject
     StockService stockService;
 
@@ -58,9 +59,9 @@ public class StockController {
 //    @Get("/dogOfTheDow/{dateStr}")
     @Get("/getTopYield") //TODO: Set authorization
     public List<StockHistoryForm> getTopYield(@QueryValue("date") String dateStr, @QueryValue int range, @Header String Authorization) {
-
-        System.out.println("StockController.getTopYield: triggered.");
-        System.out.printf("StockController.getTopYield: /stocks/getTopYield?date=%s&range=%d\n", dateStr, range);
+        long startTime = System.currentTimeMillis();
+        log.trace("StockController.getTopYield: triggered.");
+        log.trace("StockController.getTopYield: /stocks/getTopYield?date={}&range={}\n", dateStr, range);
         Date date = null;
         try {
             date = new SimpleDateFormat("MM-dd-yyyy").parse(dateStr);
@@ -69,7 +70,8 @@ public class StockController {
         }
         List<StockHistoryForm> stockHistoryList = new ArrayList<>();
         stockHistoryList = stockHistoryService.getTopYieldStockByDate(date, range);
-        System.out.println("StockController.getTopYield: finished.");
+        long endTime = System.currentTimeMillis();
+        log.trace("StockController.getTopYield: finished in {}ms\n", endTime-startTime);
 
         return stockHistoryList;
     }

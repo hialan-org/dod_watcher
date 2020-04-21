@@ -12,7 +12,7 @@ public class StockActivityForm {
     @NotBlank
     private int stockQuantity;
     @NotBlank
-    private double stockPrice;
+    private float stockPrice;
     @NotBlank
     @JsonProperty
     private boolean isBuy;
@@ -20,13 +20,13 @@ public class StockActivityForm {
     public StockActivityForm() {
     }
 
-    public StockActivityForm(long stockId, int stockQuantity, double stockPrice) {
+    public StockActivityForm(long stockId, int stockQuantity, float stockPrice) {
         this.stockId = stockId;
         this.stockQuantity = stockQuantity;
         this.stockPrice = stockPrice;
     }
 
-    public StockActivityForm(long stockId, int stockQuantity, double stockPrice, boolean isBuy) {
+    public StockActivityForm(long stockId, int stockQuantity, float stockPrice, boolean isBuy) {
         this.stockId = stockId;
         this.stockQuantity = stockQuantity;
         this.stockPrice = stockPrice;
@@ -49,11 +49,11 @@ public class StockActivityForm {
         this.stockQuantity = stockQuantity;
     }
 
-    public double getStockPrice() {
+    public float getStockPrice() {
         return stockPrice;
     }
 
-    public void setStockPrice(double stockPrice) {
+    public void setStockPrice(float stockPrice) {
         this.stockPrice = stockPrice;
     }
 

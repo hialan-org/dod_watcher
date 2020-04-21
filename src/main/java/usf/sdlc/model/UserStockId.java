@@ -3,6 +3,7 @@ package usf.sdlc.model;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class UserStockId implements Serializable {
@@ -38,5 +39,19 @@ public class UserStockId implements Serializable {
 
     public String toString() {
         return "userId:"+ this.userId+ ", stockId:"+ this.stockId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserStockId that = (UserStockId) o;
+        return userId == that.userId &&
+                stockId == that.stockId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, stockId);
     }
 }

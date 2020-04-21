@@ -2,14 +2,11 @@ package usf.sdlc.dao;
 
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
-import io.micronaut.data.model.query.DefaultQuery;
 import usf.sdlc.model.StockHistory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
-import javax.transaction.TransactionScoped;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
@@ -72,6 +69,5 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
         int deletedCount = query.executeUpdate();
         return deletedCount;
     }
-    
     //StockHistory save(StockHistoryForm shf);
 }

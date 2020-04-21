@@ -9,7 +9,7 @@ public class UserStock {
     public UserStock() {
     }
 
-    public UserStock(UserStockId userStockId, double stockAveragePrice, int stockQuantity, Timestamp updatedDate, int isOwned) {
+    public UserStock(UserStockId userStockId, float stockAveragePrice, int stockQuantity, Timestamp updatedDate, int isOwned) {
         this.userStockId = userStockId;
         this.stockAveragePrice = stockAveragePrice;
         this.stockQuantity = stockQuantity;
@@ -17,7 +17,7 @@ public class UserStock {
         this.isOwned = isOwned;
     }
 
-    public UserStock(UserStockId userStockId, double stockAveragePrice, int stockQuantity, int isOwned) {
+    public UserStock(UserStockId userStockId, float stockAveragePrice, int stockQuantity, int isOwned) {
         this.userStockId = userStockId;
         this.stockAveragePrice = stockAveragePrice;
         this.stockQuantity = stockQuantity;
@@ -36,7 +36,7 @@ public class UserStock {
 //    private long stockId;
 
     @Column(name = "stock_average_price", nullable = false)
-    private double stockAveragePrice;
+    private float stockAveragePrice;
 
     @Column(name = "stock_quantity", nullable = false)
     private int stockQuantity;
@@ -55,11 +55,11 @@ public class UserStock {
         this.userStockId = userStockId;
     }
 
-    public double getStockAveragePrice() {
+    public float getStockAveragePrice() {
         return stockAveragePrice;
     }
 
-    public void setStockAveragePrice(double stockAveragePrice) {
+    public void setStockAveragePrice(float stockAveragePrice) {
         this.stockAveragePrice = stockAveragePrice;
     }
 

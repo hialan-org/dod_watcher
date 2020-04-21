@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration packages="com.amazonaws.services.lambda.runtime.log4j2">
+<Configuration packages="com.amazonaws.services.lambda.runtime.log4j2.LambdaAppender">
     <Appenders>
         <Lambda name="Lambda">
             <PatternLayout>
@@ -8,8 +8,19 @@
         </Lambda>
     </Appenders>
     <Loggers>
+
         <Root level="info">
             <AppenderRef ref="Lambda" />
         </Root>
+
+        <Logger name="io.micronaut" level="info" additivity="true">
+            <appender-ref ref="Lambda" level="debug" />
+        </Logger>
+
+        <Logger name="usf.sdlc" level="trace" additivity="true">
+            <appender-ref ref="Lambda" level="trace" />
+        </Logger>
+
+
     </Loggers>
 </Configuration>
