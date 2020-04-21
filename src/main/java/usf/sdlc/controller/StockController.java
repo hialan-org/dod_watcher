@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import usf.sdlc.utils.GetSqlDate;
 
 @Controller("/stocks")
 public class StockController {
@@ -78,7 +79,7 @@ public class StockController {
     public HttpResponse<StockExtractorResponse> getStockHistoryForDate(String dateStr) {
         StockExtractorResponse resp = new StockExtractorResponse();
         resp.setMessage("Success!");
-        Date d = stockServiceImpl.getSqlDate(dateStr);
+        Date d = GetSqlDate.getSqlDate(dateStr);
         resp.setStocksHistory(stockHistoryRepository.customFindStocksHistoryOnDate(d));
         return HttpResponse.created(resp);
     }

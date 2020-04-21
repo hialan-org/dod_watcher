@@ -3,6 +3,7 @@ package usf.sdlc.dao;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
 import io.micronaut.data.repository.CrudRepository;
+import usf.sdlc.model.StockHistory;
 import usf.sdlc.model.UserProfit;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,19 @@ public abstract class UserProfitRepository implements JpaRepository<UserProfit, 
 
         int deletedCount = query.executeUpdate();
         return deletedCount;
+    }
+
+    @Transactional
+    public List<UserProfit> customGetUserProfitHistory(long userId, long stockId, Date startDate, Date endDate) {
+//                               SELECT * FROM user_profit up WHERE up.user_id=1 and up.stock_id=0 and up.date between '2020-03-06' and '2020-03-18';
+        TypedQuery<UserProfit> query = entityManager
+                .createQuery("SELECT up FROM UserProfit up WHERE up.userId=:userId and up.stockId=:stockId and up.date between :startDate and :endDate" , UserProfit.class)
+                .setParameter("userId", userId)
+                .setParameter("stockId", stockId)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate);
+
+        return query.getResultList();
     }
 
 
