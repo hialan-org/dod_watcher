@@ -59,7 +59,6 @@ public abstract class StockHistoryRepository implements JpaRepository<StockHisto
                 .setParameter("stockId", stockId).setMaxResults(1);
         return query.getSingleResult();
     }
-    }
 
     @Transactional
     public int customDeleteStocksHistoryOnDate(Date d) {
