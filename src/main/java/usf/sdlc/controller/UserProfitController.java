@@ -11,9 +11,11 @@ import usf.sdlc.form.UserProfitResponse;
 import usf.sdlc.model.UserProfit;
 import usf.sdlc.service.StockExtractorService;
 import usf.sdlc.service.UserProfitServiceImpl;
+import usf.sdlc.utils.GetSqlDate;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,4 +54,20 @@ public class UserProfitController {
         System.out.printf("UserController.findOwnedStocks: finished in %dms\n", endTime-startTime);
         return HttpResponse.created(resp);
     }
+
+    @Get("user-profit/history/{userId}/{stockId}/{startDateStr}/{endDateStr}") // /user-profit/{SYM}?startDate=xxx&endDate=yyy
+    public HttpResponse<UserProfitResponse> getUserProfitHistory(long userId, long stockId, String startDateStr, String endDateStr) {
+        UserProfitResponse resp = new UserProfitResponse();
+
+        Date startDate = GetSqlDate.getSqlDate(startDateStr);
+        Date endDate = GetSqlDate.getSqlDate(endDateStr);
+        List<UserProfit> ans = userProfitServiceImpl.getUserProfitHistory(userId, stockId, startDate, endDate);
+
+        String msg = ans.size()>0 ? "Success":"Fail";
+        resp.setMessage(msg);
+        resp.setUserProfits(ans);
+
+        return HttpResponse.created(resp);
+    }
+
 }
