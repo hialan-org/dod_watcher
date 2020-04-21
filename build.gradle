@@ -76,7 +76,7 @@ test {
 shadowJar {
     archiveBaseName = "dod"
     archiveClassifier = 'all'
-    archiveVersion = null
+    archiveVersion = ""
     mergeServiceFiles()
     transform(Log4j2PluginsCacheFileTransformer)
 }
