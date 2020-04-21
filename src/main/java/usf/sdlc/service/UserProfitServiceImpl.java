@@ -54,9 +54,9 @@ public class UserProfitServiceImpl implements UserProfitService {
     }
 
     @Override
-    public Iterable<UserProfit> getUserProfitHistory(Long userId, Date startDate, Date endDate) {
-        // todo : add query in UserProfit table to get the profit details
-        return null;
+    public List<UserProfit> getUserProfitHistory(long userId, long stockId, Date startDate, Date endDate) {
+        List<UserProfit> i = userProfitRepository.customGetUserProfitHistory(userId, stockId, startDate, endDate);
+        return i;
     }
 
     private List<UserStock> getUserStocks(Long userId){ // from user_stock table
