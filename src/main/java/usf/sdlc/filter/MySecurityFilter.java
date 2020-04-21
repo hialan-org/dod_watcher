@@ -18,7 +18,7 @@ import javax.security.auth.login.Configuration;
 import java.net.URI;
 import java.util.Optional;
 
-@Filter("/")
+@Filter("/**")
 public class MySecurityFilter implements HttpServerFilter {
     @Inject
     UserService userService;
@@ -56,11 +56,11 @@ public class MySecurityFilter implements HttpServerFilter {
                 System.out.println("No need to check Authorization. By passing it!");
                 return true;
             }
-//            if(uri.toString().endsWith("loginWithGoogle")){
-//                System.out.println("No need to check Authorization. By passing it!");
-//                return true;
-//            }
-//            System.out.println("Security Engaged!");
+            if(uri.toString().endsWith("user-profit/all")){
+                System.out.println("No need to check Authorization. By passing it!");
+                return true;
+            }
+            System.out.println("Security Engaged!");
             Optional<String> authorization =request.getHeaders().getAuthorization();
             if(authorization.isPresent()){
 //                System.out.println("authorization PRESENT:" + authorization.get());
