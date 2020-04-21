@@ -7,6 +7,7 @@ import java.util.Date;
 
 public interface UserProfitService {
     Iterable<UserProfit> saveUserProfit(Long userId, Date date);
+    Iterable<UserProfit> getUserProfitHistory(Long userId, Date startDate, Date endDate);
 
     boolean saveAllUserProfit(Date date);
 }
