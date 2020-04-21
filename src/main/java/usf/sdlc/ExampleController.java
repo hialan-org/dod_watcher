@@ -7,11 +7,17 @@ import io.micronaut.http.annotation.*;
 
 @Controller("/")
 public class ExampleController {
-    private static final Logger LOG = LoggerFactory.getLogger(ExampleController.class);
+    private Logger log = LoggerFactory.getLogger(ExampleController.class);
 
     @Get()
     public String index() {
-        System.out.println("Ping API");
+        log.trace("Ping API");
+        return "DoD API";
+    }
+
+    @Get("/ping")
+    public String ping() {
+        log.trace("Ping API");
         return "DoD API";
     }
 }

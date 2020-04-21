@@ -27,11 +27,6 @@ public class StockExtractorController {
         resp.setStocksHistory(stockExtractorService.fetchStockDetails());
         return HttpResponse.created(resp);
     }
-
-    @Get("/ping")
-    public String index() {
-        return "{\"pong\":true, \"micronaut\": true}";
-    }
 }
 
 //////
