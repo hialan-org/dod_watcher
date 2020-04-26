@@ -22,12 +22,13 @@ public class User {
     public User() {
     }
 
-    public User(String email, Date createdDate, String accessToken, String refreshToken, String role) {
+    public User(String email, Date createdDate, String accessToken, String refreshToken, String role, byte active) {
         this.email=email;
         this.createdDate=createdDate;
         this.accessToken=accessToken;
         this.refreshToken=refreshToken;
         this.role=role;
+        this.active=active;
     }
 
     @Id
