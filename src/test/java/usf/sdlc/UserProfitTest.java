@@ -94,7 +94,7 @@ public class UserProfitTest {
     void getUserProfitHistory() {
         System.out.println("getUserProfitHistoryTest");
         String uri = "/user-profit/history/0?startDateStr=03-06-2020&endDateStr=03-18-2020";
-        MutableHttpRequest<Object> request = HttpRequest.GET(uri).bearerAuth("ya29.a0Adw1xeWb3Vtk-HbLX5YrnSz1RF5aXYMrVF7CIEO-VdWH8FeVuYQrL7jyT5GUrQPghSCiYQFCkel5B3KQ8XnmGmoTAg4DyE_ItJXlh-EoQHFeJpotxX9-741H0pT08dEW5x-4eP1Uhtp2AQq9uoAQ82hTJALPPif83pI");
+        MutableHttpRequest<Object> request = HttpRequest.GET(uri).bearerAuth("ya29.a0Ae4lvC3s7TuIo4u3N7_xWq9MbvEJXVIVTIGndumAlEXdS_FGFqzLZM7iMkEoIOvEqfn-zSVPqlh3AEx0fxArA6-qNf4MSG9rYPmlPbIeQoN2-K8GN-zq39Y4KEiLAPWt_esEptC1MBDv028zYNb7SoHJAn_VZDVJK77C9w");
         String body = client.toBlocking().retrieve(request);
         assertTrue(body.contains("Success"));
 
