@@ -1,18 +1,24 @@
 package usf.sdlc.controller;
 
 
+import io.micronaut.data.annotation.Query;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Header;
+import io.micronaut.http.annotation.QueryValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import usf.sdlc.form.StockExtractorResponse;
 import usf.sdlc.form.UserProfitResponse;
+import usf.sdlc.model.User;
 import usf.sdlc.model.UserProfit;
 import usf.sdlc.service.StockExtractorService;
 import usf.sdlc.service.UserProfitServiceImpl;
+import usf.sdlc.service.UserService;
 import usf.sdlc.utils.GetSqlDate;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +29,9 @@ import java.util.Optional;
 public class UserProfitController {
 
     private static final Logger LOG = LoggerFactory.getLogger(StockExtractorController.class);
+
+    @Inject
+    UserService userService;
 
     @Inject
     UserProfitServiceImpl userProfitServiceImpl;
@@ -55,8 +64,14 @@ public class UserProfitController {
         return HttpResponse.created(resp);
     }
 
-    @Get("user-profit/history/{userId}/{stockId}/{startDateStr}/{endDateStr}") // /user-profit/{SYM}?startDate=xxx&endDate=yyy
-    public HttpResponse<UserProfitResponse> getUserProfitHistory(long userId, long stockId, String startDateStr, String endDateStr) {
+    @Get("user-profit/history/{stockId}")
+    @Query(value = "{?startDateStr, endDateStr}") // /user-profit/{SYM}?startDate=xxx&endDate=yyy
+    public HttpResponse<UserProfitResponse> getUserProfitHistory
+            (@Header String Authorization, long stockId, @QueryValue String startDateStr, @QueryValue String endDateStr) {
+        String accessToken = Authorization.split(" ")[1];
+        User user = userService.findByAccessToken(accessToken);
+        long userId = user.getUserId();
+
         UserProfitResponse resp = new UserProfitResponse();
 
         Date startDate = GetSqlDate.getSqlDate(startDateStr);

@@ -151,23 +151,6 @@ public class StockExtractorService {
         return date;
     }
 
-//    private java.sql.Date getSqlDate(String timeStr) {
-//        String[] timeStrArr = timeStr.split(" ");
-//        if (timeStrArr.length == 3) {
-//            timeStrArr[1] = timeStrArr[1].substring(0, timeStrArr[1].length()-1);
-//        } else {
-//            timeStrArr = new String[]{"January", "1", "2000"};
-//        }
-//        Date date = null;
-//        try {
-//            date = new SimpleDateFormat("yyyy-MMMM-dd").parse(timeStrArr[2]+"-"+timeStrArr[0]+"-"+timeStrArr[1]);
-//        } catch (ParseException e) {
-//            System.out.println("Parse Exception in getTimeStamp func, "+ e.getMessage());
-//        }
-//        assert date != null;
-//        return new java.sql.Date(date.getTime());
-//    }
-
 
 
 }// end of class
