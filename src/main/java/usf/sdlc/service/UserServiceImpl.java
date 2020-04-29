@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
                     userRepository.update(user);
                 } else { //Create new user in db if user not exist
                     user = new User(googleResponse.getEmail(), new java.sql.Date(utilDate.getTime()),
-                            accessToken, "", Constant.ROLE_USER);
+                            accessToken, "", Constant.ROLE_USER, Constant.ACTIVE);
                     userRepository.save(user);
                 }
                 return user;
