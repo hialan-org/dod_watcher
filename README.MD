@@ -19,12 +19,22 @@ See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 Download and install Java SDK (At least version 8):  
+
 `https://www.oracle.com/java/technologies/javase-downloads.html`  
+
 Create and AWS account 
+
 `https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/` 
+
 Download and install Sam CLI: 
+
 `https://docs.aws.amazon.com/es_es/serverless-application-model/latest/developerguide/serverless-sam-cli-install-windows.html` 
+
 `https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-mac.html` 
+
+We are using Gradle as a dependency manager. You can follow the steps if you need to Install Gradle
+`https://gradle.org/install/` 
+
 Install Docker. Note: Docker is only a prerequisite for testing your application locally. 
 
 ### How to run project
