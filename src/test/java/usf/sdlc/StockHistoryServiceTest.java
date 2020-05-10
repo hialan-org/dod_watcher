@@ -3,7 +3,6 @@ package usf.sdlc;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import usf.sdlc.form.StockHistoryForm;
-import usf.sdlc.model.StockHistory;
 import usf.sdlc.service.StockHistoryService;
 
 import javax.inject.Inject;
@@ -15,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
-public class StockFormHistoryTest {
+public class StockHistoryServiceTest {
     @Inject
     StockHistoryService stockHistoryService;
 
@@ -33,5 +32,8 @@ public class StockFormHistoryTest {
             e.printStackTrace();
         }
         assertEquals(10, stockHistoryList.size());
+        assertEquals("XOM", stockHistoryList.get(0).getSymbol()); //Highest dividend_yield in 2020-04-01
+        assertEquals("KO", stockHistoryList.get(9).getSymbol()); //High 10th dividend_yield in 2020-04-01
+
     }
 }
