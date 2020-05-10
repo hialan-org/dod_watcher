@@ -10,22 +10,16 @@ import org.junit.jupiter.api.Test;
 import usf.sdlc.controller.UserProfitController;
 import usf.sdlc.dao.UserProfitRepository;
 import usf.sdlc.form.UserProfitResponse;
-import usf.sdlc.model.StockHistory;
 import usf.sdlc.model.UserProfit;
-import usf.sdlc.model.UserStock;
 import usf.sdlc.service.UserProfitServiceImpl;
 import usf.sdlc.utils.GetSqlDate;
 
 import javax.inject.Inject;
-
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @MicronautTest
 public class UserProfitTest {
@@ -91,10 +85,10 @@ public class UserProfitTest {
     }
 
     @Test
-    void getUserProfitHistory() {
+    void getUserProfitHistoryTest() {
         System.out.println("getUserProfitHistoryTest");
         String uri = "/user-profit/history/0?startDateStr=03-06-2020&endDateStr=03-18-2020";
-        MutableHttpRequest<Object> request = HttpRequest.GET(uri).bearerAuth("ya29.a0Ae4lvC3s7TuIo4u3N7_xWq9MbvEJXVIVTIGndumAlEXdS_FGFqzLZM7iMkEoIOvEqfn-zSVPqlh3AEx0fxArA6-qNf4MSG9rYPmlPbIeQoN2-K8GN-zq39Y4KEiLAPWt_esEptC1MBDv028zYNb7SoHJAn_VZDVJK77C9w");
+        MutableHttpRequest<Object> request = HttpRequest.GET(uri).bearerAuth("ya29.a0Ae4lvC007fJTLog5SSi0odFYodQ-RRvs_k3qcQZeOQ4Tumoer1YY1ztn2arZF1ZppDbmOUqsDgcL5hPxH3e3QTm9HBdkNqED5A6hIiGbecNryqeV30B_L9oVJM2P9IhhdoRXGxVvXBtpTShM49ZMgp2hPFD7pmwcmYM");
         String body = client.toBlocking().retrieve(request);
         assertTrue(body.contains("Success"));
 
