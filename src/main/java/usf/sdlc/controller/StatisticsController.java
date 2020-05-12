@@ -56,7 +56,7 @@ public class StatisticsController {
         Double totalAmountOfUserMoney = userProfitService.countTotalAmountOfUserMoney();
 
         return HttpResponse
-                .ok("{\"total\":"+totalAmountOfUserMoney+"}");
+                .ok("{\"total\":"+totalAmountOfUserMoney+"}") ;
     }
 
     @Get("/")
