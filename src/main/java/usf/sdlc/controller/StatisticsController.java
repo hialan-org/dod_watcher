@@ -46,8 +46,7 @@ public class StatisticsController {
             return HttpResponse.unauthorized();
         };
         Long totalUserStockNumber = userStockService.countTotalUserStockNumber();
-        return HttpResponse
-                .ok(totalUserStockNumber);
+        return HttpResponse.ok("{\"count\":"+totalUserStockNumber+"}");
     }
 
     @Get("/totalAmountOfUserMoney")
@@ -60,8 +59,7 @@ public class StatisticsController {
 
         Double totalAmountOfUserMoney = userProfitService.countTotalAmountOfUserMoney();
 
-        return HttpResponse
-                .ok(totalAmountOfUserMoney);
+        return HttpResponse.ok("{\"total\":"+totalAmountOfUserMoney+"}");
     }
 
     @Get("/getLatestActivityTime")
@@ -74,8 +72,7 @@ public class StatisticsController {
 
         Date latestStockActivityTime = userStockActivityService.getLatestStockActivityTime();
 
-        return HttpResponse
-                .ok("latestStockActivityTime: {"+latestStockActivityTime+"}");
+        return HttpResponse.ok("{\"latestStockActivityTime\":"+latestStockActivityTime+"}");
     }
 
     @Get("/")
