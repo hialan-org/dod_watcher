@@ -7,19 +7,11 @@ import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 import usf.sdlc.form.StockForm;
 import usf.sdlc.service.StockExtractorService;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -67,6 +59,7 @@ public class StockExtractorControllerTest {
         assertEquals("AAPL", stockDetails.get("AAPL").getQuote().getSymbol());
     }
 
+    /*   TODO:
     @Test
     void testRunExtractor() {
 //        System.out.println("Starting testFetch2");
@@ -94,7 +87,7 @@ public class StockExtractorControllerTest {
         //// converting HTTP response to java object
 
         assertEquals(result.contains("Success"),true);
-    }
+    }*/
 
 //    @Test
 //    void testFetch3() {
