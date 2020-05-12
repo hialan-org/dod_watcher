@@ -7,6 +7,7 @@ import io.micronaut.http.annotation.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import usf.sdlc.config.Constant;
+import usf.sdlc.service.UserProfitService;
 import usf.sdlc.service.UserService;
 import usf.sdlc.service.UserStockService;
 import usf.sdlc.utils.Utils;
@@ -22,6 +23,10 @@ public class StatisticsController {
 
     @Inject
     UserStockService userStockService;
+
+    @Inject
+    UserProfitService userProfitService;
+
     @Inject
     Utils utils;
 
@@ -40,12 +45,19 @@ public class StatisticsController {
                 .ok(totalUserStockNumber);
     }
 
-//    @Get("/totalAmountOfUserMoney")
-//    public HttpResponse getTotalAmountOfUserMoney(@Header String Authorization) {
-//        log.trace("StatisticsController.getTotalAmountOfUserMoney is triggered.");
-//
-//
-//    }
+    @Get("/totalAmountOfUserMoney")
+    public HttpResponse getTotalAmountOfUserMoney(@Header String Authorization) {
+        log.trace("StatisticsController.getTotalAmountOfUserMoney is triggered.");
+        if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
+            log.trace("User doesn't have permission to getTotalAmountOfUserMoney.");
+            return HttpResponse.unauthorized();
+        };
+
+        Double totalAmountOfUserMoney = userProfitService.countTotalAmountOfUserMoney();
+
+        return HttpResponse
+                .ok(totalAmountOfUserMoney);
+    }
 
     @Get("/")
     public HttpResponse index(){

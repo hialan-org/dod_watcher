@@ -10,4 +10,5 @@ public interface UserProfitService {
     Iterable<UserProfit> getUserProfitHistory(long userId, long stockId, Date startDate, Date endDate);
 
     boolean saveAllUserProfit(Date date);
+    Double countTotalAmountOfUserMoney();
 }
