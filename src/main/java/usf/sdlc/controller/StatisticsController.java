@@ -9,10 +9,12 @@ import org.slf4j.LoggerFactory;
 import usf.sdlc.config.Constant;
 import usf.sdlc.service.UserProfitService;
 import usf.sdlc.service.UserService;
+import usf.sdlc.service.UserStockActivityService;
 import usf.sdlc.service.UserStockService;
 import usf.sdlc.utils.Utils;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 @Controller("/statistics")
 public class StatisticsController {
@@ -26,6 +28,9 @@ public class StatisticsController {
 
     @Inject
     UserProfitService userProfitService;
+
+    @Inject
+    UserStockActivityService userStockActivityService;
 
     @Inject
     Utils utils;
@@ -57,6 +62,20 @@ public class StatisticsController {
 
         return HttpResponse
                 .ok(totalAmountOfUserMoney);
+    }
+
+    @Get("/getLatestActivityTime")
+    public HttpResponse getLatestActivityTime(@Header String Authorization) {
+        log.trace("StatisticsController.getTotalAmountOfUserMoney is triggered.");
+        if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
+            log.trace("User doesn't have permission to getTotalAmountOfUserMoney.");
+            return HttpResponse.unauthorized();
+        };
+
+        Date latestStockActivityTime = userStockActivityService.getLatestStockActivityTime();
+
+        return HttpResponse
+                .ok("latestStockActivityTime: {"+latestStockActivityTime+"}");
     }
 
     @Get("/")
