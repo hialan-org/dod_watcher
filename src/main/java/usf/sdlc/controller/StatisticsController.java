@@ -42,7 +42,7 @@ public class StatisticsController {
         };
         Long totalUserStockNumber = userStockService.countTotalUserStockNumber();
         return HttpResponse
-                .ok(totalUserStockNumber);
+                .ok("{count:"+totalUserStockNumber+"}");
     }
 
     @Get("/totalAmountOfUserMoney")
@@ -56,7 +56,7 @@ public class StatisticsController {
         Double totalAmountOfUserMoney = userProfitService.countTotalAmountOfUserMoney();
 
         return HttpResponse
-                .ok(totalAmountOfUserMoney);
+                .ok("{total:"+totalAmountOfUserMoney+"}");
     }
 
     @Get("/")
