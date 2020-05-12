@@ -2,14 +2,14 @@ package usf.sdlc.dao;
 
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
-import usf.sdlc.model.StockHistory;
 import usf.sdlc.model.UserStock;
 import usf.sdlc.model.UserStockId;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Repository
@@ -29,6 +29,16 @@ public abstract class UserStockRepository implements JpaRepository<UserStock, Us
                 .setParameter("isOwned", isOwned);
         return query.getResultList();
     }
+
+    @Transactional
+    public Long getTotalNumberOfUserStocks(){
+        CriteriaBuilder qb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        cq.select(qb.count(cq.from(UserStock.class)));
+
+        return entityManager.createQuery(cq).getSingleResult();
+    }
+
 
     public abstract List<UserStock> findByUserStockIdAndIsOwned(UserStockId userStockId, int isOwned);
 }
