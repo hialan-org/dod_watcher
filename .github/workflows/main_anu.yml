@@ -5,6 +5,7 @@ on:
     branches:
       - 'anu_dev'
       - 'hiepbp_dev'
+      - 'alper_dev'
 
 jobs:
   build:
