@@ -137,4 +137,11 @@ public class UserProfitServiceImpl implements UserProfitService {
         return userProfitSaved;
 
     }
+
+    public Double countTotalAmountOfUserMoney(){
+        Double  totalAmountOfUserMoney= userProfitRepository.countTotalAmountOfUserMoney().get(0);
+        System.out.println("totalAmountOfUserMoney:"+totalAmountOfUserMoney);
+        return totalAmountOfUserMoney;
+    }
+
 }

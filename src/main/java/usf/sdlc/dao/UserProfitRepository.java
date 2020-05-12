@@ -2,8 +2,6 @@ package usf.sdlc.dao;
 
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
-import io.micronaut.data.repository.CrudRepository;
-import usf.sdlc.model.StockHistory;
 import usf.sdlc.model.UserProfit;
 
 import javax.persistence.EntityManager;
@@ -45,5 +43,11 @@ public abstract class UserProfitRepository implements JpaRepository<UserProfit, 
         return query.getResultList();
     }
 
+    @Transactional
+    public List<Double> countTotalAmountOfUserMoney() {
+        TypedQuery<Double> query = entityManager
+                .createQuery("SELECT SUM(up.totalAmount) FROM UserProfit up group by up.date order by up.date desc" , Double.class);
 
+        return query.getResultList();
+    }
 }
