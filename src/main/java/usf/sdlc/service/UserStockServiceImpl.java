@@ -5,7 +5,6 @@ import usf.sdlc.dao.UserStockRepository;
 import usf.sdlc.form.OwnedStockForm;
 import usf.sdlc.model.StockHistory;
 import usf.sdlc.model.UserStock;
-import usf.sdlc.model.UserStockId;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -38,4 +37,11 @@ public class UserStockServiceImpl implements UserStockService {
         }
         return result;
     }
+
+    @Override
+    public Long countTotalUserStockNumber() {
+        return userStockRepository.getTotalNumberOfUserStocks();
+    }
+
+
 }

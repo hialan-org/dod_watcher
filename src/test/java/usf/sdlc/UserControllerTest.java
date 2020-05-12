@@ -1,16 +1,22 @@
 package usf.sdlc;
 
+import com.google.gson.Gson;
 import io.micronaut.http.HttpHeaders;
+import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.client.exceptions.HttpClientException;
 import io.micronaut.test.annotation.MicronautTest;
+import org.junit.jupiter.api.Test;
+import usf.sdlc.form.UserResponse;
 
 import javax.inject.Inject;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @MicronautTest
 public class UserControllerTest {
@@ -18,6 +24,44 @@ public class UserControllerTest {
     @Inject
     @Client("/")
     HttpClient client;
+
+    @Test
+    void testShow() {
+        System.out.println("getUserProfitHistoryTest");
+        String uri = "users/1";
+        MutableHttpRequest<Object> request = HttpRequest.GET(uri).bearerAuth("ya29.a0Ae4lvC007fJTLog5SSi0odFYodQ-RRvs_k3qcQZeOQ4Tumoer1YY1ztn2arZF1ZppDbmOUqsDgcL5hPxH3e3QTm9HBdkNqED5A6hIiGbecNryqeV30B_L9oVJM2P9IhhdoRXGxVvXBtpTShM49ZMgp2hPFD7pmwcmYM");
+        String body = client.toBlocking().retrieve(request);
+        //System.out.println(body);
+        Gson gson = new Gson();
+        UserResponse userResponse = gson.fromJson(body, UserResponse.class);
+        assertEquals("alper.ozdamar@gmail.com",userResponse.getEmail());
+    }
+
+    @Test
+    void testDelete() {
+        System.out.println("testDelete");
+        String uri = "users/-2";
+        MutableHttpRequest<Object> request = HttpRequest.DELETE(uri).bearerAuth("ya29.a0Ae4lvC007fJTLog5SSi0odFYodQ-RRvs_k3qcQZeOQ4Tumoer1YY1ztn2arZF1ZppDbmOUqsDgcL5hPxH3e3QTm9HBdkNqED5A6hIiGbecNryqeV30B_L9oVJM2P9IhhdoRXGxVvXBtpTShM49ZMgp2hPFD7pmwcmYM");
+        try {
+            client.toBlocking().retrieve(request);
+        }catch(HttpClientException e){
+            System.out.println(e);
+            assertEquals(e.getMessage(),"Not Found");
+        }
+    }
+
+    @Test
+    public void testFindOwnedStocks(){
+        System.out.println("testFindOwnedStocks");
+        String uri = "users/stocks";
+        MutableHttpRequest<Object> request = HttpRequest.GET(uri).bearerAuth("ya29.a0Ae4lvC007fJTLog5SSi0odFYodQ-RRvs_k3qcQZeOQ4Tumoer1YY1ztn2arZF1ZppDbmOUqsDgcL5hPxH3e3QTm9HBdkNqED5A6hIiGbecNryqeV30B_L9oVJM2P9IhhdoRXGxVvXBtpTShM49ZMgp2hPFD7pmwcmYM");
+        String body = client.toBlocking().retrieve(request);
+        //System.out.println(body);
+        Gson gson = new Gson();
+        List list = gson.fromJson(body, List.class);
+        assertNotNull(list);
+    }
+
 
 //    @Test
 //    public void supplyAnInvalidOrderTriggersValidationFailure() {
