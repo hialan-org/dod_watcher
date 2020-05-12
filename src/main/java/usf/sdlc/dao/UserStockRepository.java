@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -39,6 +40,12 @@ public abstract class UserStockRepository implements JpaRepository<UserStock, Us
         return entityManager.createQuery(cq).getSingleResult();
     }
 
+    @Transactional
+    public List<Date> getLatestStockActivityTime(){
+        TypedQuery<Date> query = entityManager
+                .createQuery("SELECT usa.buyDate FROM UserStockActivity usa order by usa.buyDate desc" , Date.class);
 
+        return query.getResultList();
+    }
     public abstract List<UserStock> findByUserStockIdAndIsOwned(UserStockId userStockId, int isOwned);
 }

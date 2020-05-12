@@ -1,14 +1,19 @@
 package usf.sdlc.service;
 
-import usf.sdlc.dao.*;
-import usf.sdlc.form.AddStocksForm;
+import usf.sdlc.dao.StockHistoryRepository;
+import usf.sdlc.dao.UserStockActivityRepository;
+import usf.sdlc.dao.UserStockRepository;
 import usf.sdlc.form.StockActivityForm;
 import usf.sdlc.form.UserStockForm;
-import usf.sdlc.model.*;
+import usf.sdlc.model.StockHistory;
+import usf.sdlc.model.UserStock;
+import usf.sdlc.model.UserStockActivity;
+import usf.sdlc.model.UserStockId;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,4 +89,12 @@ public class UserStockActivityServiceImpl implements UserStockActivityService {
         userStockActivityRepository.saveAll(userStockActivitiesModel);
         return updatedStocks;
     }
+
+    @Override
+    public Date getLatestStockActivityTime() {
+
+        return userStockRepository.getLatestStockActivityTime().get(0);
+    }
+
+
 }
