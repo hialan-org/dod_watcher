@@ -56,23 +56,21 @@ public class StatisticsController {
             log.trace("User doesn't have permission to getTotalAmountOfUserMoney.");
             return HttpResponse.unauthorized();
         };
-
         Double totalAmountOfUserMoney = userProfitService.countTotalAmountOfUserMoney();
-
         return HttpResponse.ok("{\"total\":"+totalAmountOfUserMoney+"}");
     }
 
     @Get("/getLatestActivityTime")
     public HttpResponse getLatestActivityTime(@Header String Authorization) {
-        log.trace("StatisticsController.getTotalAmountOfUserMoney is triggered.");
+        log.trace("StatisticsController.getLatestActivityTime is triggered.");
         if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
-            log.trace("User doesn't have permission to getTotalAmountOfUserMoney.");
+            log.trace("User doesn't have permission to getLatestActivityTime.");
             return HttpResponse.unauthorized();
         };
-
         Date latestStockActivityTime = userStockActivityService.getLatestStockActivityTime();
 
-        return HttpResponse.ok("{\"latestStockActivityTime\":"+latestStockActivityTime+"}");
+        //return HttpResponse.ok("{\"latestStockActivityTime\":"+latestStockActivityTime+"}");
+        return HttpResponse.ok(latestStockActivityTime);
     }
 
     @Get("/")
