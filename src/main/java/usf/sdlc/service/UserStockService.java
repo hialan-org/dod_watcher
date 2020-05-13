@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface UserStockService {
     List<OwnedStockForm> findOwnedStock(long userId);
-    Long countTotalUserStockNumber();
+    Long countTotalUserStockQuantity();
 }

@@ -39,8 +39,8 @@ public class UserStockServiceImpl implements UserStockService {
     }
 
     @Override
-    public Long countTotalUserStockNumber() {
-        return userStockRepository.getTotalNumberOfUserStocks();
+    public Long countTotalUserStockQuantity() {
+        return userStockRepository.getTotalNumberOfUserStockQuantity();
     }
 
 
