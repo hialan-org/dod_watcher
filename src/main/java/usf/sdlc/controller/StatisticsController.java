@@ -39,14 +39,15 @@ public class StatisticsController {
     }
 
     @Get("/countTotalUserStockNumber")
-    public HttpResponse countTotalUserStockNumber(@Header String Authorization) {
-        log.trace("StatisticsController.countTotalUserStockNumber is triggered.");
+    public HttpResponse countTotalUserStockQuantity(@Header String Authorization) {
+        log.trace("StatisticsController.countTotalUserStockQuantity is triggered.");
         if(!userService.authorizeUser(Authorization, new String[]{Constant.ROLE_ADMIN})){
-            log.trace("User doesn't have permission to countTotalUserStockNumber.");
+            log.trace("User doesn't have permission to countTotalUserStockQuantity.");
             return HttpResponse.unauthorized();
         };
-        Long totalUserStockNumber = userStockService.countTotalUserStockNumber();
-        return HttpResponse.ok("{\"count\":"+totalUserStockNumber+"}");
+        Long totalUserStockNumber = userStockService.countTotalUserStockQuantity();
+        //return HttpResponse.ok("{\"count\":"+totalUserStockNumber+"}");
+        return HttpResponse.ok(totalUserStockNumber);
     }
 
     @Get("/totalAmountOfUserMoney")
@@ -57,7 +58,8 @@ public class StatisticsController {
             return HttpResponse.unauthorized();
         };
         Double totalAmountOfUserMoney = userProfitService.countTotalAmountOfUserMoney();
-        return HttpResponse.ok("{\"total\":"+totalAmountOfUserMoney+"}");
+        //return HttpResponse.ok("{\"total\":"+totalAmountOfUserMoney+"}");
+        return HttpResponse.ok(totalAmountOfUserMoney);
     }
 
     @Get("/getLatestActivityTime")
