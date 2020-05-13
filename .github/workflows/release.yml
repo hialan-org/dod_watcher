@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Build jar file
+        run: ./gradlew shadowJar
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          EXPO_CLIENT_ID: ${{ secrets.EXPO_CLIENT_ID }}
+          ANDROID_CLIENT_ID: ${{ secrets.ANDROID_CLIENT_ID }}
+          HIBERNATE_SHOW_SQL: ${{ secrets.HIBERNATE_SHOW_SQL }}
+      - name: List build folder
+        run: ls ./build/libs
+      - name: Copy files to S3 with the AWS CLI
+        run: aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket sdlc-lambda-prod
+      - name: Create/Update cloud formation
+        run: aws cloudformation deploy --template-file output-sam.yaml --stack-name SdlcDod --capabilities CAPABILITY_IAM
+      - name: Show CloudFormation information
+        run: aws cloudformation describe-stacks --stack-name SdlcDod
